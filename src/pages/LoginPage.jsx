@@ -87,7 +87,7 @@ export default function LoginPage() {
             letterSpacing: '-1px',
             color: 'var(--text-primary)',
             marginBottom: 8,
-          }}>MetricHub</h1>
+          }}>MetricaJoskar</h1>
           <p style={{
             color: 'var(--text-secondary)',
             fontSize: '0.9rem',
@@ -188,7 +188,7 @@ export default function LoginPage() {
           fontSize: '0.75rem',
           fontFamily: 'var(--font-mono)',
         }}>
-          metricas.tuempresa.com · v1.0
+          metrica.drogueriajoskar.com · v1.0
         </p>
       </div>
     </div>
