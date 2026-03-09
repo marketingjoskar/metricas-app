@@ -6,16 +6,17 @@ import ComingSoon from './components/ComingSoon'
 import LoginPage        from './pages/LoginPage'
 import AreaSelectorPage from './pages/AreaSelectorPage'
 import DashboardLayout  from './pages/DashboardLayout'
-import {
-  SocialDashboard,
-  SistemasDashboard,
-  GerenciaDashboard,
-} from './pages/DashboardHomePage'
+import { SocialDashboard, GerenciaDashboard } from './pages/DashboardHomePage'
 
-// Fase 2 — Diseño Gráfico (módulo completo)
+// ✅ Fase 2 — Diseño Gráfico
 import DisenoDashboardPage from './pages/diseno/DisenoDashboardPage'
 import DisenoIngresarPage  from './pages/diseno/DisenoIngresarPage'
 import DisenoCompararPage  from './pages/diseno/DisenoCompararPage'
+
+// ✅ Fase 3 — Sistemas / Web
+import SistemasDashboardPage from './pages/sistemas/SistemasDashboardPage'
+import SistemasIngresarPage  from './pages/sistemas/SistemasIngresarPage'
+import SistemasCompararPage  from './pages/sistemas/SistemasCompararPage'
 
 export default function App() {
   return (
@@ -24,24 +25,25 @@ export default function App() {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/areas" element={<RequireLogin><AreaSelectorPage /></RequireLogin>} />
+
           <Route path="/dashboard" element={<RequireArea><DashboardLayout /></RequireArea>}>
 
-            {/* Social Media — Fase 3 */}
+            {/* Social Media — Fase 4 */}
             <Route path="social" element={<SocialDashboard />} />
-            <Route path="social/ingresar" element={<ComingSoon title="Ingreso de métricas" description="Fase 3." />} />
-            <Route path="social/campanas" element={<ComingSoon title="Campañas publicitarias" description="Fase 3." />} />
-            <Route path="social/comparar" element={<ComingSoon title="Comparativa mensual" description="Fase 3." />} />
+            <Route path="social/ingresar" element={<ComingSoon title="Ingreso de métricas" description="Formulario de ingreso mensual de Social Media — Fase 4." />} />
+            <Route path="social/campanas" element={<ComingSoon title="Campañas publicitarias" description="Registro manual de campañas con CTR, gasto y conversiones — Fase 4." />} />
+            <Route path="social/comparar" element={<ComingSoon title="Comparativa mensual" description="Comparación mes a mes de todas las métricas de Instagram — Fase 4." />} />
 
-            {/* ✅ Diseño Gráfico — Fase 2 COMPLETO */}
+            {/* ✅ Diseño Gráfico — Fase 2 */}
             <Route path="diseno"          element={<DisenoDashboardPage />} />
             <Route path="diseno/ingresar" element={<DisenoIngresarPage />} />
             <Route path="diseno/comparar" element={<DisenoCompararPage />} />
 
-            {/* Sistemas — Fase 3 */}
-            <Route path="sistemas" element={<SistemasDashboard />} />
-            <Route path="sistemas/ingresar" element={<ComingSoon title="Registro diario" description="Fase 3." />} />
-            <Route path="sistemas/ga4"      element={<ComingSoon title="Google Analytics" description="Fase 3." />} />
-            <Route path="sistemas/comparar" element={<ComingSoon title="Comparativa mensual" description="Fase 3." />} />
+            {/* ✅ Sistemas / Web — Fase 3 */}
+            <Route path="sistemas"          element={<SistemasDashboardPage />} />
+            <Route path="sistemas/ingresar" element={<SistemasIngresarPage />} />
+            <Route path="sistemas/ga4"      element={<SistemasIngresarPage />} />
+            <Route path="sistemas/comparar" element={<SistemasCompararPage />} />
 
             {/* Gerencia — Fase 4 */}
             <Route path="gerencia" element={<GerenciaDashboard />} />
