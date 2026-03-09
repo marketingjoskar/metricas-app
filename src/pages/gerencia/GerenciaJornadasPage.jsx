@@ -194,14 +194,14 @@ export default function GerenciaJornadasPage() {
   }
 
   async function handleSave(payload) {
-    let error
+    let result
     if (editing) {
-      ({ error } = await supabase.from('jornadas_medicas').update({ ...payload, updated_at: new Date().toISOString() }).eq('id', editing.id))
+      result = await supabase.from('jornadas_medicas').update({ ...payload, updated_at: new Date().toISOString() }).eq('id', editing.id)
     } else {
-      ({ error } = await supabase.from('jornadas_medicas').insert({ ...payload, ingresado_por: 'gerencia' }))
-    if (!error) { setView('list')
-    }; setEditing(null); loadJornadas() }
-    else alert('Error: ' + error.message)
+      result = await supabase.from('jornadas_medicas').insert({ ...payload, ingresado_por: 'gerencia' })
+    }
+    if (!result.error) { setView('list'); setEditing(null); loadJornadas() }
+    else alert('Error: ' + result.error.message)
   }
 
   async function handleDelete(id) {
