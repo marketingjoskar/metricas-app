@@ -121,7 +121,7 @@ export default function GerenciaDashboardPage() {
     ] = await Promise.all([
       supabase.from('jornadas_medicas').select('id,nombre,fecha,gasto_total,tipo_apoyo').eq('periodo', periodo).order('fecha', { ascending: false }),
       supabase.from('ganancias_estrategia').select('*').eq('periodo', periodo).order('ingresos', { ascending: false }),
-      supabase.from('diseno_grafico_diario').select('total_flyers,video,fotos_producto,storie,efemeride,promo,cumple,otros').eq('periodo', periodo),
+      supabase.from('diseno_grafico_diario').select('flyers_storie,flyers_efemeride,flyers_promo,flyers_cumple,flyers_otros,colaboracion_video,fotos_producto_subidas').eq('periodo', periodo),
       supabase.from('ga4_metrics').select('*').eq('periodo', periodo).maybeSingle(),
       supabase.from('sistemas_diario').select('incidencias_resueltas,imagenes_codigos_actualizadas,imagenes_peso_optimizado').eq('periodo', periodo),
       supabase.from('social_media_metrics').select('*').eq('periodo', periodo).maybeSingle(),
@@ -130,12 +130,12 @@ export default function GerenciaDashboardPage() {
 
     const totalGastoJornadas = (jornadas || []).reduce((s, j) => s + (j.gasto_total || 0), 0)
     const totalIngresos      = (ganancias || []).reduce((s, g) => s + (g.ingresos || 0), 0)
-    const totalFlyers        = (diseno || []).reduce((s, d) => s + (d.total_flyers || 0), 0)
-    const totalVideos        = (diseno || []).reduce((s, d) => s + (d.video || 0), 0)
-    const totalFotos         = (diseno || []).reduce((s, d) => s + (d.fotos_producto || 0), 0)
-    const totalStories       = (diseno || []).reduce((s, d) => s + (d.storie || 0), 0)
-    const totalEfemerides    = (diseno || []).reduce((s, d) => s + (d.efemeride || 0), 0)
-    const totalPromos        = (diseno || []).reduce((s, d) => s + (d.promo || 0), 0)
+    const totalFlyers        = (diseno || []).reduce((s, d) => s + (d.flyers_storie||0) + (d.flyers_efemeride||0) + (d.flyers_promo||0) + (d.flyers_cumple||0) + (d.flyers_otros||0), 0)
+    const totalVideos        = (diseno || []).reduce((s, d) => s + (d.colaboracion_video ? 1 : 0), 0)
+    const totalFotos         = (diseno || []).reduce((s, d) => s + (d.fotos_producto_subidas || 0), 0)
+    const totalStories       = (diseno || []).reduce((s, d) => s + (d.flyers_storie || 0), 0)
+    const totalEfemerides    = (diseno || []).reduce((s, d) => s + (d.flyers_efemeride || 0), 0)
+    const totalPromos        = (diseno || []).reduce((s, d) => s + (d.flyers_promo || 0), 0)
     const totalIncidencias   = (sistemas || []).reduce((s, s2) => s + (s2.incidencias_resueltas || 0), 0)
     const totalImagenes      = (sistemas || []).reduce((s, s2) => s + (s2.imagenes_codigos_actualizadas || 0), 0)
     const totalPresupuesto   = (campanas || []).reduce((s, c) => s + (c.presupuesto || 0), 0)
