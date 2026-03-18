@@ -50,7 +50,7 @@ export default function SocialIngresarPage() {
   // Videos
   const [videos, setVideos]         = useState([])
   const [savingVideo, setSavingVideo] = useState(false)
-  const [newVideo, setNewVideo]     = useState({ red_social: 'instagram', etiqueta: '', cantidad: 1, fecha: today })
+  const [newVideo, setNewVideo] = useState({ red_social: ['instagram'], etiqueta: '', cantidad: 1, fecha: today })
   const [videoSaved, setVideoSaved] = useState(false)
 
   const periodo = getPeriodo(year, month)
