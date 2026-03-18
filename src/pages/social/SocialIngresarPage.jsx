@@ -120,7 +120,7 @@ export default function SocialIngresarPage() {
     if (!error) {
       setVideoSaved(true)
       setTimeout(() => setVideoSaved(false), 2000)
-      setNewVideo({ red_social: 'instagram', etiqueta: '', cantidad: 1, fecha: today })
+      setNewVideo({ red_social: ['instagram'], etiqueta: '', cantidad: 1, fecha: today })
       const { data: v } = await supabase.from('social_videos').select('*').eq('periodo', periodo).order('created_at', { ascending: false })
       setVideos(v || [])
     } else {
