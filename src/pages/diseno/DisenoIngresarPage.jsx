@@ -2,16 +2,19 @@ import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
 
 const FLYER_TYPES = [
-  { key: 'flyers_storie',    label: 'Storie',           emoji: '📱' },
-  { key: 'flyers_efemeride', label: 'Efeméride',        emoji: '📅' },
-  { key: 'flyers_promo',     label: 'Promo / Oferta',   emoji: '🏷️' },
-  { key: 'flyers_cumple',    label: 'Cumpleaños',       emoji: '🎂' },
-  { key: 'flyers_otros',     label: 'Otros',            emoji: '📄' },
+  { key: 'flyers_storie',     label: 'Storie',                  emoji: '📱' },
+  { key: 'flyers_efemeride',  label: 'Efeméride',               emoji: '📅' },
+  { key: 'flyers_reposicion', label: 'Reposición de inventario', emoji: '📦' },
+  { key: 'flyers_descuento',  label: 'Descuentos',              emoji: '🏷️' },
+  { key: 'flyers_promocion',  label: 'Promociones',             emoji: '📣' },
+  { key: 'flyers_cumple',     label: 'Cumpleaños',              emoji: '🎂' },
+  { key: 'flyers_otros',      label: 'Otros',                   emoji: '📄' },
 ]
 
 const EMPTY_FORM = {
   flyers_storie: 0, flyers_efemeride: 0,
-  flyers_promo: 0, flyers_cumple: 0, flyers_otros: 0,
+  flyers_reposicion: 0, flyers_descuento: 0, flyers_promocion: 0,
+  flyers_cumple: 0, flyers_otros: 0,
   etiquetas_custom: [],
   colaboracion_video: false, colaboracion_video_desc: '',
   fotos_producto_subidas: 0, notas: '',
@@ -64,7 +67,6 @@ function Counter({ value, onChange, color }) {
   )
 }
 
-// Modal de confirmación cuando ya existe registro del día
 function ExistingRecordModal({ date, onEdit, onNew, onCancel }) {
   const color = '#0eb8d4'
   return (
@@ -128,7 +130,7 @@ export default function DisenoIngresarPage() {
 
   const [selectedDate, setSelectedDate] = useState(today)
   const [form, setForm] = useState({ ...EMPTY_FORM })
-  const [existingRecord, setExistingRecord] = useState(null) // full record if exists
+  const [existingRecord, setExistingRecord] = useState(null)
   const [mode, setMode] = useState(null) // null | 'ask' | 'edit' | 'new'
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -149,7 +151,7 @@ export default function DisenoIngresarPage() {
 
     if (data) {
       setExistingRecord(data)
-      setMode('ask') // show the modal
+      setMode('ask')
     } else {
       setExistingRecord(null)
       setForm({ ...EMPTY_FORM })
@@ -159,12 +161,13 @@ export default function DisenoIngresarPage() {
   }
 
   function handleEditExisting() {
-    // Load existing data into form for editing
     const r = existingRecord
     setForm({
       flyers_storie:           r.flyers_storie ?? 0,
       flyers_efemeride:        r.flyers_efemeride ?? 0,
-      flyers_promo:            r.flyers_promo ?? 0,
+      flyers_reposicion:       r.flyers_reposicion ?? 0,
+      flyers_descuento:        r.flyers_descuento ?? 0,
+      flyers_promocion:        r.flyers_promocion ?? 0,
       flyers_cumple:           r.flyers_cumple ?? 0,
       flyers_otros:            r.flyers_otros ?? 0,
       etiquetas_custom:        r.etiquetas_custom ?? [],
@@ -213,7 +216,6 @@ export default function DisenoIngresarPage() {
         .update(payload)
         .eq('id', existingRecord.id))
     } else {
-      // new insert (can have multiple per day with 'new' mode)
       ;({ error } = await supabase
         .from('diseno_grafico_diario')
         .insert({ ...payload, fecha: selectedDate }))
@@ -223,7 +225,6 @@ export default function DisenoIngresarPage() {
     if (!error) {
       setSaved(true)
       setTimeout(() => setSaved(false), 3000)
-      // Reload to reflect new state
       if (mode === 'new') checkDayData(selectedDate)
     } else {
       alert('Error al guardar: ' + error.message)
@@ -475,6 +476,7 @@ export default function DisenoIngresarPage() {
               {saving ? 'Guardando…' : saved ? '✓ Guardado' : mode==='edit' ? '✎ Actualizar registro' : '✚ Guardar registro del día'}
             </button>
           </div>
+
         </div>
       )}
     </div>
