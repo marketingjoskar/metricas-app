@@ -6,7 +6,7 @@ const FLYER_TYPES = [
   { key: 'flyers_efemeride',  label: 'Efeméride',                 emoji: '📅' },
   { key: 'flyers_reposicion', label: 'Reposición de inventario',  emoji: '📦' },
   { key: 'flyers_descuento',  label: 'Descuentos',                emoji: '🏷️' },
-  { key: 'flyers_promocion',  label: 'Promociones',               emoji: '📣' },
+  { key: 'flyers_promocion',  label: 'Promociones 777',               emoji: '📣' },
   { key: 'flyers_cumple',     label: 'Cumpleaños',                emoji: '🎂' },
   { key: 'flyers_otros',      label: 'Otros',                     emoji: '📄' },
 ]
