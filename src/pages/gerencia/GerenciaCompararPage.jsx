@@ -2,6 +2,13 @@ import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
 
 const color = '#9b59f7' // Gerencia color
+const AREA_COLORS = {
+  social:   '#f0436a',
+  diseno:   '#0eb8d4',
+  sistemas: '#f5c518',
+  gerencia: '#9b59f7',
+}
+
 const MONTHS_ES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
   'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
 
@@ -59,12 +66,51 @@ function MonthSelect({ label, value, onChange, options }) {
   )
 }
 
-const METRICS = [
-  { key: 'totalIngresos',      label: 'Ingresos Totales',      emoji: '💵', money: true,  higherIsBetter: true  },
-  { key: 'totalGastoJornadas', label: 'Inversión en Jornadas', emoji: '🏥', money: true,  higherIsBetter: false },
-  { key: 'balance',            label: 'Balance Operativo',     emoji: '⚖️', money: true,  higherIsBetter: true  },
-  { key: 'jornadasCount',      label: 'Cantidad de Jornadas',  emoji: '📅', money: false, higherIsBetter: true  },
-  { key: 'totalAds',           label: 'Presupuesto Ads',       emoji: '📣', money: true,  higherIsBetter: false },
+const METRIC_GROUPS = [
+  {
+    title: 'Finanzas & Gerencia',
+    color: AREA_COLORS.gerencia,
+    icon: '📊',
+    metrics: [
+      { key: 'totalIngresos',      label: 'Ingresos Totales',      emoji: '💵', money: true,  higherIsBetter: true  },
+      { key: 'totalGastoJornadas', label: 'Inversión en Jornadas', emoji: '🏥', money: true,  higherIsBetter: false },
+      { key: 'balance',            label: 'Balance Operativo',     emoji: '⚖️', money: true,  higherIsBetter: true  },
+      { key: 'jornadasCount',      label: 'Cantidad de Jornadas',  emoji: '📅', money: false, higherIsBetter: true  },
+      { key: 'totalAds',           label: 'Presupuesto Ads',       emoji: '📣', money: true,  higherIsBetter: false },
+    ]
+  },
+  {
+    title: 'Social Media',
+    color: AREA_COLORS.social,
+    icon: '📱',
+    metrics: [
+      { key: 'seguidoresTotal',    label: 'Seguidores Totales',    emoji: '👥', money: false, higherIsBetter: true },
+      { key: 'nuevosSeguidores',   label: 'Nuevos Seguidores',     emoji: '📈', money: false, higherIsBetter: true },
+      { key: 'alcanceSocial',      label: 'Alcance Mensual',       emoji: '🌐', money: false, higherIsBetter: true },
+      { key: 'interacciones',      label: 'Interacciones',         emoji: '❤️', money: false, higherIsBetter: true },
+    ]
+  },
+  {
+    title: 'Diseño Gráfico',
+    color: AREA_COLORS.diseno,
+    icon: '🎨',
+    metrics: [
+      { key: 'totalFlyers',        label: 'Flyers Totales',        emoji: '🎨', money: false, higherIsBetter: true },
+      { key: 'totalVideos',        label: 'Videos / Reels',        emoji: '🎬', money: false, higherIsBetter: true },
+      { key: 'totalFotos',         label: 'Fotos Producto',        emoji: '📸', money: false, higherIsBetter: true },
+    ]
+  },
+  {
+    title: 'Sistemas / Web',
+    color: AREA_COLORS.sistemas,
+    icon: '⚙️',
+    metrics: [
+      { key: 'sesionesWeb',        label: 'Sesiones (GA4)',        emoji: '🌐', money: false, higherIsBetter: true },
+      { key: 'usuariosActivos',    label: 'Usuarios Activos',      emoji: '👤', money: false, higherIsBetter: true },
+      { key: 'incidenciasResueltas',label: 'Incidencias Resueltas',emoji: '🔧', money: false, higherIsBetter: true },
+      { key: 'imgsOptimizadas',     label: 'Imágenes Optimizadas', emoji: '⚡', money: false, higherIsBetter: true },
+    ]
+  }
 ]
 
 export default function GerenciaCompararPage() {
@@ -76,56 +122,86 @@ export default function GerenciaCompararPage() {
   const [loading, setLoading]     = useState(false)
 
   useEffect(() => {
-    // Fetch available periods across multiple tables to be safe, but ganancias_estrategia is the most reliable for Gerencia
-    supabase.from('ganancias_estrategia').select('periodo').order('periodo', { ascending: false })
-      .then(({ data }) => {
-        const months = [...new Set((data||[]).map(r=>r.periodo))].sort((a,b)=>b.localeCompare(a))
-        setAvailable(months)
-        if (months.length >= 1) setPeriodoA(months[0])
-        if (months.length >= 2) setPeriodoB(months[1])
-      })
+    // Fetch available periods across multiple tables to be safe
+    Promise.all([
+      supabase.from('ganancias_estrategia').select('periodo'),
+      supabase.from('jornadas_medicas').select('periodo'),
+      supabase.from('social_media_metrics').select('periodo'),
+      supabase.from('diseno_grafico_diario').select('periodo'),
+      supabase.from('sistemas_diario').select('periodo'),
+    ]).then(results => {
+      const allPeriods = results.flatMap(r => r.data || []).map(r => r.periodo)
+      const uniqueMonths = [...new Set(allPeriods)]
+        .filter(Boolean)
+        .sort((a,b) => b.localeCompare(a))
+
+      setAvailable(uniqueMonths)
+      if (uniqueMonths.length >= 1) setPeriodoA(uniqueMonths[0])
+      if (uniqueMonths.length >= 2) setPeriodoB(uniqueMonths[1])
+    })
   }, [])
 
   async function fetchPeriodData(periodo) {
     if (!periodo) return null
     
+    setLoading(true)
     const [
       { data: ganancias },
       { data: jornadas },
-      { data: campanas }
+      { data: campanas },
+      { data: social },
+      { data: diseno },
+      { data: systems },
+      { data: ga4 }
     ] = await Promise.all([
       supabase.from('ganancias_estrategia').select('ingresos').eq('periodo', periodo),
       supabase.from('jornadas_medicas').select('gasto_total').eq('periodo', periodo),
-      supabase.from('campanas_publicitarias').select('presupuesto').eq('periodo', periodo)
+      supabase.from('campanas_publicitarias').select('presupuesto').eq('periodo', periodo),
+      supabase.from('social_media_metrics').select('*').eq('periodo', periodo).maybeSingle(),
+      supabase.from('diseno_grafico_diario').select('*').eq('periodo', periodo),
+      supabase.from('sistemas_diario').select('*').eq('periodo', periodo),
+      supabase.from('ga4_metrics').select('*').eq('periodo', periodo).maybeSingle()
     ])
 
+    // Finance aggregates
     const totalIngresos = (ganancias || []).reduce((s, g) => s + (g.ingresos || 0), 0)
     const totalGastoJornadas = (jornadas || []).reduce((s, j) => s + (j.gasto_total || 0), 0)
     const totalAds = (campanas || []).reduce((s, c) => s + (c.presupuesto || 0), 0)
     const jornadasCount = (jornadas || []).length
     const balance = totalIngresos - totalGastoJornadas
 
+    // Design aggregates
+    const totalFlyers = (diseno || []).reduce((s, d) => s + (d.flyers_storie||0) + (d.flyers_efemeride||0) + (d.flyers_promo||0) + (d.flyers_cumple||0) + (d.flyers_otros||0), 0)
+    const totalVideos = (diseno || []).reduce((s, d) => s + (d.colaboracion_video ? 1 : 0), 0)
+    const totalFotos  = (diseno || []).reduce((s, d) => s + (d.fotos_producto_subidas || 0), 0)
+
+    // Systems aggregates
+    const incidenciasResueltas = (systems || []).reduce((s, s2) => s + (s2.incidencias_resueltas || 0), 0)
+    const imgsOptimizadas      = (systems || []).reduce((s, s2) => s + (s2.imagenes_peso_optimizado || 0), 0)
+
     return {
-      totalIngresos,
-      totalGastoJornadas,
-      totalAds,
-      jornadasCount,
-      balance
+      totalIngresos, totalGastoJornadas, totalAds, jornadasCount, balance,
+      seguidoresTotal:  social?.seguidores_total || 0,
+      nuevosSeguidores: social?.nuevos_seguidores || 0,
+      alcanceSocial:    social?.alcance || 0,
+      interacciones:    social?.interacciones || 0,
+      totalFlyers, totalVideos, totalFotos,
+      sesionesWeb:      ga4?.sesiones || 0,
+      usuariosActivos:  ga4?.usuarios_activos || 0,
+      incidenciasResueltas, imgsOptimizadas
     }
   }
 
   useEffect(() => {
     if (!periodoA) return
-    setLoading(true)
     fetchPeriodData(periodoA).then(res => {
       setDataA(res)
-      setLoading(false)
+      setLoading(false) // Wait for both if possible? No, separate is fine
     })
   }, [periodoA])
 
   useEffect(() => {
     if (!periodoB) return
-    setLoading(true)
     fetchPeriodData(periodoB).then(res => {
       setDataB(res)
       setLoading(false)
@@ -137,8 +213,8 @@ export default function GerenciaCompararPage() {
   return (
     <div className="animate-fadeIn">
       <div style={{ marginBottom:28 }}>
-        <h1 style={{ fontSize:'1.6rem',fontWeight:800,letterSpacing:'-0.8px',marginBottom:4 }}>Comparativa Ejecutiva</h1>
-        <p style={{ color:'var(--text-secondary)',fontSize:'0.88rem' }}>Gerencia · evolución financiera y operativa por período</p>
+        <h1 style={{ fontSize:'1.6rem',fontWeight:800,letterSpacing:'-0.8px',marginBottom:4 }}>Analítica Comparativa 360°</h1>
+        <p style={{ color:'var(--text-secondary)',fontSize:'0.88rem' }}>Vista ejecutiva · rendimiento integral de todas las áreas operativas</p>
       </div>
 
       {/* Selectors */}
@@ -149,7 +225,7 @@ export default function GerenciaCompararPage() {
           <MonthSelect label="Mes a comparar"  value={periodoB} onChange={setPeriodoB} options={available} />
         </div>
         {available.length < 2 && (
-          <p style={{ color:'var(--text-muted)',fontSize:'0.8rem',marginTop:12 }}>⚠️ Necesitás al menos 2 meses con datos para comparar.</p>
+          <p style={{ color:'var(--text-muted)',fontSize:'0.8rem',marginTop:12 }}>⚠️ Necesitás al menos 2 meses con datos para realizar una comparativa integral.</p>
         )}
       </div>
 
@@ -161,87 +237,97 @@ export default function GerenciaCompararPage() {
 
       {canCompare && !loading && (
         <>
-          {/* Hero banners */}
-          <div style={{ display:'grid',gridTemplateColumns:'1fr auto 1fr',gap:12,marginBottom:20,alignItems:'center' }}>
-            {[
-              { label:labelPeriodo(periodoA), data:dataA, align:'left' },
-              null,
-              { label:labelPeriodo(periodoB), data:dataB, align:'right' },
-            ].map((item,i) => item===null ? (
-              <div key={i} style={{ textAlign:'center',color:'var(--text-muted)',fontSize:'1.2rem' }}>vs</div>
-            ) : (
-              <div key={i} style={{ background:'var(--bg-surface)',border:`1px solid ${color}33`,borderRadius:14,padding:'18px 22px',textAlign:item.align }}>
-                <div style={{ fontSize:'0.75rem',color:'var(--text-muted)',marginBottom:6,fontFamily:'var(--font-mono)' }}>{item.label}</div>
-                <div style={{ fontFamily:'var(--font-mono)',fontSize:'2.2rem',fontWeight:600,color: item.data.balance >= 0 ? '#10b981' : '#f0436a',letterSpacing:'-1px' }}>
-                  {formatMoney(item.data.balance)}
-                </div>
-                <div style={{ fontSize:'0.75rem',color:'var(--text-secondary)' }}>Balance Operativo</div>
-                <div style={{ marginTop:4,fontSize:'0.78rem',fontFamily:'var(--font-mono)',color:'var(--text-muted)' }}>
-                  Ingresos: {formatMoney(item.data.totalIngresos)}
-                </div>
+          {/* Main Comparison Sections */}
+          {METRIC_GROUPS.map((group, groupIdx) => (
+            <div key={groupIdx} style={{ background:'var(--bg-surface)',border:'1px solid var(--border)',borderRadius:16,overflow:'hidden',marginBottom:20 }}>
+              <div style={{ padding:'14px 20px',background:group.color+'08',borderBottom:'1px solid var(--border)',display:'flex',alignItems:'center',gap:12 }}>
+                <span style={{ fontSize:'1.2rem',opacity:0.8 }}>{group.icon}</span>
+                <span style={{ fontSize:'0.78rem',fontWeight:800,color:group.color,letterSpacing:'0.05em',textTransform:'uppercase' }}>{group.title}</span>
               </div>
-            ))}
-          </div>
-
-          {/* Metrics table */}
-          <div style={{ background:'var(--bg-surface)',border:'1px solid var(--border)',borderRadius:14,overflow:'hidden',marginBottom:14 }}>
-            <div style={{ display:'grid',gridTemplateColumns:'1fr repeat(3,auto)',padding:'12px 20px',background:'var(--bg-elevated)',borderBottom:'1px solid var(--border)',gap:12 }}>
-              <div style={{ fontSize:'0.78rem',fontWeight:700,color:'var(--text-secondary)' }}>📊 KPI EJECUTIVOS</div>
-              {[labelPeriodo(periodoA),labelPeriodo(periodoB),'Variación'].map((h,i) => (
-                <div key={i} style={{ fontSize:'0.7rem',fontWeight:700,color:'var(--text-muted)',letterSpacing:'0.08em',textAlign:'right',minWidth:120 }}>{h}</div>
-              ))}
+              
+              <div style={{ overflowX:'auto' }}>
+                <table style={{ width:'100%',borderCollapse:'collapse',minWidth:600 }}>
+                  <thead>
+                    <tr style={{ background:'var(--bg-elevated)' }}>
+                      <th style={{ padding:'12px 20px',textAlign:'left',fontSize:'0.72rem',color:'var(--text-muted)',fontWeight:700,letterSpacing:'0.05em' }}>KPI</th>
+                      <th style={{ padding:'12px 20px',textAlign:'right',fontSize:'0.72rem',color:'var(--text-muted)',fontWeight:700 }}>{labelPeriodo(periodoA).toUpperCase()}</th>
+                      <th style={{ padding:'12px 20px',textAlign:'right',fontSize:'0.72rem',color:'var(--text-muted)',fontWeight:700 }}>{labelPeriodo(periodoB).toUpperCase()}</th>
+                      <th style={{ padding:'12px 20px',textAlign:'right',fontSize:'0.72rem',color:'var(--text-muted)',fontWeight:700 }}>DESVÍO (%)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {group.metrics.map((m, idx) => {
+                      const a = dataA?.[m.key]
+                      const b = dataB?.[m.key]
+                      const d = delta(b, a)
+                      return (
+                        <tr key={m.key} style={{ borderTop:'1px solid var(--border)' }}>
+                          <td style={{ padding:'12px 20px' }}>
+                            <div style={{ display:'flex',alignItems:'center',gap:10 }}>
+                              <span style={{ fontSize:'1rem' }}>{m.emoji}</span>
+                              <span style={{ fontSize:'0.82rem',color:'var(--text-primary)',fontWeight:500 }}>{m.label}</span>
+                            </div>
+                          </td>
+                          <td style={{ padding:'12px 20px',textAlign:'right',fontFamily:'var(--font-mono)',fontSize:'0.85rem',color:'var(--text-secondary)' }}>
+                            {m.money ? formatMoney(a) : fmt(a)}
+                          </td>
+                          <td style={{ padding:'12px 20px',textAlign:'right',fontFamily:'var(--font-mono)',fontSize:'0.85rem',color:'var(--text-primary)',fontWeight:600 }}>
+                            {m.money ? formatMoney(b) : fmt(b)}
+                          </td>
+                          <td style={{ padding:'12px 20px',textAlign:'right' }}>
+                            <DeltaBadge value={d} higherIsBetter={m.higherIsBetter} />
+                          </td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </table>
+              </div>
             </div>
-            {METRICS.map((m,i) => {
-              const a = dataA?.[m.key]
-              const b = dataB?.[m.key]
-              const d = delta(b, a)
-              return (
-                <div key={m.key} style={{
-                  display:'grid',gridTemplateColumns:'1fr repeat(3,auto)',
-                  padding:'11px 20px',gap:12,alignItems:'center',
-                  borderTop:i===0?'none':'1px solid var(--border)',
-                  background:i%2===0?'transparent':'var(--bg-elevated)',
-                }}>
-                  <div style={{ fontSize:'0.82rem',color:'var(--text-secondary)',display:'flex',alignItems:'center',gap:8 }}>
-                    <span style={{ fontSize: '1.1rem' }}>{m.emoji}</span>{m.label}
-                  </div>
-                  <div style={{ fontFamily:'var(--font-mono)',fontSize:'0.85rem',textAlign:'right',minWidth:120 }}>
-                    {m.money ? formatMoney(a) : fmt(a)}
-                  </div>
-                  <div style={{ fontFamily:'var(--font-mono)',fontSize:'0.85rem',textAlign:'right',minWidth:120 }}>
-                    {m.money ? formatMoney(b) : fmt(b)}
-                  </div>
-                  <div style={{ textAlign:'right',minWidth:120 }}><DeltaBadge value={d} higherIsBetter={m.higherIsBetter} /></div>
-                </div>
-              )
-            })}
-          </div>
+          ))}
 
-          {/* Net Efficiency (Marketing ROI) */}
-          {dataA.totalAds > 0 && dataB.totalAds > 0 && (
-            <div style={{ background:'var(--bg-surface)',border:'1px solid var(--border)',borderRadius:14,padding:'20px 24px' }}>
-              <div style={{ fontSize:'0.72rem',fontWeight:700,color:'var(--text-secondary)',letterSpacing:'0.08em',textTransform:'uppercase',marginBottom:16 }}>
-                💡 Eficiencia de Inversión (ROI Publicitario)
+          {/* Special ROI Section (Marketing Efficiency) */}
+          {((dataA.totalAds > 0 && dataA.totalIngresos > 0) || (dataB.totalAds > 0 && dataB.totalIngresos > 0)) && (
+            <div style={{ 
+              background:'linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-elevated) 100%)',
+              border:`1px solid ${AREA_COLORS.gerencia}33`,
+              borderRadius:16, padding:'24px'
+            }}>
+              <div style={{ display:'flex',alignItems:'center',gap:12,marginBottom:20 }}>
+                <div style={{ padding:8, background:AREA_COLORS.gerencia+'18', borderRadius:8 }}>💹</div>
+                <div>
+                  <div style={{ fontSize:'0.9rem',fontWeight:800,color:'var(--text-primary)' }}>Eficiencia de Inversión Publicitaria (ROAS)</div>
+                  <div style={{ fontSize:'0.72rem',color:'var(--text-muted)' }}>Proporción de ingresos generados vs presupuesto invertido en Ads</div>
+                </div>
               </div>
-              <div style={{ display:'grid',gridTemplateColumns:'1fr 1fr',gap:20 }}>
+              
+              <div style={{ display:'grid',gridTemplateColumns:'repeat(auto-fit, minmax(220px, 1fr))',gap:16 }}>
                 {[
-                  { label:labelPeriodo(periodoA), val: (dataA.totalIngresos / dataA.totalAds).toFixed(2), ads: dataA.totalAds },
-                  { label:labelPeriodo(periodoB), val: (dataB.totalIngresos / dataB.totalAds).toFixed(2), ads: dataB.totalAds },
+                  { label:labelPeriodo(periodoA), val: (dataA.totalAds > 0 ? (dataA.totalIngresos / dataA.totalAds) : 0), ads: dataA.totalAds, ingresos: dataA.totalIngresos },
+                  { label:labelPeriodo(periodoB), val: (dataB.totalAds > 0 ? (dataB.totalIngresos / dataB.totalAds) : 0), ads: dataB.totalAds, ingresos: dataB.totalIngresos },
                 ].map((item, i) => (
-                  <div key={i} style={{ padding:'12px 16px', background:'var(--bg-elevated)', borderRadius:10, border: '1px solid var(--border)' }}>
-                    <div style={{ display:'flex', justifyContent:'space-between', marginBottom:8 }}>
-                      <span style={{ fontSize:'0.7rem', color:'var(--text-muted)' }}>{item.label}</span>
-                      <span style={{ fontSize:'0.65rem', color:color, fontFamily:'var(--font-mono)' }}>Ads: {formatMoney(item.ads)}</span>
+                  <div key={i} style={{ padding:'16px', background:'rgba(255,255,255,0.02)', borderRadius:12, border: '1px solid var(--border)' }}>
+                    <div style={{ display:'flex', justifyContent:'space-between', marginBottom:12 }}>
+                      <span style={{ fontSize:'0.7rem', color:'var(--text-muted)', fontWeight:700 }}>{item.label}</span>
+                      <span style={{ fontSize:'0.65rem', color:AREA_COLORS.gerencia, fontFamily:'var(--font-mono)' }}>ROI {item.val.toFixed(2)}x</span>
                     </div>
-                    <div style={{ fontSize:'1.4rem', fontWeight:600, color:'#10b981', fontFamily:'var(--font-mono)' }}>{item.val}x</div>
-                    <div style={{ fontSize:'0.65rem', color:'var(--text-muted)', marginTop:2 }}>Pesos ingresados por cada $1 invertido</div>
+                    <div style={{ display:'flex',alignItems:'flex-end',gap:4,marginBottom:4 }}>
+                      <span style={{ fontSize:'1.6rem', fontWeight:800, color:'#10b981', fontFamily:'var(--font-mono)', lineHeight:1 }}>{item.val.toFixed(2)}</span>
+                      <span style={{ fontSize:'0.82rem',color:'var(--text-muted)',marginBottom:3 }}>x</span>
+                    </div>
+                    <div style={{ fontSize:'0.62rem', color:'var(--text-muted)', textTransform:'uppercase', letterSpacing:'0.05em' }}>
+                      Ingresos: {formatMoney(item.ingresos)}
+                    </div>
                   </div>
                 ))}
               </div>
-              <div style={{ marginTop:14, textAlign:'center' }}>
-                <span style={{ fontSize:'0.72rem', color:'var(--text-secondary)' }}>Variación en eficiencia: </span>
-                <DeltaBadge value={delta(dataB.totalIngresos/dataB.totalAds, dataA.totalIngresos/dataA.totalAds)} />
-              </div>
+              
+              {dataA.totalAds > 0 && dataB.totalAds > 0 && (
+                <div style={{ marginTop:20, paddingTop:20, borderTop:'1px solid var(--border)', textAlign:'center' }}>
+                  <span style={{ fontSize:'0.78rem', color:'var(--text-secondary)' }}>Variación en la eficiencia de inversión: </span>
+                  <DeltaBadge value={delta(dataB.totalIngresos/dataB.totalAds, dataA.totalIngresos/dataA.totalAds)} />
+                </div>
+              )}
             </div>
           )}
         </>

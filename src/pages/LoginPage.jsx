@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
-
+import ThemeToggle from '../components/ThemeToggle'
 export default function LoginPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -31,10 +31,14 @@ export default function LoginPage() {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      background: 'var(--bg-base)',
+      background: 'transparent',
       position: 'relative',
       overflow: 'hidden',
     }}>
+      <div style={{ position: 'absolute', top: 24, right: 24, zIndex: 100 }}>
+        <ThemeToggle />
+      </div>
+
       {/* Background grid */}
       <div style={{
         position: 'absolute', inset: 0, opacity: 0.04,
@@ -72,7 +76,6 @@ export default function LoginPage() {
             alignItems: 'center',
             justifyContent: 'center',
             width: 64, height: 64,
-            background: 'var(--bg-elevated)',
             border: '1px solid var(--border-bright)',
             borderRadius: 'var(--radius-lg)',
             marginBottom: 20,
@@ -96,9 +99,9 @@ export default function LoginPage() {
         </div>
 
         {/* Form card */}
-        <div style={{
-          background: 'var(--bg-surface)',
-          border: '1px solid var(--border)',
+        <div 
+          className="glass-panel"
+          style={{
           borderRadius: 'var(--radius-xl)',
           padding: '36px 32px',
           animation: shaking ? 'shake 0.4s ease' : 'none',

@@ -35,12 +35,29 @@ function PinInput({ area, onCancel }) {
     }
   }
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (loading) return
+      if (e.key >= '0' && e.key <= '9') {
+        setPin(p => (p.length < 4 ? p + e.key : p))
+      } else if (e.key === 'Backspace') {
+        setPin(p => p.slice(0, -1))
+      } else if (e.key === 'Escape') {
+        onCancel()
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [loading, onCancel])
+
   function handleDigit(d) {
-    if (pin.length < 4 && !loading) setPin(p => p + d)
+    if (loading) return
+    setPin(p => (p.length < 4 ? p + d : p))
   }
 
   function handleBackspace() {
-    if (!loading) setPin(p => p.slice(0, -1))
+    if (loading) return
+    setPin(p => p.slice(0, -1))
   }
 
   return (

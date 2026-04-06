@@ -5,6 +5,7 @@
 }
 
 :root {
+  --bg-gradient: linear-gradient(135deg, #02091c 0%, #0d2959 100%);
   --bg-base:       #07080f;
   --bg-surface:    #0e0f1a;
   --bg-elevated:   #151623;
@@ -16,13 +17,16 @@
   --text-secondary:#8b90b8;
   --text-muted:    #4a4f72;
 
-  --accent:        #5b6af7;
-  --accent-glow:   rgba(91,106,247,0.25);
+  --accent:        #005cf0; /* Azul eléctrico náutico */
+  --accent-glow:   rgba(0, 92, 240, 0.4);
 
   --social-color:  #f0436a;
   --diseno-color:  #0eb8d4;
   --sistemas-color:#f5c518;
   --gerencia-color:#9b59f7;
+
+  --glass-bg:      rgba(14, 15, 26, 0.55);
+  --glass-border:  rgba(255, 255, 255, 0.08);
 
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -33,6 +37,26 @@
   --font-mono:    'DM Mono', monospace;
 }
 
+:root[data-theme="light"] {
+  --bg-gradient: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); /* azul cielo */
+  --bg-base:       #f8fafc;
+  --bg-surface:    #ffffff;
+  --bg-elevated:   #f1f5f9;
+  --bg-hover:      #e2e8f0;
+  --border:        rgba(0,0,0,0.1);
+  --border-bright: rgba(0,0,0,0.18);
+
+  --text-primary:  #0f172a;
+  --text-secondary:#334155;
+  --text-muted:    #64748b;
+
+  --accent:        #0052cc;
+  --accent-glow:   rgba(0, 82, 204, 0.25);
+
+  --glass-bg:      rgba(255, 255, 255, 0.65);
+  --glass-border:  rgba(0, 0, 0, 0.1);
+}
+
 html, body, #root {
   height: 100%;
   width: 100%;
@@ -40,10 +64,22 @@ html, body, #root {
 
 body {
   background: var(--bg-base);
+  background-image: var(--bg-gradient);
+  background-attachment: fixed;
   color: var(--text-primary);
   font-family: var(--font-display);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  transition: background-color 0.4s, color 0.4s;
+}
+
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.12);
+  transition: background 0.4s, border-color 0.4s, box-shadow 0.4s;
 }
 
 /* Scrollbar */
