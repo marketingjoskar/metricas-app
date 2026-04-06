@@ -465,6 +465,7 @@ export default function SocialIngresarPage() {
                       borderRadius: 16,
                       padding: '22px 24px',
                       transition: 'all 0.2s',
+                      boxShadow: '0 4px 16px var(--glass-shadow)',
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
@@ -574,14 +575,14 @@ export default function SocialIngresarPage() {
                       ? '#059669'
                       : !anyFilled
                         ? 'var(--bg-elevated)'
-                        : `linear-gradient(135deg, ${color}, #c0392b)`,
+                        : 'var(--accent)',
                     border: 'none',
                     borderRadius: 12,
                     color: saved ? '#fff' : !anyFilled ? 'var(--text-muted)' : '#fff',
                     fontSize: '0.95rem',
                     fontWeight: 700,
                     cursor: !anyFilled ? 'not-allowed' : 'pointer',
-                    boxShadow: anyFilled && !saved ? `0 4px 20px ${color}44` : 'none',
+                    boxShadow: anyFilled && !saved ? '0 4px 20px var(--accent-glow)' : 'none',
                     transition: 'all 0.2s',
                   }}
                   onMouseEnter={e => {
@@ -638,6 +639,7 @@ export default function SocialIngresarPage() {
                       borderRadius: 12,
                       padding: '14px 16px',
                       textAlign: 'center',
+                      boxShadow: '0 4px 16px var(--glass-shadow)',
                     }}
                   >
                     <div style={{ fontSize: 24, marginBottom: 6 }}>🎬</div>
@@ -663,9 +665,10 @@ export default function SocialIngresarPage() {
               <div
                 style={{
                   background: 'var(--bg-surface)',
-                  border: `1px solid ${color}33`,
+                  border: '1px solid var(--border)',
                   borderRadius: 16,
                   padding: '20px 24px',
+                  boxShadow: '0 4px 16px var(--glass-shadow)',
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}>

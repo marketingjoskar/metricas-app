@@ -23,16 +23,17 @@ function StatCard({ label, value, unit = '', icon, color, sub, delay = 0 }) {
       border: '1px solid var(--border)',
       borderRadius: 14, padding: '20px 22px',
       position: 'relative', overflow: 'hidden',
+      boxShadow: '0 4px 20px var(--glass-shadow)',
     }}>
       <div style={{
-        position: 'absolute', top: 0, left: 0, right: 0, height: 2,
-        background: color, opacity: 0.7,
+        position: 'absolute', top: 0, left: 0, right: 0, height: 3,
+        background: color, opacity: 0.9,
       }} />
       <div style={{ fontSize: 22, marginBottom: 10 }}>{icon}</div>
       <div style={{
         fontFamily: 'var(--font-mono)',
-        fontSize: '2rem', fontWeight: 600,
-        color, letterSpacing: '-1px', lineHeight: 1,
+        fontSize: '2rem', fontWeight: 700,
+        color: 'var(--text-primary)', letterSpacing: '-1px', lineHeight: 1,
         marginBottom: 6,
       }}>
         {value}<span style={{ fontSize: '1rem', marginLeft: 3 }}>{unit}</span>
@@ -215,9 +216,9 @@ export default function DisenoDashboardPage() {
             onClick={() => navigate('/dashboard/diseno/ingresar')}
             style={{
               padding: '8px 18px', marginLeft: 8,
-              background: color, border: 'none', borderRadius: 8,
+              background: 'var(--accent)', border: 'none', borderRadius: 8,
               color: '#fff', fontSize: '0.82rem', fontWeight: 700,
-              boxShadow: `0 2px 12px ${color}44`,
+              boxShadow: '0 2px 12px var(--accent-glow)', cursor: 'pointer',
             }}
           >✚ Registrar hoy</button>
         </div>
@@ -288,7 +289,7 @@ export default function DisenoDashboardPage() {
             background: 'var(--bg-surface)',
             border: '1px solid var(--border)',
             borderRadius: 14, padding: '20px 24px',
-            marginBottom: 20,
+            marginBottom: 20, boxShadow: '0 4px 16px var(--glass-shadow)'
           }}>
             <div style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: 16, letterSpacing: '0.05em' }}>
               PRODUCCIÓN DIARIA — FLYERS
@@ -300,7 +301,7 @@ export default function DisenoDashboardPage() {
             background: 'var(--bg-surface)',
             border: '1px solid var(--border)',
             borderRadius: 14, padding: '20px 24px',
-            marginBottom: 20,
+            marginBottom: 20, boxShadow: '0 4px 16px var(--glass-shadow)'
           }}>
             <div style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: 16, letterSpacing: '0.05em' }}>
               DESGLOSE POR TIPO
@@ -342,7 +343,7 @@ export default function DisenoDashboardPage() {
               background: 'var(--bg-surface)',
               border: '1px solid var(--border)',
               borderRadius: 14, padding: '16px 24px',
-              marginBottom: 20,
+              marginBottom: 20, boxShadow: '0 4px 16px var(--glass-shadow)'
             }}>
               <div style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: 12, letterSpacing: '0.05em' }}>
                 ETIQUETAS USADAS ESTE MES
@@ -367,6 +368,7 @@ export default function DisenoDashboardPage() {
             background: 'var(--bg-surface)',
             border: '1px solid var(--border)',
             borderRadius: 14, overflow: 'hidden',
+            boxShadow: '0 4px 16px var(--glass-shadow)'
           }}>
             <div style={{
               padding: '14px 24px',
