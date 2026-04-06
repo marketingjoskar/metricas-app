@@ -1,5 +1,6 @@
 import { useAuth } from '../context/AuthContext'
 import { useNavigate, useLocation, Outlet } from 'react-router-dom'
+import ThemeToggle from '../components/ThemeToggle'
 
 const NAV_ITEMS = {
   social: [
@@ -47,13 +48,12 @@ export default function DashboardLayout() {
     <div style={{
       display: 'flex',
       minHeight: '100vh',
-      background: 'var(--bg-base)',
+      background: 'transparent',
     }}>
       {/* Sidebar */}
-      <aside style={{
+      <aside className="glass-panel" style={{
         width: 220,
         flexShrink: 0,
-        background: 'var(--bg-surface)',
         borderRight: '1px solid var(--border)',
         display: 'flex',
         flexDirection: 'column',
@@ -219,13 +219,11 @@ export default function DashboardLayout() {
         flex: 1,
         minWidth: 0,
         overflowY: 'auto',
-        background: 'var(--bg-base)',
+        background: 'transparent',
       }}>
         {/* Top bar */}
-        <div style={{
+        <div className="glass-panel" style={{
           position: 'sticky', top: 0, zIndex: 10,
-          background: 'rgba(7,8,15,0.85)',
-          backdropFilter: 'blur(12px)',
           borderBottom: '1px solid var(--border)',
           padding: '14px 32px',
           display: 'flex',
@@ -249,15 +247,18 @@ export default function DashboardLayout() {
               {currentArea.icono} {currentArea.area_nombre.toUpperCase()}
             </span>
           </div>
-          <div style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: '0.7rem',
-            color: 'var(--text-muted)',
-          }}>
-            {new Date().toLocaleDateString('es-AR', {
-              weekday: 'short', day: '2-digit',
-              month: 'short', year: 'numeric'
-            })}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+            <div style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.7rem',
+              color: 'var(--text-muted)',
+            }}>
+              {new Date().toLocaleDateString('es-AR', {
+                weekday: 'short', day: '2-digit',
+                month: 'short', year: 'numeric'
+              })}
+            </div>
+            <ThemeToggle />
           </div>
         </div>
 
