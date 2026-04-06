@@ -49,12 +49,12 @@ function Counter({ value, onChange, color }) {
         onClick={() => onChange(Math.max(0, value - 1))}
         style={{
           width: 32, height: 32, borderRadius: 8,
-          background: 'var(--bg-elevated)', border: '1px solid var(--border)',
+          background: 'var(--bg-elevated)', border: 'none',
           color: 'var(--text-secondary)', fontSize: '1.1rem', fontWeight: 700,
           display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
         }}
-        onMouseEnter={e => e.currentTarget.style.borderColor = color + '88'}
-        onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}
+        onMouseEnter={e => e.currentTarget.style.background = 'var(--bg-hover)'}
+        onMouseLeave={e => e.currentTarget.style.background = 'var(--bg-elevated)'}
       >
         −
       </button>
@@ -63,7 +63,7 @@ function Counter({ value, onChange, color }) {
         fontFamily: 'var(--font-mono)',
         fontSize: '1.3rem',
         fontWeight: 600,
-        color: value > 0 ? color : 'var(--text-muted)',
+        color: 'var(--text-primary)',
         minWidth: 32,
         textAlign: 'center',
         transition: 'color 0.15s',
@@ -75,20 +75,18 @@ function Counter({ value, onChange, color }) {
         onClick={() => onChange(value + 1)}
         style={{
           width: 32, height: 32, borderRadius: 8,
-          background: value > 0 ? color + '22' : 'var(--bg-elevated)',
-          border: `1px solid ${value > 0 ? color + '66' : 'var(--border)'}`,
-          color: value > 0 ? color : 'var(--text-secondary)',
+          background: 'var(--bg-elevated)',
+          border: 'none',
+          color: 'var(--text-secondary)',
           fontSize: '1.1rem', fontWeight: 700,
           display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
           transition: 'all 0.15s',
         }}
         onMouseEnter={e => {
-          e.currentTarget.style.background = color + '33'
-          e.currentTarget.style.borderColor = color
+          e.currentTarget.style.background = 'var(--bg-hover)'
         }}
         onMouseLeave={e => {
-          e.currentTarget.style.background = value > 0 ? color + '22' : 'var(--bg-elevated)'
-          e.currentTarget.style.borderColor = value > 0 ? color + '66' : 'var(--border)'
+          e.currentTarget.style.background = 'var(--bg-elevated)'
         }}
       >
         +
@@ -114,12 +112,12 @@ function ExistingRecordModal({ date, existingCount, onEdit, onNew, onCancel }) {
     }}>
       <div style={{
         background: 'var(--bg-surface)',
-        border: `1px solid ${color}44`,
-        borderRadius: 20,
+        border: '1px solid var(--border)',
+        borderRadius: 24,
         padding: '36px 32px',
         width: '100%',
         maxWidth: 430,
-        boxShadow: `0 0 60px ${color}18`,
+        boxShadow: '0 24px 60px rgba(0,0,0,0.3)',
         animation: 'fadeUp 0.3s ease',
         textAlign: 'center',
       }}>
@@ -139,14 +137,14 @@ function ExistingRecordModal({ date, existingCount, onEdit, onNew, onCancel }) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           <button onClick={onEdit} style={{
             padding: '13px',
-            background: color,
+            background: 'var(--accent)',
             border: 'none',
             borderRadius: 10,
             color: '#fff',
             fontSize: '0.9rem',
             fontWeight: 700,
             cursor: 'pointer',
-            boxShadow: `0 4px 16px ${color}44`,
+            boxShadow: '0 4px 16px var(--accent-glow)',
           }}>
             ✎ Editar registro más reciente
           </button>
@@ -407,9 +405,10 @@ export default function DisenoIngresarPage() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           <div style={{
             background: 'var(--bg-surface)',
-            border: `1px solid ${color}33`,
+            border: '1px solid var(--border)',
             borderRadius: 16,
             overflow: 'hidden',
+            boxShadow: '0 4px 16px var(--glass-shadow)',
           }}>
             <div style={{
               padding: '16px 24px',
@@ -427,7 +426,7 @@ export default function DisenoIngresarPage() {
                 fontFamily: 'var(--font-mono)',
                 fontSize: '1.1rem',
                 fontWeight: 600,
-                color: totalFlyers > 0 ? color : 'var(--text-muted)',
+                color: 'var(--text-primary)',
               }}>
                 Total: {totalFlyers}
               </div>
@@ -440,10 +439,11 @@ export default function DisenoIngresarPage() {
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   padding: '12px 16px',
-                  background: form[type.key] > 0 ? color + '0a' : 'var(--bg-elevated)',
-                  border: `1px solid ${form[type.key] > 0 ? color + '33' : 'var(--border)'}`,
+                  background: 'var(--bg-surface)',
+                  border: form[type.key] > 0 ? `1px solid var(--border-bright)` : '1px solid var(--border)',
                   borderRadius: 10,
                   transition: 'all 0.15s',
+                  boxShadow: '0 2px 8px var(--glass-shadow)',
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                     <span style={{ fontSize: 18 }}>{type.emoji}</span>
@@ -543,10 +543,11 @@ export default function DisenoIngresarPage() {
 
           <div style={{
             background: 'var(--bg-surface)',
-            border: `1px solid ${form.colaboracion_video ? color + '55' : 'var(--border)'}`,
+            border: '1px solid var(--border)',
             borderRadius: 16,
             padding: '20px 24px',
             transition: 'border-color 0.2s',
+            boxShadow: '0 4px 16px var(--glass-shadow)',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: form.colaboracion_video ? 16 : 0 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -611,9 +612,10 @@ export default function DisenoIngresarPage() {
 
           <div style={{
             background: 'var(--bg-surface)',
-            border: `1px solid ${form.fotos_producto_subidas > 0 ? color + '44' : 'var(--border)'}`,
+            border: '1px solid var(--border)',
             borderRadius: 16,
             padding: '20px 24px',
+            boxShadow: '0 4px 16px var(--glass-shadow)',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -634,7 +636,8 @@ export default function DisenoIngresarPage() {
             background: 'var(--bg-surface)',
             border: '1px solid var(--border)',
             borderRadius: 16,
-            padding: '20px 24px'
+            padding: '20px 24px',
+            boxShadow: '0 4px 16px var(--glass-shadow)',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
               <span style={{ fontSize: 18 }}>📝</span>
@@ -668,14 +671,14 @@ export default function DisenoIngresarPage() {
               disabled={saving}
               style={{
                 padding: '14px 36px',
-                background: saved ? '#059669' : `linear-gradient(135deg, ${color}, #0891b2)`,
+                background: saved ? '#059669' : 'var(--accent)',
                 border: 'none',
                 borderRadius: 12,
                 color: '#fff',
                 fontSize: '0.95rem',
                 fontWeight: 700,
                 cursor: 'pointer',
-                boxShadow: saved ? '0 4px 20px #05966944' : `0 4px 20px ${color}44`,
+                boxShadow: saved ? '0 4px 20px #05966944' : '0 4px 20px var(--accent-glow)',
                 transition: 'all 0.2s',
                 letterSpacing: '0.02em',
               }}

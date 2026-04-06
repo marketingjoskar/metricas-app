@@ -218,7 +218,7 @@ export default function GerenciaCompararPage() {
       </div>
 
       {/* Selectors */}
-      <div style={{ background:'var(--bg-surface)',border:'1px solid var(--border)',borderRadius:14,padding:'20px 24px',marginBottom:24 }}>
+      <div style={{ background:'var(--bg-surface)',border:'1px solid var(--border)',borderRadius:14,padding:'20px 24px',marginBottom:24,boxShadow:'0 4px 16px var(--glass-shadow)' }}>
         <div style={{ display:'flex',gap:16,alignItems:'flex-end',flexWrap:'wrap' }}>
           <MonthSelect label="Mes base"        value={periodoA} onChange={setPeriodoA} options={available} />
           <div style={{ fontSize:'1.4rem',color:'var(--text-muted)',paddingBottom:10,flexShrink:0 }}>⇄</div>
@@ -239,7 +239,7 @@ export default function GerenciaCompararPage() {
         <>
           {/* Main Comparison Sections */}
           {METRIC_GROUPS.map((group, groupIdx) => (
-            <div key={groupIdx} style={{ background:'var(--bg-surface)',border:'1px solid var(--border)',borderRadius:16,overflow:'hidden',marginBottom:20 }}>
+            <div key={groupIdx} style={{ background:'var(--bg-surface)',border:'1px solid var(--border)',borderRadius:16,overflow:'hidden',marginBottom:20,boxShadow:'0 4px 16px var(--glass-shadow)' }}>
               <div style={{ padding:'14px 20px',background:group.color+'08',borderBottom:'1px solid var(--border)',display:'flex',alignItems:'center',gap:12 }}>
                 <span style={{ fontSize:'1.2rem',opacity:0.8 }}>{group.icon}</span>
                 <span style={{ fontSize:'0.78rem',fontWeight:800,color:group.color,letterSpacing:'0.05em',textTransform:'uppercase' }}>{group.title}</span>
@@ -289,9 +289,10 @@ export default function GerenciaCompararPage() {
           {/* Special ROI Section (Marketing Efficiency) */}
           {((dataA.totalAds > 0 && dataA.totalIngresos > 0) || (dataB.totalAds > 0 && dataB.totalIngresos > 0)) && (
             <div style={{ 
-              background:'linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-elevated) 100%)',
-              border:`1px solid ${AREA_COLORS.gerencia}33`,
-              borderRadius:16, padding:'24px'
+              background:'var(--bg-surface)',
+              border:'1px solid var(--border)',
+              borderRadius:16, padding:'24px',
+              boxShadow:'0 4px 20px var(--glass-shadow)'
             }}>
               <div style={{ display:'flex',alignItems:'center',gap:12,marginBottom:20 }}>
                 <div style={{ padding:8, background:AREA_COLORS.gerencia+'18', borderRadius:8 }}>💹</div>

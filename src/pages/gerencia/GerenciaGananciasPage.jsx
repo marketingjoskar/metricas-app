@@ -139,10 +139,10 @@ export default function GerenciaGananciasPage() {
             disabled={isCurrentMonth} style={{ width:34,height:34,borderRadius:8,background:'var(--bg-elevated)',border:'1px solid var(--border)',color:isCurrentMonth?'var(--text-muted)':'var(--text-secondary)',fontSize:'1rem',cursor:isCurrentMonth?'not-allowed':'pointer' }}>›</button>
           <input ref={fileRef} type="file" accept=".xlsx,.xls,.csv" onChange={handleFile} style={{ display:'none' }} />
           <button onClick={() => fileRef.current?.click()} style={{
-            padding:'8px 18px',marginLeft:8,background:color,
+            padding:'8px 18px',marginLeft:8,background:'var(--accent)',
             border:'none',borderRadius:8,color:'#fff',
             fontSize:'0.82rem',fontWeight:700,cursor:'pointer',
-            boxShadow:`0 2px 12px ${color}44`,
+            boxShadow:'0 2px 12px var(--accent-glow)',
             display:'flex',alignItems:'center',gap:7,
           }}>
             <span style={{ fontSize:'1rem' }}>📂</span> Importar Excel
@@ -232,11 +232,11 @@ export default function GerenciaGananciasPage() {
               }}>Cancelar</button>
               <button onClick={confirmImport} disabled={saving || colMap.nombre < 0} style={{
                 padding:'11px 28px',
-                background: saving || colMap.nombre < 0 ? 'var(--bg-elevated)' : `linear-gradient(135deg, ${color}, #7c3aed)`,
+                background: saving || colMap.nombre < 0 ? 'var(--bg-elevated)' : 'var(--accent)',
                 border:'none',borderRadius:10,
                 color: saving || colMap.nombre < 0 ? 'var(--text-muted)' : '#fff',
                 fontSize:'0.9rem',fontWeight:700,cursor: saving || colMap.nombre < 0 ? 'not-allowed':'pointer',
-                boxShadow: !saving && colMap.nombre >= 0 ? `0 4px 20px ${color}44` : 'none',
+                boxShadow: !saving && colMap.nombre >= 0 ? '0 4px 20px var(--accent-glow)' : 'none',
               }}>
                 {saving ? 'Importando…' : `✓ Confirmar ${rawData.length} filas`}
               </button>
@@ -257,8 +257,8 @@ export default function GerenciaGananciasPage() {
             Importá el Excel mensual de ventas con el botón de arriba
           </p>
           <button onClick={() => fileRef.current?.click()} style={{
-            padding:'12px 28px',background:color,border:'none',borderRadius:10,
-            color:'#fff',fontWeight:700,fontSize:'0.88rem',cursor:'pointer',
+            padding:'12px 28px',background:'var(--accent)',border:'none',borderRadius:10,
+            color:'#fff',fontWeight:700,fontSize:'0.88rem',cursor:'pointer', boxShadow:'0 4px 16px var(--accent-glow)'
           }}>📂 Importar Excel →</button>
         </div>
       ) : (
@@ -281,17 +281,18 @@ export default function GerenciaGananciasPage() {
                 animationDelay:`${i*0.05}s`,background:'var(--bg-surface)',
                 border:'1px solid var(--border)',borderRadius:14,
                 padding:'20px 22px',position:'relative',overflow:'hidden',
+                boxShadow:'0 4px 20px var(--glass-shadow)',
               }}>
-                <div style={{ position:'absolute',top:0,left:0,right:0,height:2,background:k.c,opacity:0.7 }} />
+                <div style={{ position:'absolute',top:0,left:0,right:0,height:3,background:k.c,opacity:0.9 }} />
                 <div style={{ fontSize:22,marginBottom:10 }}>{k.icon}</div>
-                <div style={{ fontFamily:'var(--font-mono)',fontSize:'1.7rem',fontWeight:600,color:k.c,letterSpacing:'-1px',lineHeight:1,marginBottom:6 }}>{k.value}</div>
+                <div style={{ fontFamily:'var(--font-mono)',fontSize:'1.7rem',fontWeight:700,color:'var(--text-primary)',letterSpacing:'-1px',lineHeight:1,marginBottom:6 }}>{k.value}</div>
                 <div style={{ fontSize:'0.8rem',color:'var(--text-secondary)' }}>{k.label}</div>
               </div>
             ))}
           </div>
 
           {/* Table */}
-          <div style={{ background:'var(--bg-surface)',border:'1px solid var(--border)',borderRadius:14,overflow:'hidden' }}>
+          <div style={{ background:'var(--bg-surface)',border:'1px solid var(--border)',borderRadius:14,overflow:'hidden',boxShadow:'0 4px 16px var(--glass-shadow)' }}>
             <div style={{ padding:'14px 22px',borderBottom:'1px solid var(--border)',display:'flex',alignItems:'center',justifyContent:'space-between' }}>
               <div style={{ fontSize:'0.78rem',fontWeight:700,color:'var(--text-secondary)',letterSpacing:'0.05em' }}>
                 DETALLE POR ESTRATEGIA / PRODUCTO ({rows.length})

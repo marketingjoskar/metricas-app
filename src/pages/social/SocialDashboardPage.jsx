@@ -95,9 +95,9 @@ export default function SocialDashboardPage() {
           <button onClick={()=>{if(isCurrentMonth)return;if(month===11){setYear(y=>y+1);setMonth(0)}else setMonth(m=>m+1)}}
             disabled={isCurrentMonth} style={{width:34,height:34,borderRadius:8,background:'var(--bg-elevated)',border:'1px solid var(--border)',color:isCurrentMonth?'var(--text-muted)':'var(--text-secondary)',fontSize:'1rem',cursor:isCurrentMonth?'not-allowed':'pointer'}}>›</button>
           <button onClick={()=>navigate('/dashboard/social/ingresar')} style={{
-            padding:'8px 18px',marginLeft:8,background:color,border:'none',borderRadius:8,
+            padding:'8px 18px',marginLeft:8,background:'var(--accent)',border:'none',borderRadius:8,
             color:'#fff',fontSize:'0.82rem',fontWeight:700,cursor:'pointer',
-            boxShadow:`0 2px 12px ${color}44`,
+            boxShadow:'0 2px 12px var(--accent-glow)',
           }}>✚ {metrics ? 'Actualizar' : 'Ingresar métricas'}</button>
         </div>
       </div>
@@ -111,7 +111,7 @@ export default function SocialDashboardPage() {
           <div style={{fontSize:40,marginBottom:14}}>📱</div>
           <p style={{color:'var(--text-secondary)',marginBottom:20}}>No hay datos para {MONTHS_ES[month]} {year}</p>
           <div style={{display:'flex',gap:12,justifyContent:'center',flexWrap:'wrap'}}>
-            <button onClick={()=>navigate('/dashboard/social/ingresar')} style={{padding:'12px 24px',background:color,border:'none',borderRadius:10,color:'#fff',fontWeight:700,fontSize:'0.88rem',cursor:'pointer'}}>
+            <button onClick={()=>navigate('/dashboard/social/ingresar')} style={{padding:'12px 24px',background:'var(--accent)',border:'none',borderRadius:10,color:'#fff',fontWeight:700,fontSize:'0.88rem',cursor:'pointer',boxShadow:'0 4px 16px var(--accent-glow)'}}>
               Ingresar métricas →
             </button>
             <button onClick={()=>navigate('/dashboard/social/campanas')} style={{padding:'12px 24px',background:'var(--bg-elevated)',border:'1px solid var(--border)',borderRadius:10,color:'var(--text-primary)',fontWeight:600,fontSize:'0.88rem',cursor:'pointer'}}>
@@ -134,10 +134,11 @@ export default function SocialDashboardPage() {
                   animationDelay:`${i*0.05}s`,
                   background:'var(--bg-surface)',border:'1px solid var(--border)',
                   borderRadius:14,padding:'18px 20px',position:'relative',overflow:'hidden',
+                  boxShadow: '0 4px 20px var(--glass-shadow)'
                 }}>
-                  <div style={{position:'absolute',top:0,left:0,right:0,height:2,background:k.c,opacity:0.7}}/>
+                  <div style={{position:'absolute',top:0,left:0,right:0,height:3,background:k.c,opacity:0.9}}/>
                   <div style={{fontSize:20,marginBottom:8}}>{k.icon}</div>
-                  <div style={{fontFamily:'var(--font-mono)',fontSize:'1.6rem',fontWeight:600,color:k.c,letterSpacing:'-0.5px',lineHeight:1,marginBottom:4}}>
+                  <div style={{fontFamily:'var(--font-mono)',fontSize:'1.6rem',fontWeight:700,color:'var(--text-primary)',letterSpacing:'-0.5px',lineHeight:1,marginBottom:4}}>
                     {fmt(metrics[k.key])}
                   </div>
                   <div style={{fontSize:'0.78rem',color:'var(--text-secondary)',display:'flex',alignItems:'center'}}>
@@ -151,11 +152,11 @@ export default function SocialDashboardPage() {
 
           {/* Engagement rate */}
           {er && (
-            <div style={{background:'var(--bg-surface)',border:`1px solid ${color}33`,borderRadius:14,padding:'18px 24px',marginBottom:14,display:'flex',alignItems:'center',gap:16}}>
+            <div style={{background:'var(--bg-surface)',border:'1px solid var(--border)',borderRadius:14,padding:'18px 24px',marginBottom:14,display:'flex',alignItems:'center',gap:16,boxShadow:'0 4px 16px var(--glass-shadow)'}}>
               <span style={{fontSize:24}}>✨</span>
               <div>
                 <div style={{fontSize:'0.72rem',fontWeight:700,color:'var(--text-muted)',letterSpacing:'0.08em',marginBottom:3}}>ENGAGEMENT RATE</div>
-                <div style={{fontFamily:'var(--font-mono)',fontSize:'2rem',fontWeight:700,color,letterSpacing:'-1px'}}>{er}%</div>
+                <div style={{fontFamily:'var(--font-mono)',fontSize:'2rem',fontWeight:700,color:'var(--text-primary)',letterSpacing:'-1px'}}>{er}%</div>
               </div>
               <div style={{marginLeft:8,fontSize:'0.8rem',color:'var(--text-muted)'}}>
                 {metrics.interacciones?.toLocaleString('es-AR')} interacciones sobre {metrics.alcance?.toLocaleString('es-AR')} de alcance
@@ -173,7 +174,7 @@ export default function SocialDashboardPage() {
 
           {/* Videos del mes */}
           {totalVideos > 0 && (
-            <div style={{background:'var(--bg-surface)',border:'1px solid var(--border)',borderRadius:14,overflow:'hidden',marginBottom:14}}>
+            <div style={{background:'var(--bg-surface)',border:'1px solid var(--border)',borderRadius:14,overflow:'hidden',marginBottom:14,boxShadow:'0 4px 16px var(--glass-shadow)'}}>
               <div style={{padding:'14px 22px',borderBottom:'1px solid var(--border)',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
                 <div style={{display:'flex',alignItems:'center',gap:8}}>
                   <span style={{fontSize:'0.78rem',fontWeight:700,color:'var(--text-secondary)',letterSpacing:'0.05em'}}>🎬 VIDEOS DEL MES</span>
@@ -227,7 +228,7 @@ export default function SocialDashboardPage() {
 
           {/* Campañas */}
           {campanas.length > 0 && (
-            <div style={{background:'var(--bg-surface)',border:'1px solid var(--border)',borderRadius:14,overflow:'hidden'}}>
+            <div style={{background:'var(--bg-surface)',border:'1px solid var(--border)',borderRadius:14,overflow:'hidden',boxShadow:'0 4px 16px var(--glass-shadow)'}}>
               <div style={{padding:'14px 22px',borderBottom:'1px solid var(--border)',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
                 <span style={{fontSize:'0.78rem',fontWeight:700,color:'var(--text-secondary)',letterSpacing:'0.05em'}}>
                   CAMPAÑAS DEL MES ({campanas.length})

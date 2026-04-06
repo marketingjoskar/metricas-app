@@ -88,7 +88,7 @@ function CampanaForm({ initial, onSave, onCancel }) {
     <div style={{ display:'flex', flexDirection:'column', gap:16 }}>
 
       {/* Datos básicos */}
-      <div style={{ background:'var(--bg-surface)', border:`1px solid ${color}33`, borderRadius:16, padding:'22px 24px' }}>
+      <div style={{ background:'var(--bg-surface)', border:'1px solid var(--border)', borderRadius:16, padding:'22px 24px', boxShadow:'0 4px 16px var(--glass-shadow)' }}>
         <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:18 }}>
           <span style={{ fontSize:18 }}>📣</span>
           <span style={{ fontWeight:700, fontSize:'0.95rem' }}>Datos de la campaña</span>
@@ -133,7 +133,7 @@ function CampanaForm({ initial, onSave, onCancel }) {
       </div>
 
       {/* Métricas */}
-      <div style={{ background:'var(--bg-surface)', border:'1px solid var(--border)', borderRadius:16, padding:'22px 24px' }}>
+      <div style={{ background:'var(--bg-surface)', border:'1px solid var(--border)', borderRadius:16, padding:'22px 24px', boxShadow:'0 4px 16px var(--glass-shadow)' }}>
         <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:18 }}>
           <span style={{ fontSize:18 }}>📊</span>
           <span style={{ fontWeight:700, fontSize:'0.95rem' }}>Resultados de la campaña</span>
@@ -178,7 +178,7 @@ function CampanaForm({ initial, onSave, onCancel }) {
       </div>
 
       {/* Notas */}
-      <div style={{ background:'var(--bg-surface)', border:'1px solid var(--border)', borderRadius:16, padding:'20px 24px' }}>
+      <div style={{ background:'var(--bg-surface)', border:'1px solid var(--border)', borderRadius:16, padding:'20px 24px', boxShadow:'0 4px 16px var(--glass-shadow)' }}>
         <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:10 }}>
           <span style={{ fontSize:18 }}>📝</span>
           <span style={{ fontWeight:700, fontSize:'0.95rem' }}>Notas</span>
@@ -193,12 +193,12 @@ function CampanaForm({ initial, onSave, onCancel }) {
         <button onClick={onCancel} style={{ padding:'12px 24px', background:'transparent', border:'1px solid var(--border)', borderRadius:10, color:'var(--text-secondary)', fontSize:'0.88rem', cursor:'pointer' }}>← Volver</button>
         <button onClick={handleSave} disabled={saving || !form.nombre.trim()} style={{
           padding:'12px 32px',
-          background: saving || !form.nombre.trim() ? 'var(--bg-elevated)' : `linear-gradient(135deg, ${color}, #c0392b)`,
+          background: saving || !form.nombre.trim() ? 'var(--bg-elevated)' : 'var(--accent)',
           border:'none', borderRadius:10,
           color: saving || !form.nombre.trim() ? 'var(--text-muted)' : '#fff',
           fontSize:'0.9rem', fontWeight:700,
           cursor: saving || !form.nombre.trim() ? 'not-allowed' : 'pointer',
-          boxShadow: !saving && form.nombre.trim() ? `0 4px 20px ${color}44` : 'none',
+          boxShadow: !saving && form.nombre.trim() ? '0 4px 20px var(--accent-glow)' : 'none',
           transition:'all 0.2s',
         }}>
           {saving ? 'Guardando…' : initial ? '✎ Actualizar campaña' : '✚ Guardar campaña'}
@@ -280,9 +280,9 @@ export default function SocialCampanasPage() {
           <button onClick={() => { if(isCurrentMonth)return; if(month===11){setYear(y=>y+1);setMonth(0)}else setMonth(m=>m+1) }}
             disabled={isCurrentMonth} style={{ width:34,height:34,borderRadius:8,background:'var(--bg-elevated)',border:'1px solid var(--border)',color:isCurrentMonth?'var(--text-muted)':'var(--text-secondary)',fontSize:'1rem',cursor:isCurrentMonth?'not-allowed':'pointer' }}>›</button>
           <button onClick={() => { setEditing(null); setView('new') }} style={{
-            padding:'8px 18px',marginLeft:8,background:color,border:'none',borderRadius:8,
+            padding:'8px 18px',marginLeft:8,background:'var(--accent)',border:'none',borderRadius:8,
             color:'#fff',fontSize:'0.82rem',fontWeight:700,cursor:'pointer',
-            boxShadow:`0 2px 12px ${color}44`,
+            boxShadow:'0 2px 12px var(--accent-glow)',
           }}>✚ Nueva campaña</button>
         </div>
       </div>
@@ -305,10 +305,11 @@ export default function SocialCampanasPage() {
                   animationDelay:`${i*0.05}s`,
                   background:'var(--bg-surface)',border:'1px solid var(--border)',
                   borderRadius:14,padding:'18px 20px',position:'relative',overflow:'hidden',
+                  boxShadow:'0 4px 20px var(--glass-shadow)',
                 }}>
-                  <div style={{ position:'absolute',top:0,left:0,right:0,height:2,background:k.c,opacity:0.7 }} />
+                  <div style={{ position:'absolute',top:0,left:0,right:0,height:3,background:k.c,opacity:0.9 }} />
                   <div style={{ fontSize:20,marginBottom:8 }}>{k.icon}</div>
-                  <div style={{ fontFamily:'var(--font-mono)',fontSize:'1.5rem',fontWeight:600,color:k.c,letterSpacing:'-0.5px',lineHeight:1,marginBottom:5 }}>{k.value}</div>
+                  <div style={{ fontFamily:'var(--font-mono)',fontSize:'1.5rem',fontWeight:700,color:'var(--text-primary)',letterSpacing:'-0.5px',lineHeight:1,marginBottom:5 }}>{k.value}</div>
                   <div style={{ fontSize:'0.78rem',color:'var(--text-secondary)' }}>{k.label}</div>
                 </div>
               ))}
@@ -319,7 +320,7 @@ export default function SocialCampanasPage() {
             <div style={{ textAlign:'center',padding:'60px 24px',border:`1px dashed ${color}44`,borderRadius:16,background:'var(--bg-surface)' }}>
               <div style={{ fontSize:40,marginBottom:14 }}>📣</div>
               <p style={{ color:'var(--text-secondary)',marginBottom:20 }}>No hay campañas registradas para {MONTHS_ES[month]} {year}</p>
-              <button onClick={() => setView('new')} style={{ padding:'12px 28px',background:color,border:'none',borderRadius:10,color:'#fff',fontWeight:700,fontSize:'0.88rem',cursor:'pointer' }}>
+              <button onClick={() => setView('new')} style={{ padding:'12px 28px',background:'var(--accent)',border:'none',borderRadius:10,color:'#fff',fontWeight:700,fontSize:'0.88rem',cursor:'pointer',boxShadow:'0 4px 16px var(--accent-glow)' }}>
                 Registrar primera campaña →
               </button>
             </div>
@@ -334,6 +335,7 @@ export default function SocialCampanasPage() {
                     background:'var(--bg-surface)',border:'1px solid var(--border)',
                     borderRadius:14,padding:'18px 22px',
                     borderLeft:`3px solid ${obj?.c || color}88`,
+                    boxShadow:'0 4px 16px var(--glass-shadow)',
                   }}>
                     <div style={{ display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:12,flexWrap:'wrap' }}>
                       <div style={{ flex:1,minWidth:0 }}>

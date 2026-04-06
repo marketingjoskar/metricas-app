@@ -129,7 +129,7 @@ export default function SistemasCompararPage() {
       </div>
 
       {/* Selectors */}
-      <div style={{ background:'var(--bg-surface)', border:'1px solid var(--border)', borderRadius:14, padding:'20px 24px', marginBottom:24 }}>
+      <div style={{ background:'var(--bg-surface)', border:'1px solid var(--border)', borderRadius:14, padding:'20px 24px', marginBottom:24, boxShadow:'0 4px 16px var(--glass-shadow)' }}>
         <div style={{ display:'flex', gap:16, alignItems:'flex-end', flexWrap:'wrap' }}>
           <MonthSelect label="Mes base"         value={periodoA} onChange={setPeriodoA} options={availableMonths} />
           <div style={{ fontSize:'1.4rem', color:'var(--text-muted)', paddingBottom:10, flexShrink:0 }}>⇄</div>
@@ -155,9 +155,9 @@ export default function SistemasCompararPage() {
             ].map((item,i) => item===null ? (
               <div key={i} style={{ textAlign:'center', color:'var(--text-muted)', fontSize:'1.2rem' }}>vs</div>
             ) : (
-              <div key={i} style={{ background:'var(--bg-surface)', border:`1px solid ${color}33`, borderRadius:14, padding:'18px 22px', textAlign:item.align }}>
+              <div key={i} style={{ background:'var(--bg-surface)', border:'1px solid var(--border)', borderRadius:14, padding:'18px 22px', textAlign:item.align, boxShadow:'0 4px 16px var(--glass-shadow)' }}>
                 <div style={{ fontSize:'0.75rem', color:'var(--text-muted)', marginBottom:6, fontFamily:'var(--font-mono)' }}>{item.label}</div>
-                <div style={{ fontFamily:'var(--font-mono)', fontSize:'2.2rem', fontWeight:600, color, letterSpacing:'-1px' }}>
+                <div style={{ fontFamily:'var(--font-mono)', fontSize:'2.2rem', fontWeight:700, color:'var(--text-primary)', letterSpacing:'-1px' }}>
                   {item.data.totals.incidencias}
                 </div>
                 <div style={{ fontSize:'0.75rem', color:'var(--text-secondary)' }}>incidencias resueltas</div>
@@ -170,7 +170,7 @@ export default function SistemasCompararPage() {
             { title:'📋 Actividad diaria', metrics: METRICS.filter(m=>m.src==='totals') },
             { title:'📈 Google Analytics', metrics: METRICS.filter(m=>m.src==='ga4') },
           ].map(section => (
-            <div key={section.title} style={{ background:'var(--bg-surface)', border:'1px solid var(--border)', borderRadius:14, overflow:'hidden', marginBottom:14 }}>
+            <div key={section.title} style={{ background:'var(--bg-surface)', border:'1px solid var(--border)', borderRadius:14, overflow:'hidden', marginBottom:14, boxShadow:'0 4px 16px var(--glass-shadow)' }}>
               <div style={{
                 display:'grid', gridTemplateColumns:'1fr repeat(3, auto)',
                 padding:'12px 20px', background:'var(--bg-elevated)',

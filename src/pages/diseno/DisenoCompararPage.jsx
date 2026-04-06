@@ -197,6 +197,7 @@ export default function DisenoCompararPage() {
         borderRadius: 14,
         padding: '20px 24px',
         marginBottom: 24,
+        boxShadow: '0 4px 16px var(--glass-shadow)',
       }}>
         <div style={{ display: 'flex', gap: 16, alignItems: 'flex-end', flexWrap: 'wrap' }}>
           <MonthSelect label="Mes base" value={periodoA} onChange={setPeriodoA} availableMonths={availableMonths} />
@@ -249,10 +250,11 @@ export default function DisenoCompararPage() {
               return (
                 <div key={i} style={{
                   background: 'var(--bg-surface)',
-                  border: `1px solid ${color}33`,
+                  border: '1px solid var(--border)',
                   borderRadius: 14,
                   padding: '18px 22px',
                   textAlign: item.align,
+                  boxShadow: '0 4px 16px var(--glass-shadow)'
                 }}>
                   <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: 6, fontFamily: 'var(--font-mono)' }}>
                     {item.label}
@@ -260,8 +262,8 @@ export default function DisenoCompararPage() {
                   <div style={{
                     fontFamily: 'var(--font-mono)',
                     fontSize: '2.2rem',
-                    fontWeight: 600,
-                    color,
+                    fontWeight: 700,
+                    color: 'var(--text-primary)',
                     letterSpacing: '-1px',
                   }}>
                     {item.data.total_flyers}
@@ -277,6 +279,7 @@ export default function DisenoCompararPage() {
             border: '1px solid var(--border)',
             borderRadius: 14,
             overflow: 'hidden',
+            boxShadow: '0 4px 16px var(--glass-shadow)',
           }}>
             <div style={{
               display: 'grid',
