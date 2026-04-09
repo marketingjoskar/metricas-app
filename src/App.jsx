@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import { RequireLogin, RequireArea } from './components/RouteGuard'
 import ComingSoon from './components/ComingSoon'
+import AnimatedBackground from './components/AnimatedBackground'
 
 import LoginPage        from './pages/LoginPage'
 import AreaSelectorPage from './pages/AreaSelectorPage'
@@ -32,6 +33,7 @@ import GerenciaCompararPage  from './pages/gerencia/GerenciaCompararPage'
 export default function App() {
   return (
     <AuthProvider>
+      <AnimatedBackground />
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
