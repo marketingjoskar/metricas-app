@@ -7,43 +7,43 @@
 }
 
 :root {
-  /* ── DARK MODE – Navy/Indigo ──────────────────────────────── */
-  --bg-gradient: #0F1023;
-  --bg-base: #0F1023;
-  /* Deep indigo-navy */
-  --bg-surface: #181A35;
-  /* Card surface     */
-  --bg-elevated: #222444;
-  /* Elevated input   */
-  --bg-hover: #2D305A;
-  /* Hover state      */
+  /* ── DARK MODE – Slate Blue-Grey ─────────────────────────── */
+  --bg-gradient: #0D1117;
+  --bg-base: #0D1117;
+  /* Deep slate-navy base   */
+  --bg-surface: #161B22;
+  /* Card surface — dark    */
+  --bg-elevated: #1E2530;
+  /* Elevated input/hover   */
+  --bg-hover: #252D3A;
+  /* Hover state            */
 
-  --border: rgba(138, 132, 240, 0.10);
-  --border-bright: rgba(138, 132, 240, 0.22);
+  --border: rgba(99, 130, 170, 0.12);
+  --border-bright: rgba(99, 130, 170, 0.26);
 
-  --text-primary: #EDEEF8;
-  --text-secondary: #9B9EC8;
-  --text-muted: #5F6192;
+  --text-primary: #E2E8F0;
+  --text-secondary: #8EA4BE;
+  --text-muted: #4D6278;
 
-  /* Vivid blue-violet accent — matches reference button */
-  --accent: #4F46E5;
-  --accent-bright: #6366F1;
-  --accent-secondary: #312E81;
-  --accent-glow: rgba(99, 102, 241, 0.25);
+  /* Blue accent (not violet) */
+  --accent: #3B82F6;
+  --accent-bright: #60A5FA;
+  --accent-secondary: #1E3A5F;
+  --accent-glow: rgba(59, 130, 246, 0.20);
 
-  /* Module accent colours – all from indigo/violet family */
-  --social-color: #A5B4FC;
-  /* Indigo 300  */
-  --diseno-color: #818CF8;
-  /* Indigo 400  */
-  --sistemas-color: #6366F1;
-  /* Indigo 500  */
-  --gerencia-color: #C084FC;
-  /* Purple 400  */
+  /* Module accent colours – blue-slate family */
+  --social-color: #7DD3FC;
+  /* Sky-300            */
+  --diseno-color: #93C5FD;
+  /* Blue-300           */
+  --sistemas-color: #60A5FA;
+  /* Blue-400           */
+  --gerencia-color: #A5B4FC;
+  /* Indigo-300 (tenue) */
 
-  --glass-bg: rgba(15, 16, 35, 0.65);
-  --glass-border: rgba(138, 132, 240, 0.10);
-  --glass-shadow: rgba(0, 0, 0, 0.55);
+  --glass-bg: rgba(13, 17, 23, 0.70);
+  --glass-border: rgba(99, 130, 170, 0.12);
+  --glass-shadow: rgba(0, 0, 0, 0.50);
 
   --radius-sm: 8px;
   --radius-md: 14px;
@@ -55,43 +55,43 @@
 }
 
 :root[data-theme="light"] {
-  /* ── LIGHT MODE – Lavender/Indigo ────────────────────────── */
-  --bg-gradient: #ECEEF8;
-  --bg-base: #ECEEF8;
-  /* Lavender-tinted page bg */
-  --bg-surface: #FFFFFF;
+  /* ── LIGHT MODE – Warm White/Blue ────────────────────────── */
+  --bg-gradient: #fbfbfe;
+  --bg-base: #fbfbfe;
+  /* Premium off-white base  */
+  --bg-surface: #ffffff;
   /* Pure-white cards        */
-  --bg-elevated: #F3F4FD;
+  --bg-elevated: #f1f5f9;
   /* Inputs / raised areas   */
-  --bg-hover: #E8EAFB;
+  --bg-hover: #e8eef6;
   /* Hover state             */
 
-  --border: rgba(79, 70, 229, 0.12);
-  --border-bright: rgba(79, 70, 229, 0.24);
+  --border: rgba(59, 130, 246, 0.10);
+  --border-bright: rgba(59, 130, 246, 0.22);
 
-  --text-primary: #0E0F1F;
-  --text-secondary: #4B4D7A;
-  --text-muted: #9496BE;
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #94A3B8;
 
-  /* Same vivid blue-violet as dark mode */
-  --accent: #4F46E5;
-  --accent-bright: #6366F1;
-  --accent-secondary: #EEF2FF;
-  --accent-glow: rgba(79, 70, 229, 0.18);
+  /* Blue accent (consistent with dark mode) */
+  --accent: #3B82F6;
+  --accent-bright: #60A5FA;
+  --accent-secondary: #EFF6FF;
+  --accent-glow: rgba(59, 130, 246, 0.15);
 
-  /* Module colours – keep same family, slightly adjusted for light */
-  --social-color: #6366F1;
-  /* Indigo 500  */
-  --diseno-color: #818CF8;
-  /* Indigo 400  */
-  --sistemas-color: #4F46E5;
-  /* Indigo 600  */
-  --gerencia-color: #A855F7;
-  /* Purple 500  */
+  /* Module colours – blue family for light mode */
+  --social-color: #0284C7;
+  /* Sky-600           */
+  --diseno-color: #2563EB;
+  /* Blue-600          */
+  --sistemas-color: #3B82F6;
+  /* Blue-500          */
+  --gerencia-color: #6366F1;
+  /* Indigo-500        */
 
-  --glass-bg: rgba(255, 255, 255, 0.55);
-  --glass-border: rgba(79, 70, 229, 0.12);
-  --glass-shadow: rgba(79, 70, 229, 0.06);
+  --glass-bg: rgba(255, 255, 255, 0.60);
+  --glass-border: rgba(59, 130, 246, 0.10);
+  --glass-shadow: rgba(15, 23, 42, 0.05);
 }
 
 html,
@@ -127,7 +127,7 @@ body {
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   border: 1px solid var(--border);
-  box-shadow: 0 2px 16px rgba(79, 70, 229, 0.07), 0 1px 4px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 16px rgba(59, 130, 246, 0.06), 0 1px 4px rgba(0, 0, 0, 0.03);
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -137,22 +137,22 @@ body {
    — Light mode: lavender base + pastel indigo/violet orbs
    ═══════════════════════════════════════════════════════════ */
 
-/* Orb base colors ─ dark mode defaults */
+/* Orb base colors ─ dark mode: slate-blue visible pero tenue */
 :root {
-  --orb1: rgba(79, 70, 229, 0.55);   /* Indigo-600        */
-  --orb2: rgba(124, 58, 237, 0.50);  /* Violet-600        */
-  --orb3: rgba(49, 46, 129, 0.60);   /* Indigo-900 deep   */
-  --orb4: rgba(99, 102, 241, 0.45);  /* Indigo-500        */
-  --orb5: rgba(109, 40, 217, 0.40);  /* Violet-700        */
+  --orb1: rgba(30, 80, 140, 0.55);   /* Steel blue         */
+  --orb2: rgba(15, 55, 100, 0.50);   /* Dark steel         */
+  --orb3: rgba(40, 100, 160, 0.35);  /* Sky-steel mid      */
+  --orb4: rgba(20, 70, 120, 0.45);   /* Slate blue         */
+  --orb5: rgba(10, 40, 80, 0.50);    /* Deep night         */
 }
 
-/* Orb base colors ─ light mode overrides */
+/* Orb base colors ─ light mode overrides (pastel sky-blue) */
 :root[data-theme="light"] {
-  --orb1: rgba(165, 180, 252, 0.70); /* Indigo-300 soft   */
-  --orb2: rgba(196, 181, 253, 0.65); /* Violet-300 soft   */
-  --orb3: rgba(199, 210, 254, 0.60); /* Indigo-200 pale   */
-  --orb4: rgba(167, 139, 250, 0.55); /* Violet-400 soft   */
-  --orb5: rgba(224, 231, 255, 0.75); /* Indigo-100 pale   */
+  --orb1: rgba(186, 213, 245, 0.65); /* Sky-blue soft      */
+  --orb2: rgba(199, 220, 248, 0.55); /* Blue-200 pale      */
+  --orb3: rgba(214, 232, 252, 0.50); /* Blue-100 pale      */
+  --orb4: rgba(172, 204, 242, 0.60); /* Cornflower soft    */
+  --orb5: rgba(224, 238, 252, 0.70); /* Ice blue pastel    */
 }
 
 /* ── Container ── */
