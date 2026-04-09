@@ -257,11 +257,8 @@ export default function SocialIngresarPage() {
     padding: '12px 16px',
     fontSize: '1.2rem',
     fontFamily: 'var(--font-mono)',
-    background: 'rgba(255, 255, 255, 0.05)',
-    border: '1px solid rgba(255, 255, 255, 0.1)',
-    borderRadius: 12,
-    color: '#fff',
-    boxSizing: 'border-box',
+    background: 'var(--bg-elevated)', border: '1px solid var(--border)',
+    borderRadius: 12, color: 'var(--text-primary)', boxSizing: 'border-box',
     fontWeight: 700,
     outline: 'none',
     transition: 'all 0.2s',
@@ -273,15 +270,11 @@ export default function SocialIngresarPage() {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16, marginBottom: 32 }}>
         <div>
           <h1 style={{ 
-            fontSize: '2.4rem', 
-            fontWeight: 800, 
-            letterSpacing: '-1.5px', 
-            marginBottom: 6,
-            background: 'linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.55))',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
+            fontSize: '2.5rem', fontWeight: 900, letterSpacing: '-2px', marginBottom: 4,
+            background: 'linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary))',
+            WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
           }}>
-            Ingreso de Métricas
+            Gestión Social
           </h1>
           <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.95rem', fontWeight: 500 }}>
             Social Media · Registro mensual de KPIs y Contenido
@@ -304,7 +297,7 @@ export default function SocialIngresarPage() {
               }}
               style={{ width: 36, height: 36, borderRadius: 10, background: 'transparent', border: 'none', color: '#fff', fontSize: '1.1rem', cursor: 'pointer' }}
             >‹</button>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.85rem', color: 'rgba(255,255,255,0.8)', minWidth: 120, textAlign: 'center', fontWeight: 600 }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.85rem', color: 'var(--text-secondary)', minWidth: 120, textAlign: 'center', fontWeight: 600 }}>
               {MONTHS_ES[month]} {year}
             </span>
             <button
@@ -314,7 +307,7 @@ export default function SocialIngresarPage() {
                 else { setMonth(m => m + 1) }
               }}
               disabled={isCurrentMonth}
-              style={{ width: 36, height: 36, borderRadius: 10, background: 'transparent', border: 'none', color: isCurrentMonth ? 'rgba(255,255,255,0.2)' : '#fff', fontSize: '1.1rem', cursor: isCurrentMonth ? 'not-allowed' : 'pointer' }}
+              style={{ width: 36, height: 36, borderRadius: 10, background: 'transparent', border: 'none', color: isCurrentMonth ? 'var(--text-muted)' : 'var(--text-primary)', fontSize: '1.1rem', cursor: isCurrentMonth ? 'not-allowed' : 'pointer' }}
             >›</button>
           </div>
         </div>
@@ -334,8 +327,8 @@ export default function SocialIngresarPage() {
             onClick={() => setActiveTab(id)}
             style={{
               padding: '10px 24px', borderRadius: 12, border: 'none', cursor: 'pointer',
-              background: activeTab === id ? 'rgba(255,255,255,0.1)' : 'transparent',
-              color: activeTab === id ? '#fff' : 'rgba(255,255,255,0.4)',
+              background: activeTab === id ? 'var(--bg-hover)' : 'transparent',
+              color: activeTab === id ? 'var(--text-primary)' : 'var(--text-muted)',
               fontSize: '0.88rem', fontWeight: 700, transition: 'all 0.2s'
             }}
           >
@@ -498,9 +491,9 @@ export default function SocialIngresarPage() {
                   border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: 28, padding: '32px',
                   boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)'
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 28 }}>
-                    <span style={{ fontSize: 24 }}>🎥</span>
-                    <span style={{ fontWeight: 800, fontSize: '1.1rem', background: 'linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.55))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Registrar Nuevo Contenido</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
+                    <div style={{ padding: '8px', borderRadius: 10, background: `${GREEN}22`, fontSize: 18 }}>✨</div>
+                    <span style={{ fontWeight: 800, fontSize: '1.1rem', background: 'linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Registrar Nuevo Contenido</span>
                   </div>
 
                   {/* Redes Multi-select */}

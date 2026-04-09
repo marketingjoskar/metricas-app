@@ -81,8 +81,8 @@ function CampanaForm({ initial, onSave, onCancel }) {
 
   const glassInput = {
     width:'100%', padding:'12px 16px', fontSize:'0.95rem',
-    background:'rgba(255, 255, 255, 0.05)', border:'1px solid rgba(255, 255, 255, 0.1)',
-    borderRadius:12, color:'#fff', boxSizing:'border-box',
+    background: 'var(--bg-elevated)', border: '1px solid var(--border)',
+    borderRadius: 12, color: 'var(--text-primary)', boxSizing: 'border-box',
     outline: 'none', transition: 'all 0.2s'
   }
   const lbl = {
@@ -103,7 +103,7 @@ function CampanaForm({ initial, onSave, onCancel }) {
       >
         <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:24 }}>
           <span style={{ fontSize:20 }}>📣</span>
-          <span style={{ fontWeight: 800, fontSize:'1.1rem', color: '#fff' }}>Datos de la campaña</span>
+          <span style={{ fontWeight: 800, fontSize:'1.1rem', color: 'var(--text-primary)' }}>Datos de la campaña</span>
         </div>
         <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:20, marginBottom:24 }}>
           <div>
@@ -157,7 +157,7 @@ function CampanaForm({ initial, onSave, onCancel }) {
       >
         <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:24 }}>
           <span style={{ fontSize:20 }}>📊</span>
-          <span style={{ fontWeight: 800, fontSize:'1.1rem', color: '#fff' }}>Resultados de rendimiento</span>
+          <span style={{ fontWeight: 800, fontSize:'1.1rem', color: 'var(--text-primary)' }}>Resultados de rendimiento</span>
         </div>
         <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(180px,1fr))', gap:20 }}>
           {[
@@ -172,7 +172,7 @@ function CampanaForm({ initial, onSave, onCancel }) {
                 onChange={e=>setForm(prev=>({...prev,[f.key]:e.target.value}))}
                 placeholder={f.placeholder}
                 style={{ ...glassInput, fontFamily:'var(--font-mono)', fontWeight:700, fontSize:'1.2rem',
-                  color: form[f.key] ? f.c : '#fff',
+                  color: form[f.key] ? f.c : 'var(--text-primary)',
                   borderColor: form[f.key] ? f.c + '66' : 'rgba(255,255,255,0.1)',
                   background: form[f.key] ? f.c + '0a' : 'rgba(255,255,255,0.05)'
                 }} />
@@ -211,7 +211,7 @@ function CampanaForm({ initial, onSave, onCancel }) {
       >
         <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:16 }}>
           <span style={{ fontSize:20 }}>📝</span>
-          <span style={{ fontWeight: 800, fontSize:'1.1rem', color: '#fff' }}>Notas y observaciones</span>
+          <span style={{ fontWeight: 800, fontSize:'1.1rem', color: 'var(--text-primary)' }}>Notas y observaciones</span>
         </div>
         <textarea value={form.notas} onChange={e=>setForm(f=>({...f,notas:e.target.value}))}
           placeholder="Aprendizajes, resultados cualitativos, recomendaciones…" rows={3}
@@ -341,10 +341,16 @@ export default function SocialCampanasPage() {
             border: '1px solid rgba(255,255,255,0.1)'
           }}>
             <button onClick={() => { if(month===0){setYear(y=>y-1);setMonth(11)}else setMonth(m=>m-1) }}
-              style={{ width:36,height:36,borderRadius:10,background:'transparent',border:'none',color:'#fff',fontSize:'1.1rem',cursor:'pointer' }}>‹</button>
-            <span style={{ fontFamily:'var(--font-mono)',fontSize:'0.85rem',color:'rgba(255,255,255,0.8)',minWidth:120,textAlign:'center', fontWeight:600 }}>{MONTHS_ES[month]} {year}</span>
-            <button onClick={() => { if(isCurrentMonth)return; if(month===11){setYear(y=>y+1);setMonth(0)}else setMonth(m=>m+1) }}
-              disabled={isCurrentMonth} style={{ width:36,height:36,borderRadius:10,background:'transparent',border:'none',color:isCurrentMonth?'rgba(255,255,255,0.2)':'#fff',fontSize:'1.1rem',cursor:isCurrentMonth?'not-allowed':'pointer' }}>›</button>
+              style={{ width: 36, height: 36, borderRadius: 10, background: 'transparent', border: 'none', color: 'var(--text-primary)', fontSize: '1.1rem', cursor: 'pointer' }}>‹</button>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.85rem', color: 'var(--text-secondary)', minWidth: 120, textAlign: 'center', fontWeight: 600 }}>{MONTHS_ES[month]} {year}</span>
+            <button
+              onClick={() => {
+                if (isCurrentMonth) return
+                if (month === 11) { setYear(y => y + 1); setMonth(0) }
+                else { setMonth(m => m + 1) }
+              }}
+              disabled={isCurrentMonth}
+              style={{ width: 36, height: 36, borderRadius: 10, background: 'transparent', border: 'none', color: isCurrentMonth ? 'var(--text-muted)' : 'var(--text-primary)', fontSize: '1.1rem', cursor: isCurrentMonth ? 'not-allowed' : 'pointer' }}>›</button>
           </div>
           <button onClick={() => { setEditing(null); setView('new') }} style={{
             padding:'10px 24px',background:color,border:'none',borderRadius:12,
@@ -377,7 +383,7 @@ export default function SocialCampanasPage() {
                 }}>
                   <div style={{ position:'absolute',top:0,left:0,right:0,height:'2px',background:k.c,opacity:0.8 }} />
                   <div style={{ fontSize:24,marginBottom:12, filter: `drop-shadow(0 0 10px ${k.c}44)` }}>{k.icon}</div>
-                  <div style={{ fontFamily:'var(--font-mono)',fontSize:'1.8rem',fontWeight: 800,color:'#fff',letterSpacing:'-1px',lineHeight:1,marginBottom:6 }}>{k.value}</div>
+                  <div style={{ fontFamily:'var(--font-mono)',fontSize:'1.8rem',fontWeight: 800,color:'var(--text-primary)',letterSpacing:'-1px',lineHeight:1,marginBottom:6 }}>{k.value}</div>
                   <div style={{ fontSize:'0.75rem',color:'rgba(255,255,255,0.4)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{k.label}</div>
                 </div>
               ))}
@@ -450,7 +456,7 @@ export default function SocialCampanasPage() {
                             {formatDate(c.fecha_inicio)} — {formatDate(c.fecha_fin)}
                           </span>
                         </div>
-                        <h3 style={{ fontSize:'1.2rem',fontWeight: 800,color:'#fff',marginBottom:16, letterSpacing: '-0.5px' }}>{c.nombre}</h3>
+                        <h3 style={{ fontSize:'1.2rem',fontWeight: 800,color:'var(--text-primary)',marginBottom:16, letterSpacing: '-0.5px' }}>{c.nombre}</h3>
                         
                         <div style={{ display:'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap:24 }}>
                           {[

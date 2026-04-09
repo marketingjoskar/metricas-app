@@ -356,27 +356,25 @@ export default function SistemasDashboardPage() {
                     <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#10B981' }}>{ga4data.duracion_promedio_seg ? `${Math.floor(ga4data.duracion_promedio_seg/60)}m` : '0m'}</div>
                   </div>
                 </div>
-              </div>
-
               {/* SEO Top Keywords */}
               {ga4data.seo_keywords?.length > 0 && (
                 <div className="animate-fadeUp" style={{ 
-                  background: 'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(20px)', 
-                  padding: '32px', borderRadius: 32, border: '1px solid rgba(255,255,255,0.08)',
-                  animationDelay: '0.3s'
+                  background: 'var(--glass-bg)', backdropFilter: 'blur(20px)', 
+                  padding: '32px', borderRadius: 32, border: '1px solid var(--glass-border)',
+                  animationDelay: '0.3s', boxShadow: 'var(--glass-shadow)'
                 }}>
                 <div style={{ fontSize:'0.8rem', fontWeight: 800, color:'var(--text-muted)', marginBottom:24, letterSpacing:'0.1em', textTransform: 'uppercase' }}>RANKING SEO (TOP KEYWORDS)</div>
                   <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
                     {[...ga4data.seo_keywords].sort((a,b) => parseInt(a.posicion||99)-parseInt(b.posicion||99)).slice(0,4).map((kw,i) => (
                       <div key={i} style={{
                         display:'grid', gridTemplateColumns:'1fr 60px 80px 90px', gap:16,
-                        padding:'14px 20px', background:'rgba(255,255,255,0.02)',
-                        border:'1px solid rgba(255,255,255,0.05)', borderRadius:16, alignItems:'center',
+                        padding:'14px 20px', background:'var(--bg-elevated)',
+                        border:'1px solid var(--border)', borderRadius:16, alignItems:'center',
                       }}>
                         <span style={{ fontSize:'0.9rem', color:'var(--text-primary)', fontWeight: 700 }}>{kw.keyword}</span>
                         <span style={{
                           fontFamily:'var(--font-mono)', fontSize:'1rem', fontWeight: 900, textAlign:'center',
-                          color: parseInt(kw.posicion)<=3? '#10B981' : parseInt(kw.posicion)<=10 ? accentColor : 'rgba(255,255,255,0.4)',
+                          color: parseInt(kw.posicion)<=3? '#10B981' : parseInt(kw.posicion)<=10 ? accentColor : 'var(--text-muted)',
                           textShadow: parseInt(kw.posicion)<=3 ? '0 0 10px #10B98144' : 'none'
                         }}>#{kw.posicion}</span>
                         <span style={{ fontFamily:'var(--font-mono)', fontSize:'0.8rem', textAlign:'right', color:'var(--text-secondary)', fontWeight:600 }}>{kw.clics || 0} clicks</span>

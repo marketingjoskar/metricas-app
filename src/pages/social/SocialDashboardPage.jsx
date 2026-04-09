@@ -40,20 +40,20 @@ function GlassModal({ isOpen, onClose, title, children }) {
       alignItems: 'center',
       justifyContent: 'center',
       zIndex: 1000,
-      padding: 20
+      padding: 24
     }}>
       <div 
         className="animate-fadeUp"
         style={{
-          background: 'rgba(255, 255, 255, 0.08)',
+          background: 'var(--glass-bg)',
           backdropFilter: 'blur(32px)',
           WebkitBackdropFilter: 'blur(32px)',
-          border: `1px solid ${color}33`,
+          border: `1px solid var(--glass-border)`,
           borderRadius: 28,
           width: '100%',
           maxWidth: 900,
           maxHeight: '85vh',
-          boxShadow: `0 24px 50px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1)`,
+          boxShadow: 'var(--glass-shadow)',
           position: 'relative',
           overflow: 'hidden',
           display: 'flex',
@@ -66,15 +66,15 @@ function GlassModal({ isOpen, onClose, title, children }) {
           background: `linear-gradient(90deg, transparent, ${color}, transparent)`,
         }} />
 
-        <div style={{ padding: '24px 30px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ padding: '24px 30px', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <h2 style={{ 
             fontSize: '1.25rem', 
             fontWeight: 700, 
-            background: 'linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.55))',
+            background: 'linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary))',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
           }}>{title}</h2>
-          <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: '1.2rem' }}>✕</button>
+          <button onClick={onClose} style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border)', color: 'var(--text-primary)', cursor: 'pointer', fontSize: '1.2rem', width: 32, height: 32, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>✕</button>
         </div>
         <div style={{ padding: '30px', overflowY: 'auto' }}>
           {children}
@@ -172,13 +172,13 @@ export default function SocialDashboardPage() {
             fontWeight: 800, 
             letterSpacing: '-1.5px', 
             marginBottom: 6,
-            background: 'linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.55))',
+            background: 'linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary))',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
           }}>
             Social Media
           </h1>
-          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.95rem', fontWeight: 500 }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', fontWeight: 500 }}>
             Métricas de impacto y crecimiento en Instagram
           </p>
         </div>
@@ -186,16 +186,16 @@ export default function SocialDashboardPage() {
           <div style={{ 
             display: 'flex', 
             alignItems: 'center', 
-            background: 'rgba(255,255,255,0.05)', 
+            background: 'var(--bg-elevated)', 
             borderRadius: 14, 
             padding: '4px',
-            border: '1px solid rgba(255,255,255,0.1)'
+            border: '1px solid var(--border)'
           }}>
             <button onClick={()=>{if(month===0){setYear(y=>y-1);setMonth(11)}else setMonth(m=>m-1)}}
-              style={{width:36,height:36,borderRadius:10,background:'transparent',border:'none',color:'#fff',fontSize:'1.1rem',cursor:'pointer'}}>‹</button>
-            <span style={{fontFamily:'var(--font-mono)',fontSize:'0.85rem',color:'rgba(255,255,255,0.8)',minWidth:120,textAlign:'center', fontWeight: 600}}>{MONTHS_ES[month]} {year}</span>
+              style={{width:36,height:36,borderRadius:10,background:'transparent',border:'none',color:'var(--text-primary)',fontSize:'1.1rem',cursor:'pointer'}}>‹</button>
+            <span style={{fontFamily:'var(--font-mono)',fontSize:'0.85rem',color:'var(--text-secondary)',minWidth:120,textAlign:'center', fontWeight: 600}}>{MONTHS_ES[month]} {year}</span>
             <button onClick={()=>{if(isCurrentMonth)return;if(month===11){setYear(y=>y+1);setMonth(0)}else setMonth(m=>m+1)}}
-              disabled={isCurrentMonth} style={{width:36,height:36,borderRadius:10,background:'transparent',border:'none',color:isCurrentMonth?'rgba(255,255,255,0.2)':'#fff',fontSize:'1.1rem',cursor:isCurrentMonth?'not-allowed':'pointer'}}>›</button>
+              disabled={isCurrentMonth} style={{width:36,height:36,borderRadius:10,background:'transparent',border:'none',color:isCurrentMonth?'var(--text-muted)':'var(--text-primary)',fontSize:'1.1rem',cursor:isCurrentMonth?'not-allowed':'pointer'}}>›</button>
           </div>
           <button onClick={()=>navigate('/dashboard/social/ingresar')} style={{
             padding:'10px 24px',background:color,border:'none',borderRadius:12,
@@ -235,7 +235,7 @@ export default function SocialDashboardPage() {
                 className="animate-fadeUp group"
                 style={{
                   animationDelay: `${i * 0.1}s`,
-                  background: 'rgba(255, 255, 255, 0.07)',
+                  background: 'var(--glass-bg)',
                   backdropFilter: 'blur(28px)',
                   WebkitBackdropFilter: 'blur(28px)',
                   border: `1px solid ${k.c}2e`,
@@ -244,16 +244,16 @@ export default function SocialDashboardPage() {
                   position: 'relative',
                   overflow: 'hidden',
                   transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                  boxShadow: 'var(--glass-shadow)',
                 }}
                 onMouseEnter={e => {
                   e.currentTarget.style.transform = 'translateY(-8px) scale(1.01)'
-                  e.currentTarget.style.boxShadow = `0 20px 40px ${k.c}22, inset 0 1px 0 rgba(255, 255, 255, 0.15)`
+                  e.currentTarget.style.boxShadow = `0 20px 40px ${k.c}22`
                   e.currentTarget.style.borderColor = `${k.c}44`
                 }}
                 onMouseLeave={e => {
                   e.currentTarget.style.transform = 'none'
-                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                  e.currentTarget.style.boxShadow = 'var(--glass-shadow)'
                   e.currentTarget.style.borderColor = `${k.c}2e`
                 }}
               >
@@ -272,14 +272,14 @@ export default function SocialDashboardPage() {
                   fontFamily: 'var(--font-mono)', 
                   fontSize: '2.2rem', 
                   fontWeight: 700, 
-                  color: '#fff', 
+                  color: 'var(--text-primary)', 
                   letterSpacing: '-1.5px', 
                   lineHeight: 1, 
                   marginBottom: 6 
                 }}>
                   {fmt(k.value)}
                 </div>
-                <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
                   {k.label}
                 </div>
               </div>
@@ -301,21 +301,21 @@ export default function SocialDashboardPage() {
                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)'
                }}
              >
-                <div style={{fontSize:'0.85rem',fontWeight: 700,color:'rgba(255,255,255,0.5)',letterSpacing:'0.1em',marginBottom:24, textTransform: 'uppercase'}}>RENDIMIENTO VS MES ANTERIOR</div>
+                <div style={{fontSize:'0.85rem',fontWeight: 700,color:'var(--text-muted)',letterSpacing:'0.1em',marginBottom:24, textTransform: 'uppercase'}}>RENDIMIENTO VS MES ANTERIOR</div>
                 <div style={{width:'100%',height:320}}>
                   <ResponsiveContainer>
                     <BarChart data={comparisonData}>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.05)" />
-                      <XAxis dataKey="name" stroke="rgba(255,255,255,0.3)" fontSize={11} tickLine={false} axisLine={false} />
-                      <YAxis stroke="rgba(255,255,255,0.3)" fontSize={11} tickLine={false} axisLine={false} tickFormatter={(v)=>v>=1000?`${(v/1000).toFixed(1)}k`:v} />
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" />
+                      <XAxis dataKey="name" stroke="var(--text-muted)" fontSize={11} tickLine={false} axisLine={false} />
+                      <YAxis stroke="var(--text-muted)" fontSize={11} tickLine={false} axisLine={false} tickFormatter={(v)=>v>=1000?`${(v/1000).toFixed(1)}k`:v} />
                       <Tooltip 
-                        cursor={{fill: 'rgba(255,255,255,0.03)'}}
-                        contentStyle={{ background: 'var(--glass-bg)', backdropFilter: 'blur(24px)', border: '1px solid var(--glass-border)', borderRadius: 12, boxShadow: '0 4px 24px var(--glass-shadow)', color: 'var(--text-primary)' }}
+                        cursor={{fill: 'var(--bg-hover)'}}
+                        contentStyle={{ background: 'var(--glass-bg)', backdropFilter: 'blur(24px)', border: '1px solid var(--glass-border)', borderRadius: 12, boxShadow: 'var(--glass-shadow)', color: 'var(--text-primary)' }}
                         itemStyle={{ color: 'var(--text-primary)', fontWeight: 700, fontSize: '0.85rem' }}
                       />
-                      <Legend verticalAlign="top" height={36} wrapperStyle={{paddingBottom: 20, fontSize: '0.8rem'}}/>
+                      <Legend verticalAlign="top" height={36} wrapperStyle={{paddingBottom: 20, fontSize: '0.8rem', color: 'var(--text-secondary)'}}/>
                       <Bar dataKey="actual" name="Mes Actual" fill={color} radius={[6,6,0,0]} />
-                      <Bar dataKey="anterior" name="Mes Anterior" fill="rgba(255,255,255,0.15)" radius={[6,6,0,0]} />
+                      <Bar dataKey="anterior" name="Mes Anterior" fill="var(--bg-elevated)" radius={[6,6,0,0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -327,16 +327,16 @@ export default function SocialDashboardPage() {
                 className="animate-fadeUp"
                 style={{
                   animationDelay: '0.5s',
-                  background: 'rgba(255, 255, 255, 0.05)',
+                  background: 'var(--glass-bg)',
                   backdropFilter: 'blur(28px)',
                   borderRadius: 28,
                   padding: '30px',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
+                  border: '1px solid var(--glass-border)',
+                  boxShadow: 'var(--glass-shadow)',
                   display: 'flex', flexDirection: 'column'
                 }}
               >
-                <div style={{ fontSize: '0.85rem', fontWeight: 700, color: 'rgba(255,255,255,0.5)', letterSpacing: '0.1em', marginBottom: 20, textTransform: 'uppercase' }}>CONTENIDO (VIDEOS)</div>
+                <div style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-muted)', letterSpacing: '0.1em', marginBottom: 20, textTransform: 'uppercase' }}>CONTENIDO (VIDEOS)</div>
                 <div style={{ flex: 1, position: 'relative' }}>
                   <ResponsiveContainer width="100%" height={220}>
                     <PieChart>
@@ -358,9 +358,9 @@ export default function SocialDashboardPage() {
                       <div key={f.name} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                           <div style={{ width: 8, height: 8, borderRadius: '50%', background: r?.color || color }} />
-                          <span style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)', fontWeight: 500 }}>{f.name}</span>
+                          <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: 500 }}>{f.name}</span>
                         </div>
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem', fontWeight: 700, color: '#fff' }}>{f.value}</span>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem', fontWeight: 700, color: 'var(--text-primary)' }}>{f.value}</span>
                       </div>
                     )
                   })}
@@ -377,13 +377,13 @@ export default function SocialDashboardPage() {
                 className="animate-fadeUp"
                 style={{
                   animationDelay: '0.6s',
-                  background: 'rgba(255, 255, 255, 0.07)',
+                  background: 'var(--glass-bg)',
                   backdropFilter: 'blur(28px)',
                   borderRadius: 24,
                   padding: '30px',
                   display: 'flex', alignItems: 'center', gap: 24,
                   border: `1px solid ${color}22`,
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)'
+                  boxShadow: 'var(--glass-shadow)'
                 }}
               >
                 <div style={{
@@ -394,7 +394,7 @@ export default function SocialDashboardPage() {
                   boxShadow: `0 0 20px ${color}22`
                 }}>✨</div>
                 <div>
-                  <div style={{fontSize:'0.8rem', fontWeight: 700, color:'rgba(255,255,255,0.4)', letterSpacing:'0.1em', marginBottom:6, textTransform: 'uppercase'}}>Engagement Rate</div>
+                  <div style={{fontSize:'0.8rem', fontWeight: 700, color:'var(--text-muted)', letterSpacing:'0.1em', marginBottom:6, textTransform: 'uppercase'}}>Engagement Rate</div>
                   <div style={{fontFamily:'var(--font-mono)', fontSize:'2.8rem', fontWeight: 800, color:color, letterSpacing:'-2px', lineHeight: 1}}>{er}%</div>
                 </div>
                 {prevMetrics && (
@@ -416,46 +416,46 @@ export default function SocialDashboardPage() {
                 <button 
                   onClick={()=>setModalType('videos')} 
                   style={{
-                    border: '1px solid rgba(255,255,255,0.1)', background:'rgba(255,255,255,0.05)', 
+                    border: '1px solid var(--border)', background: 'var(--bg-elevated)', 
                     borderRadius: 24, padding: 20, cursor: 'pointer', 
                     display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8,
                     transition: 'all 0.2s',
                     backdropFilter: 'blur(10px)'
                   }}
                   onMouseEnter={e => {
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.08)'
-                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'
+                    e.currentTarget.style.background = 'var(--bg-hover)'
+                    e.currentTarget.style.borderColor = 'var(--border-bright)'
                   }}
                   onMouseLeave={e => {
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.05)'
-                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'
+                    e.currentTarget.style.background = 'var(--bg-elevated)'
+                    e.currentTarget.style.borderColor = 'var(--border)'
                   }}
                 >
                   <span style={{fontSize:28}}>🎬</span>
-                  <span style={{fontSize:'0.9rem', fontWeight: 700, color:'#fff'}}>Ver Vídeos</span>
-                  <span style={{fontSize:'0.75rem', color:'rgba(255,255,255,0.4)', fontWeight: 600}}>{totalVideos} registros</span>
+                  <span style={{fontSize:'0.9rem', fontWeight: 700, color: 'var(--text-primary)'}}>Ver Vídeos</span>
+                  <span style={{fontSize:'0.75rem', color: 'var(--text-muted)', fontWeight: 600}}>{totalVideos} registros</span>
                 </button>
                 <button 
                   onClick={()=>setModalType('campanas')} 
                   style={{
-                    border: '1px solid rgba(255,255,255,0.1)', background:'rgba(255,255,255,0.05)', 
+                    border: '1px solid var(--border)', background: 'var(--bg-elevated)', 
                     borderRadius: 24, padding: 20, cursor: 'pointer', 
                     display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8,
                     transition: 'all 0.2s',
                     backdropFilter: 'blur(10px)'
                   }}
                   onMouseEnter={e => {
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.08)'
-                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'
+                    e.currentTarget.style.background = 'var(--bg-hover)'
+                    e.currentTarget.style.borderColor = 'var(--border-bright)'
                   }}
                   onMouseLeave={e => {
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.05)'
-                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'
+                    e.currentTarget.style.background = 'var(--bg-elevated)'
+                    e.currentTarget.style.borderColor = 'var(--border)'
                   }}
                 >
                   <span style={{fontSize:28}}>📣</span>
-                  <span style={{fontSize:'0.9rem', fontWeight: 700, color:'#fff'}}>Ver Campañas</span>
-                  <span style={{fontSize:'0.75rem', color:'rgba(255,255,255,0.4)', fontWeight: 600}}>{campanas.length} activas</span>
+                  <span style={{fontSize:'0.9rem', fontWeight: 700, color: 'var(--text-primary)'}}>Ver Campañas</span>
+                  <span style={{fontSize:'0.75rem', color: 'var(--text-muted)', fontWeight: 600}}>{campanas.length} activas</span>
                 </button>
             </div>
           </div>
@@ -478,8 +478,8 @@ export default function SocialDashboardPage() {
                           {red.emoji} {red.label}
                         </span>
                         <div style={{flex:1}}>
-                          <div style={{fontSize:'1rem',fontWeight:700,color:'#fff',marginBottom:4}}>{v.etiqueta}</div>
-                          <div style={{fontSize:'0.8rem',color:'rgba(255,255,255,0.4)',fontFamily:'var(--font-mono)'}}>{v.fecha || 'Sin fecha'}</div>
+                          <div style={{fontSize:'1rem',fontWeight:700,color:'var(--text-primary)',marginBottom:4}}>{v.etiqueta}</div>
+                          <div style={{fontSize:'0.8rem',color:'var(--text-muted)',fontFamily:'var(--font-mono)'}}>{v.fecha || 'Sin fecha'}</div>
                         </div>
                         <div style={{fontSize:'1.3rem', fontWeight: 800, color, fontFamily: 'var(--font-mono)'}}>×{v.cantidad || 1}</div>
                       </div>
@@ -492,34 +492,34 @@ export default function SocialDashboardPage() {
               <div style={{display:'flex', flexDirection:'column', gap:20}}>
                 {campanas.map(c => (
                   <div key={c.id} style={{
-                    padding:'24px', background:'rgba(255,255,255,0.05)', 
-                    borderRadius:20, border:'1px solid rgba(255,255,255,0.1)'
+                    padding:'24px', background:'var(--bg-elevated)', 
+                    borderRadius:20, border:'1px solid var(--border)'
                   }}>
                     <div style={{display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:20}}>
                       <div>
-                        <div style={{fontSize:'1.1rem', fontWeight: 700, color:'#fff', marginBottom:6}}>{c.nombre}</div>
-                        <div style={{fontSize:'0.8rem', color:'rgba(255,255,255,0.4)', fontFamily:'var(--font-mono)', fontWeight: 600}}>
+                        <div style={{fontSize:'1.1rem', fontWeight: 700, color:'var(--text-primary)', marginBottom:6}}>{c.nombre}</div>
+                        <div style={{fontSize:'0.8rem', color:'var(--text-muted)', fontFamily:'var(--font-mono)', fontWeight: 600}}>
                           {c.fecha_inicio} al {c.fecha_fin}
                         </div>
                       </div>
                       <div style={{textAlign:'right'}}>
-                        <div style={{fontSize:'0.7rem', color:'rgba(255,255,255,0.4)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 4}}>Presupuesto</div>
+                        <div style={{fontSize:'0.7rem', color:'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 4}}>Presupuesto</div>
                         <div style={{fontSize:'1.3rem', fontWeight: 800, color:'#fbbf24', fontFamily: 'var(--font-mono)'}}>${c.presupuesto?.toLocaleString('es-AR')}</div>
                       </div>
                     </div>
-                    <div style={{display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap:20, paddingTop:20, borderTop:'1px solid rgba(255,255,255,0.06)'}}>
+                    <div style={{display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap:20, paddingTop:20, borderTop:'1px solid var(--border)'}}>
                       <div>
-                        <div style={{fontSize:'0.7rem', color:'rgba(255,255,255,0.4)', fontWeight: 700, marginBottom: 4}}>ALCANCE</div>
+                        <div style={{fontSize:'0.7rem', color:'var(--text-muted)', fontWeight: 700, marginBottom: 4}}>ALCANCE</div>
                         <div style={{fontSize:'1rem', fontWeight: 700, color:BLUE, fontFamily: 'var(--font-mono)'}}>{fmt(c.alcance)}</div>
                       </div>
                       <div>
-                        <div style={{fontSize:'0.7rem', color:'rgba(255,255,255,0.4)', fontWeight: 700, marginBottom: 4}}>CLICS (CTR)</div>
+                        <div style={{fontSize:'0.7rem', color:'var(--text-muted)', fontWeight: 700, marginBottom: 4}}>CLICS (CTR)</div>
                         <div style={{fontSize:'1rem', fontWeight: 700, color, fontFamily: 'var(--font-mono)'}}>
                           {fmt(c.clics)} <span style={{fontSize: '0.8rem', opacity: 0.7}}>({c.alcance ? (c.clics/c.alcance*100).toFixed(2) : 0}%)</span>
                         </div>
                       </div>
                       <div>
-                        <div style={{fontSize:'0.7rem', color:'rgba(255,255,255,0.4)', fontWeight: 700, marginBottom: 4}}>CONV.</div>
+                        <div style={{fontSize:'0.7rem', color:'var(--text-muted)', fontWeight: 700, marginBottom: 4}}>CONV.</div>
                         <div style={{fontSize:'1rem', fontWeight: 700, color:GREEN, fontFamily: 'var(--font-mono)'}}>{fmt(c.conversiones)}</div>
                       </div>
                     </div>

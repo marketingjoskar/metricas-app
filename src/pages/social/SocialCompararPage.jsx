@@ -87,7 +87,7 @@ export default function SocialCompararPage() {
           fontWeight: 800, 
           letterSpacing: '-1.5px', 
           marginBottom: 6,
-          background: 'linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.55))',
+          background: 'linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary))',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
         }}>
@@ -178,7 +178,7 @@ export default function SocialCompararPage() {
                 <div style={{ display:'flex', alignItems:'baseline', justifyContent:'space-between', gap:16 }}>
                   <div>
                     <div style={{ fontSize:'0.75rem', color:'rgba(255,255,255,0.4)', fontWeight:600, marginBottom:4 }}>Periodo A</div>
-                    <div style={{ fontFamily:'var(--font-mono)', fontSize:'2.2rem', fontWeight:800, color:'#fff', lineHeight:1 }}>
+                    <div style={{ fontFamily:'var(--font-mono)', fontSize:'2.2rem', fontWeight:800, color:'var(--text-primary)', lineHeight:1 }}>
                       {fmt(v1)}
                     </div>
                   </div>
@@ -232,7 +232,7 @@ export default function SocialCompararPage() {
           
           <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
             <span style={{ fontSize:32 }}>✨</span>
-            <span style={{ fontSize:'1rem', fontWeight:800, color:'#fff' }}>Engagement Rate</span>
+            <span style={{ fontSize:'1rem', fontWeight:800, color:'var(--text-primary)' }}>Engagement Rate</span>
           </div>
 
           <div style={{ display:'flex', gap:60, flex:1 }}>
@@ -266,7 +266,7 @@ const selStyle = {
   borderRadius: 12,
   background: 'rgba(255, 255, 255, 0.07)',
   border: '1px solid rgba(255, 255, 255, 0.1)',
-  color: '#fff',
+  color: 'var(--text-primary)',
   fontSize: '0.85rem',
   fontWeight: 700,
   cursor: 'pointer',

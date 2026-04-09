@@ -32,36 +32,36 @@ function Counter({ value, onChange, color, label, sublabel }) {
       transform: isSet ? 'scale(1.02)' : 'scale(1)'
     }}>
       <div>
-        <div style={{ fontSize:'0.95rem', fontWeight:700, color: '#fff' }}>{label}</div>
-        {sublabel && <div style={{ fontSize:'0.75rem', color:'rgba(255,255,255,0.4)', marginTop:4, fontWeight: 500 }}>{sublabel}</div>}
+        <div style={{ fontSize:'0.95rem', fontWeight:700, color: 'var(--text-primary)' }}>{label}</div>
+        {sublabel && <div style={{ fontSize:'0.75rem', color:'var(--text-secondary)', marginTop:4, fontWeight: 500 }}>{sublabel}</div>}
       </div>
       <div style={{ display:'flex', alignItems:'center', gap:16 }}>
         <button onClick={() => onChange(Math.max(0, value-1))} style={{
-          width:38, height:38, borderRadius:12,
-          background:'rgba(255, 255, 255, 0.05)', border:'1px solid rgba(255, 255, 255, 0.1)',
-          color:'#fff', fontSize:'1.4rem', fontWeight: 600,
+          width:38, height:38, borderRadius:14,
+          background: 'var(--bg-elevated)', border: '1px solid var(--border)',
+          color: isSet ? color : 'var(--text-primary)', fontSize:'1.4rem', fontWeight: 600,
           display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer',
           transition: 'all 0.2s'
         }}
-          onMouseEnter={e=>e.currentTarget.style.background='rgba(255, 255, 255, 0.1)'}
-          onMouseLeave={e=>e.currentTarget.style.background='rgba(255, 255, 255, 0.05)'}
+          onMouseEnter={e=>e.currentTarget.style.background='var(--bg-hover)'}
+          onMouseLeave={e=>e.currentTarget.style.background='var(--bg-elevated)'}
         >−</button>
         <span style={{
           fontFamily:'var(--font-mono)', fontSize:'1.8rem', fontWeight: 800,
-          color: isSet ? color : '#fff',
+          color: isSet ? color : 'var(--text-primary)',
           minWidth:44, textAlign:'center', transition:'color 0.2s',
           textShadow: isSet ? `0 0 15px ${color}44` : 'none'
         }}>{value}</span>
         <button onClick={() => onChange(value+1)} style={{
-          width:38, height:38, borderRadius:12,
-          background: isSet ? `${color}22` : 'rgba(255, 255, 255, 0.05)', 
-          border: isSet ? `1px solid ${color}66` : '1px solid rgba(255, 255, 255, 0.1)',
-          color: isSet ? color : '#fff', fontSize:'1.4rem', fontWeight: 600,
+          width:38, height:38, borderRadius:14,
+          background: isSet ? `${color}22` : 'var(--bg-elevated)', 
+          border: isSet ? `1px solid ${color}66` : '1px solid var(--border)',
+          color: isSet ? color : 'var(--text-primary)', fontSize:'1.4rem', fontWeight: 600,
           display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer',
           transition:'all 0.2s',
         }}
-          onMouseEnter={e=>{ e.currentTarget.style.background=isSet?`${color}33`:'rgba(255, 255, 255, 0.1)' }}
-          onMouseLeave={e=>{ e.currentTarget.style.background=isSet?`${color}22`:'rgba(255, 255, 255, 0.05)' }}
+          onMouseEnter={e=>{ e.currentTarget.style.background=isSet?`${color}33`:'var(--bg-hover)' }}
+          onMouseLeave={e=>{ e.currentTarget.style.background=isSet?`${color}22`:'var(--bg-elevated)' }}
         >+</button>
       </div>
     </div>
@@ -77,8 +77,8 @@ function ExistingModal({ date, onEdit, onNew, onCancel }) {
       zIndex:2000, animation:'fadeIn 0.3s ease',
     }}>
       <div className="animate-fadeUp" style={{
-        background:'rgba(255, 255, 255, 0.07)', backdropFilter: 'blur(28px)',
-        border:'1px solid rgba(255, 255, 255, 0.12)',
+        background:'var(--bg-elevated)', backdropFilter: 'blur(28px)',
+        border:'1px solid var(--border)',
         borderRadius:32, padding:'48px 40px', width:'100%', maxWidth:420,
         boxShadow:'0 24px 60px rgba(0,0,0,0.5)', textAlign:'center',
         position: 'relative', overflow: 'hidden'
@@ -87,15 +87,17 @@ function ExistingModal({ date, onEdit, onNew, onCancel }) {
         <div style={{ fontSize:56, marginBottom:24, filter: 'drop-shadow(0 0 20px rgba(255,255,255,0.2))' }}>🖥️</div>
         <h2 style={{ 
           fontSize:'1.6rem', fontWeight: 900, marginBottom:12,
-          background: 'linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.55))',
+          background: 'linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary))',
           WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
         }}>
           Registro duplicado
         </h2>
-        <p style={{ color:'rgba(255,255,255,0.5)', fontSize:'0.95rem', lineHeight:1.6, marginBottom:32 }}>
-          La jornada del <strong style={{color:'#fff'}}>{formatDateDisplay(date)}</strong> ya fue procesada.
-          ¿Qué deseas hacer?
-        </p>
+        <div style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border)', padding: 20, borderRadius: 20, marginBottom: 30, color: 'var(--text-secondary)', display:'flex', alignItems:'center', gap:12 }}>
+          <span style={{fontSize:24}}>📅</span>
+          <span>
+            La jornada del <strong style={{color: 'var(--text-primary)'}}>{formatDateDisplay(date)}</strong> ya fue procesada.
+          </span>
+        </div>
         <div style={{ display:'flex', flexDirection:'column', gap:12 }}>
           <button onClick={onEdit} style={{
             padding:'16px', background: accentColor, border:'none', borderRadius:16,
@@ -106,16 +108,16 @@ function ExistingModal({ date, onEdit, onNew, onCancel }) {
             onMouseLeave={e=>e.currentTarget.style.transform='none'}
           >✎ Editar jornada existente</button>
           <button onClick={onNew} style={{
-            padding:'15px', background:'rgba(255, 255, 255, 0.05)',
-            border:'1px solid rgba(255, 255, 255, 0.1)', borderRadius:16,
-            color:'#fff', fontSize:'1rem', fontWeight:700, cursor:'pointer', transition: 'all 0.2s'
+            padding:'15px', background:'var(--bg-elevated)',
+            border:'1px solid var(--border)', borderRadius:16,
+            color:'var(--text-primary)', fontSize:'1rem', fontWeight:700, cursor:'pointer', transition: 'all 0.2s'
           }}
-            onMouseEnter={e=>e.currentTarget.style.background='rgba(255, 255, 255, 0.1)'}
-            onMouseLeave={e=>e.currentTarget.style.background='rgba(255, 255, 255, 0.05)'}
+            onMouseEnter={e=>e.currentTarget.style.background='var(--bg-hover)'}
+            onMouseLeave={e=>e.currentTarget.style.background='var(--bg-elevated)'}
           >✚ Nueva entrada (Adicional)</button>
           <button onClick={onCancel} style={{
             padding:'12px', background:'transparent', border:'none',
-            color:'rgba(255,255,255,0.3)', fontSize:'0.85rem', cursor:'pointer', fontWeight: 600, marginTop: 8
+            color:'var(--text-muted)', fontSize:'0.85rem', cursor:'pointer', fontWeight: 600, marginTop: 8
           }}>Regresar sin cambios</button>
         </div>
       </div>
@@ -270,8 +272,8 @@ export default function SistemasIngresarPage() {
 
   const inputSt = { 
     width:'100%', padding:'12px 16px', fontSize:'0.95rem', 
-    background:'rgba(255, 255, 255, 0.05)', border:'1px solid rgba(255, 255, 255, 0.1)', 
-    borderRadius:12, color:'#fff', boxSizing:'border-box', outline: 'none',
+    background:'var(--bg-elevated)', border:'1px solid var(--border)', 
+    borderRadius:12, color:'var(--text-primary)', boxSizing:'border-box', outline: 'none',
     transition: 'all 0.2s focus'
   }
 
@@ -282,21 +284,21 @@ export default function SistemasIngresarPage() {
         <div>
           <h1 style={{ 
             fontSize:'2.5rem', fontWeight: 900, letterSpacing:'-2px', marginBottom:4,
-            background: 'linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.55))',
+            background: 'linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary))',
             WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
           }}>
             Ingreso de Métricas
           </h1>
-          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '1rem', fontWeight: 500 }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', fontWeight: 500 }}>
             Sistemas / Web · <span style={{ color: accentColor, fontWeight: 700 }}>{formatDateDisplay(selectedDate)}</span>
             {mode==='edit' && <span style={{ marginLeft:12, fontSize:'0.75rem', background:`${accentColor}22`, color: accentColor, border:`1px solid ${accentColor}44`, borderRadius:99, padding:'4px 12px', fontWeight:800, textTransform: 'uppercase' }}>✎ Editando sistema</span>}
           </p>
         </div>
-        <div style={{ display:'flex', alignItems:'center', gap:12, background: 'rgba(255,255,255,0.05)', padding: '8px 16px', borderRadius: 16, border: '1px solid rgba(255,255,255,0.1)' }}>
-          <span style={{ fontSize:'0.75rem', color:'rgba(255,255,255,0.4)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Jornada:</span>
+        <div style={{ display:'flex', alignItems:'center', gap:12, background: 'var(--bg-elevated)', padding: '8px 16px', borderRadius: 16, border: '1px solid var(--border)' }}>
+          <span style={{ fontSize:'0.75rem', color:'var(--text-muted)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Jornada:</span>
           <input type="date" value={selectedDate} max={today} onChange={e=>setSelectedDate(e.target.value)}
             style={{ 
-              background: 'transparent', border: 'none', color: '#fff', fontSize: '1rem', 
+              background: 'transparent', border: 'none', color: 'var(--text-primary)', fontSize: '1rem', 
               fontWeight: 700, fontFamily: 'var(--font-mono)', outline: 'none', cursor: 'pointer' 
             }} />
         </div>
@@ -304,8 +306,8 @@ export default function SistemasIngresarPage() {
 
       {/* Tabs */}
       <div style={{ 
-        display:'flex', gap:6, marginBottom:32, background:'rgba(255, 255, 255, 0.05)', 
-        padding:6, borderRadius:20, width:'fit-content', border: '1px solid rgba(255,255,255,0.1)' 
+        display:'flex', gap:6, marginBottom:32, background:'var(--bg-elevated)', 
+        padding:6, borderRadius:20, width:'fit-content', border: '1px solid var(--border)' 
       }}>
         {[
           {id:'diario', lbl:'📋 Registro Operativo', icon: '🔧'},
@@ -313,8 +315,8 @@ export default function SistemasIngresarPage() {
         ].map(tab => (
           <button key={tab.id} onClick={()=>setActiveTab(tab.id)} style={{
             padding:'12px 24px', borderRadius:14, border:'none', cursor:'pointer',
-            background: activeTab===tab.id ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
-            color: activeTab===tab.id ? '#fff' : 'rgba(255,255,255,0.4)',
+            background: activeTab===tab.id ? 'var(--bg-hover)' : 'transparent',
+            color: activeTab===tab.id ? 'var(--text-primary)' : 'var(--text-muted)',
             fontSize:'0.9rem', fontWeight: activeTab===tab.id ? 800 : 600,
             display: 'flex', alignItems: 'center', gap: 8,
             transition:'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -332,7 +334,7 @@ export default function SistemasIngresarPage() {
 
       {loading ? (
         <div style={{ display:'flex', justifyContent:'center', padding:100 }}>
-          <div className="animate-spin" style={{ width:40, height:40, borderRadius:'50%', border:'4px solid rgba(255,255,255,0.1)', borderTopColor: accentColor }} />
+          <div className="animate-spin" style={{ width:40, height:40, borderRadius:'50%', border:'4px solid var(--border)', borderTopColor: accentColor }} />
         </div>
       ) : (
         <div className="animate-fadeUp">
@@ -342,16 +344,16 @@ export default function SistemasIngresarPage() {
 
               {/* Incidencias Panel */}
               <div style={{ 
-                background:'rgba(255, 255, 255, 0.07)', backdropFilter: 'blur(28px)', 
-                border:'1px solid rgba(255, 255, 255, 0.12)', borderRadius:32, padding:'32px',
+                background:'var(--bg-elevated)', backdropFilter: 'blur(28px)', 
+                border:'1px solid var(--border)', borderRadius:32, padding:'32px',
                 boxShadow: '0 8px 32px rgba(0,0,0,0.15)', position: 'relative', overflow: 'hidden' 
               }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, width: 4, height: '100%', background: '#60A5FA' }} />
                 <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:24 }}>
                   <div style={{ width: 42, height: 42, borderRadius: 12, background: 'rgba(96, 165, 250, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, color: '#60A5FA' }}>🔧</div>
                   <div>
-                    <div style={{ fontWeight: 800, fontSize:'1.1rem', color: '#fff' }}>Incidencias técnicas resueltas</div>
-                    <div style={{ fontSize:'0.85rem', color:'rgba(255,255,255,0.4)', marginTop:2, fontWeight: 500 }}>Soporte técnico y mantenimiento evolutivo hoy</div>
+                    <div style={{ fontWeight: 800, fontSize:'1.1rem', color: 'var(--text-primary)' }}>Incidencias técnicas resueltas</div>
+                    <div style={{ fontSize:'0.85rem', color:'var(--text-secondary)', marginTop:2, fontWeight: 500 }}>Soporte técnico y mantenimiento evolutivo hoy</div>
                   </div>
                 </div>
                 
@@ -359,41 +361,41 @@ export default function SistemasIngresarPage() {
                   <div style={{ display:'flex', alignItems:'center', gap:32 }}>
                     <button onClick={()=>setForm(f=>({...f, incidencias_resueltas:Math.max(0,f.incidencias_resueltas-1)}))} style={{
                       width:64, height:64, borderRadius:20,
-                      background:'rgba(255, 255, 255, 0.05)', border:'1px solid rgba(255, 255, 255, 0.1)',
-                      color:'#fff', fontSize:'2rem', fontWeight: 600,
+                      background:'var(--bg-elevated)', border:'1px solid var(--border)',
+                      color:'var(--text-primary)', fontSize:'2rem', fontWeight: 600,
                       display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer',
                       transition: 'all 0.2s'
                     }}
-                      onMouseEnter={e=>e.currentTarget.style.background='rgba(255, 255, 255, 0.1)'}
-                      onMouseLeave={e=>e.currentTarget.style.background='rgba(255, 255, 255, 0.05)'}
+                      onMouseEnter={e=>e.currentTarget.style.background='var(--bg-hover)'}
+                      onMouseLeave={e=>e.currentTarget.style.background='var(--bg-elevated)'}
                     >−</button>
                     <div style={{ textAlign:'center' }}>
                       <div style={{
                         fontFamily:'var(--font-mono)', fontSize:'5.5rem', fontWeight: 900, lineHeight:1,
-                        color: form.incidencias_resueltas > 0 ? '#60A5FA' : '#fff',
+                        color: form.incidencias_resueltas > 0 ? '#60A5FA' : 'var(--text-primary)',
                         transition:'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
                         textShadow: form.incidencias_resueltas > 0 ? `0 0 40px rgba(96, 165, 250, 0.4)` : 'none',
                         transform: form.incidencias_resueltas > 0 ? 'scale(1.1)' : 'scale(1)'
                       }}>{form.incidencias_resueltas}</div>
-                      <div style={{ fontSize:'0.8rem', color:'rgba(255,255,255,0.3)', marginTop:12, fontWeight: 800, letterSpacing:'0.2em', textTransform: 'uppercase' }}>
+                      <div style={{ fontSize:'0.8rem', color:'var(--text-muted)', marginTop:12, fontWeight: 800, letterSpacing:'0.2em', textTransform: 'uppercase' }}>
                         {form.incidencias_resueltas === 1 ? 'INCIDENCIA' : 'INCIDENCIAS'}
                       </div>
                     </div>
                     <button onClick={()=>setForm(f=>({...f, incidencias_resueltas:f.incidencias_resueltas+1}))} style={{
                       width:64, height:64, borderRadius:20,
-                      background: form.incidencias_resueltas > 0 ? 'rgba(96, 165, 250, 0.2)' : 'rgba(255, 255, 255, 0.05)',
-                      border: `1px solid ${form.incidencias_resueltas > 0 ? 'rgba(96, 165, 250, 0.5)' : 'rgba(255, 255, 255, 0.1)'}`,
-                      color: form.incidencias_resueltas > 0 ? '#60A5FA' : '#fff',
+                      background: form.incidencias_resueltas > 0 ? 'rgba(96, 165, 250, 0.2)' : 'var(--bg-elevated)',
+                      border: `1px solid ${form.incidencias_resueltas > 0 ? 'rgba(96, 165, 250, 0.5)' : 'var(--border)'}`,
+                      color: form.incidencias_resueltas > 0 ? '#60A5FA' : 'var(--text-primary)',
                       fontSize:'2rem', fontWeight: 600,
                       display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer',
                       transition:'all 0.3s',
                     }}
                       onMouseEnter={e=>{ e.currentTarget.style.background='rgba(96, 165, 250, 0.3)'; e.currentTarget.style.borderColor='#60A5FA' }}
-                      onMouseLeave={e=>{ e.currentTarget.style.background=form.incidencias_resueltas>0?'rgba(96, 165, 250, 0.2)':'rgba(255, 255, 255, 0.05)'; e.currentTarget.style.borderColor=form.incidencias_resueltas>0?'rgba(96, 165, 250, 0.5)':'rgba(255, 255, 255, 0.1)' }}
+                      onMouseLeave={e=>{ e.currentTarget.style.background=form.incidencias_resueltas>0?'rgba(96, 165, 250, 0.2)':'var(--bg-elevated)'; e.currentTarget.style.borderColor=form.incidencias_resueltas>0?'rgba(96, 165, 250, 0.5)':'var(--border)' }}
                     >+</button>
                   </div>
                   {form.incidencias_resueltas === 0 && (
-                    <div className="animate-pulse" style={{ fontSize:'0.85rem', color:'rgba(255,255,255,0.3)', fontWeight: 600 }}>
+                    <div className="animate-pulse" style={{ fontSize:'0.85rem', color:'var(--text-muted)', fontWeight: 600 }}>
                       Sin reporte de errores hoy ✓
                     </div>
                   )}
@@ -402,16 +404,16 @@ export default function SistemasIngresarPage() {
 
               {/* Images Optimization Panel */}
               <div style={{ 
-                background:'rgba(255, 255, 255, 0.07)', backdropFilter: 'blur(28px)', 
-                border:'1px solid rgba(255, 255, 255, 0.12)', borderRadius:32, padding:'32px',
+                background:'var(--bg-elevated)', backdropFilter: 'blur(28px)', 
+                border:'1px solid var(--border)', borderRadius:32, padding:'32px',
                 boxShadow: '0 8px 32px rgba(0,0,0,0.15)', position: 'relative', overflow: 'hidden'
               }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, width: 4, height: '100%', background: accentColor }} />
                 <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:24 }}>
                   <div style={{ width: 42, height: 42, borderRadius: 12, background: `${accentColor}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, color: accentColor }}>🖼️</div>
                   <div>
-                    <div style={{ fontWeight: 800, fontSize:'1.1rem', color: '#fff' }}>Gestión multimedia y procesos</div>
-                    <div style={{ fontSize:'0.85rem', color:'rgba(255,255,255,0.4)', marginTop:2, fontWeight: 500 }}>Actualización de catálogo e imágenes de productos</div>
+                    <div style={{ fontWeight: 800, fontSize:'1.1rem', color: 'var(--text-primary)' }}>Gestión multimedia y procesos</div>
+                    <div style={{ fontSize:'0.85rem', color:'var(--text-secondary)', marginTop:2, fontWeight: 500 }}>Actualización de catálogo e imágenes de productos</div>
                   </div>
                 </div>
                 <div style={{ display:'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap:16 }}>
@@ -434,18 +436,18 @@ export default function SistemasIngresarPage() {
 
               {/* Notes Panel */}
               <div style={{ 
-                background:'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(20px)', 
-                border:'1px solid rgba(255, 255, 255, 0.1)', borderRadius:24, padding:'28px',
+                background:'var(--bg-elevated)', backdropFilter: 'blur(20px)', 
+                border:'1px solid var(--border)', borderRadius:24, padding:'28px',
                 boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
               }}>
                 <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:16 }}>
                   <span style={{ fontSize:20 }}>📝</span>
-                  <span style={{ fontWeight: 800, fontSize:'1rem', color: '#fff' }}>Observaciones técnicas</span>
-                  <span style={{ fontSize:'0.8rem', color:'rgba(255,255,255,0.3)', fontWeight: 600 }}>(Notas internas)</span>
+                  <span style={{ fontWeight: 800, fontSize:'1rem', color: 'var(--text-primary)' }}>Observaciones técnicas</span>
+                  <span style={{ fontSize:'0.8rem', color:'var(--text-muted)', fontWeight: 600 }}>(Notas internas)</span>
                 </div>
                 <textarea value={form.notas} onChange={e=>setForm(f=>({...f,notas:e.target.value}))}
                   placeholder="Escribe aquí cualquier observación relevante sobre la infraestructura o problemas detectados…" rows={3}
-                  style={{ ...inputSt, resize:'vertical', lineHeight:1.6, background: 'rgba(255,255,255,0.03)' }} />
+                  style={{ ...inputSt, resize:'vertical', lineHeight:1.6, background: 'var(--bg-body)' }} />
               </div>
 
               <div style={{ display:'flex', justifyContent:'flex-end', paddingTop:12, paddingBottom:40 }}>
@@ -471,8 +473,8 @@ export default function SistemasIngresarPage() {
             <div style={{ display:'flex', flexDirection:'column', gap:24, paddingBottom: 60 }}>
               {/* Toolbar GA4 */}
               <div style={{
-                background:'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(10px)',
-                border:'1px solid rgba(255, 255, 255, 0.12)',
+                background:'var(--bg-elevated)', backdropFilter: 'blur(10px)',
+                border:'1px solid var(--border)',
                 borderRadius:24, padding:'20px 24px',
                 display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:20,
               }}>
@@ -481,8 +483,8 @@ export default function SistemasIngresarPage() {
                     <img src="https://upload.wikimedia.org/wikipedia/commons/7/77/Google_Analytics_logo.svg" alt="GA4" style={{ width: 24 }} />
                   </div>
                   <div>
-                    <div style={{ fontSize:'0.9rem', color:'#fff', fontWeight: 800 }}>Periodo de Análisis</div>
-                    <div style={{ fontSize:'0.8rem', color:'rgba(255,255,255,0.4)', fontWeight: 600 }}>{new Date(getPeriodo(selectedDate)).toLocaleDateString('es-AR',{month:'long',year:'numeric'}).toUpperCase()}</div>
+                    <div style={{ fontSize:'0.9rem', color:'var(--text-primary)', fontWeight: 800 }}>Periodo de Análisis</div>
+                    <div style={{ fontSize:'0.8rem', color:'var(--text-secondary)', fontWeight: 600 }}>{new Date(getPeriodo(selectedDate)).toLocaleDateString('es-AR',{month:'long',year:'numeric'}).toUpperCase()}</div>
                   </div>
                 </div>
                 
@@ -534,13 +536,13 @@ export default function SistemasIngresarPage() {
 
               {/* Main Metrics GA4 */}
               <div style={{ 
-                background:'rgba(255, 255, 255, 0.07)', backdropFilter: 'blur(28px)', 
-                border:'1px solid rgba(255, 255, 255, 0.12)', borderRadius:32, overflow:'hidden',
+                background:'var(--bg-elevated)', backdropFilter: 'blur(28px)', 
+                border:'1px solid var(--border)', borderRadius:32, overflow:'hidden',
                 boxShadow: '0 8px 32px rgba(0,0,0,0.15)' 
               }}>
-                <div style={{ padding:'20px 32px', borderBottom:'1px solid rgba(255, 255, 255, 0.1)', display:'flex', alignItems:'center', gap:10 }}>
+                <div style={{ padding:'20px 32px', borderBottom:'1px solid var(--border)', display:'flex', alignItems:'center', gap:10 }}>
                   <span style={{ fontSize:20 }}>📊</span>
-                  <span style={{ fontWeight: 800, fontSize:'1.1rem', color: '#fff' }}>KPIs de Rendimiento Digital</span>
+                  <span style={{ fontWeight: 800, fontSize:'1.1rem', color: 'var(--text-primary)' }}>KPIs de Rendimiento Digital</span>
                 </div>
                 <div style={{ padding:'32px', display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(200px, 1fr))', gap:20 }}>
                   {[
@@ -551,7 +553,7 @@ export default function SistemasIngresarPage() {
                     { key:'duracion_promedio_seg',  label:'Sesión Prom. (seg)',    placeholder:'0', icon: '⏱️' },
                   ].map(f => (
                     <div key={f.key}>
-                      <label style={{ display:'flex', alignItems: 'center', gap: 6, fontSize:'0.75rem', color:'rgba(255,255,255,0.4)', fontWeight:800, marginBottom:8, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                      <label style={{ display:'flex', alignItems: 'center', gap: 6, fontSize:'0.75rem', color:'var(--text-muted)', fontWeight:800, marginBottom:8, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                         <span>{f.icon}</span> {f.label}
                       </label>
                       <input type="number" value={ga4[f.key]} onChange={e=>setGa4(g=>({...g,[f.key]:e.target.value}))}
@@ -563,13 +565,13 @@ export default function SistemasIngresarPage() {
 
               {/* Traffic Sources GA4 */}
               <div style={{ 
-                background:'rgba(255, 255, 255, 0.07)', backdropFilter: 'blur(28px)', 
-                border:'1px solid rgba(255, 255, 255, 0.12)', borderRadius:32, overflow:'hidden',
+                background:'var(--bg-elevated)', backdropFilter: 'blur(28px)', 
+                border:'1px solid var(--border)', borderRadius:32, overflow:'hidden',
                 boxShadow: '0 8px 32px rgba(0,0,0,0.15)'
               }}>
-                <div style={{ padding:'20px 32px', borderBottom:'1px solid rgba(255, 255, 255, 0.1)', display:'flex', alignItems:'center', gap:10 }}>
+                <div style={{ padding:'20px 32px', borderBottom:'1px solid var(--border)', display:'flex', alignItems:'center', gap:10 }}>
                   <span style={{ fontSize:20 }}>🔀</span>
-                  <span style={{ fontWeight: 800, fontSize:'1.1rem', color: '#fff' }}>Canales de Adquisición</span>
+                  <span style={{ fontWeight: 800, fontSize:'1.1rem', color: 'var(--text-primary)' }}>Canales de Adquisición</span>
                 </div>
                 <div style={{ padding:'32px', display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(180px, 1fr))', gap:20 }}>
                   {[
