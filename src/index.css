@@ -102,15 +102,14 @@ body,
 }
 
 body {
-  background: var(--bg-gradient);
   background-color: var(--bg-base);
-  background-attachment: fixed;
   color: var(--text-primary);
   font-family: var(--font-display);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  transition: background-color 0.4s ease, background 0.4s ease, color 0.4s ease;
+  transition: background-color 0.5s ease, color 0.4s ease;
 }
+
 
 /* ── Glass panel — dark: frosted, light: clean white card ── */
 .glass-panel {
@@ -131,24 +130,149 @@ body {
   box-shadow: 0 2px 16px rgba(79, 70, 229, 0.07), 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
-/* Base shape animation for backgrounds */
-@keyframes drift {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
+/* ═══════════════════════════════════════════════════════════
+   ANIMATED MESH BACKGROUND
+   — 5 blurred orbs drifting independently on CSS keyframes
+   — Dark mode: deep navy base + indigo/violet/purple orbs
+   — Light mode: lavender base + pastel indigo/violet orbs
+   ═══════════════════════════════════════════════════════════ */
 
-  33% {
-    transform: translate(30px, -50px) scale(1.1);
-  }
-
-  66% {
-    transform: translate(-20px, 20px) scale(0.9);
-  }
-
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
+/* Orb base colors ─ dark mode defaults */
+:root {
+  --orb1: rgba(79, 70, 229, 0.55);   /* Indigo-600        */
+  --orb2: rgba(124, 58, 237, 0.50);  /* Violet-600        */
+  --orb3: rgba(49, 46, 129, 0.60);   /* Indigo-900 deep   */
+  --orb4: rgba(99, 102, 241, 0.45);  /* Indigo-500        */
+  --orb5: rgba(109, 40, 217, 0.40);  /* Violet-700        */
 }
+
+/* Orb base colors ─ light mode overrides */
+:root[data-theme="light"] {
+  --orb1: rgba(165, 180, 252, 0.70); /* Indigo-300 soft   */
+  --orb2: rgba(196, 181, 253, 0.65); /* Violet-300 soft   */
+  --orb3: rgba(199, 210, 254, 0.60); /* Indigo-200 pale   */
+  --orb4: rgba(167, 139, 250, 0.55); /* Violet-400 soft   */
+  --orb5: rgba(224, 231, 255, 0.75); /* Indigo-100 pale   */
+}
+
+/* ── Container ── */
+.mesh-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background-color: var(--bg-base);
+  transition: background-color 0.5s ease;
+}
+
+/* ── Individual orbs ── */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  will-change: transform;
+  pointer-events: none;
+}
+
+/* Orb 1 — large, upper-left, slow */
+.orb-1 {
+  width: 65vw;
+  height: 65vw;
+  top: -15%;
+  left: -10%;
+  background: var(--orb1);
+  animation: orbDrift1 18s ease-in-out infinite;
+}
+
+/* Orb 2 — medium, lower-right, medium speed */
+.orb-2 {
+  width: 50vw;
+  height: 50vw;
+  bottom: -10%;
+  right: -5%;
+  background: var(--orb2);
+  animation: orbDrift2 14s ease-in-out infinite;
+}
+
+/* Orb 3 — medium, center-left, medium-slow */
+.orb-3 {
+  width: 45vw;
+  height: 45vw;
+  top: 30%;
+  left: 20%;
+  background: var(--orb3);
+  animation: orbDrift3 20s ease-in-out infinite;
+}
+
+/* Orb 4 — small, upper-right, fast */
+.orb-4 {
+  width: 35vw;
+  height: 35vw;
+  top: 5%;
+  right: 10%;
+  background: var(--orb4);
+  animation: orbDrift4 12s ease-in-out infinite;
+}
+
+/* Orb 5 — large, lower-center, slowest */
+.orb-5 {
+  width: 55vw;
+  height: 55vw;
+  bottom: -20%;
+  left: 25%;
+  background: var(--orb5);
+  animation: orbDrift5 22s ease-in-out infinite;
+}
+
+/* ── Grain noise overlay ── */
+.mesh-grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.06;
+  pointer-events: none;
+}
+:root[data-theme="light"] .mesh-grain {
+  opacity: 0.04;
+}
+
+/* ── Drift keyframes — each orb has a unique non-linear path ── */
+@keyframes orbDrift1 {
+  0%   { transform: translate(0,    0)    scale(1);    }
+  20%  { transform: translate(8vw,  5vh)  scale(1.08); }
+  45%  { transform: translate(12vw, -8vh) scale(0.95); }
+  70%  { transform: translate(-5vw, 10vh) scale(1.05); }
+  100% { transform: translate(0,    0)    scale(1);    }
+}
+@keyframes orbDrift2 {
+  0%   { transform: translate(0,    0)    scale(1);    }
+  25%  { transform: translate(-10vw, -6vh) scale(1.1);  }
+  50%  { transform: translate(-5vw,  8vh)  scale(0.92); }
+  75%  { transform: translate(8vw,   3vh)  scale(1.06); }
+  100% { transform: translate(0,    0)    scale(1);    }
+}
+@keyframes orbDrift3 {
+  0%   { transform: translate(0,    0)    scale(1);    }
+  30%  { transform: translate(10vw, -10vh) scale(1.12); }
+  60%  { transform: translate(-8vw, -4vh)  scale(0.9);  }
+  85%  { transform: translate(4vw,   8vh)  scale(1.04); }
+  100% { transform: translate(0,    0)    scale(1);    }
+}
+@keyframes orbDrift4 {
+  0%   { transform: translate(0,    0)    scale(1);    }
+  20%  { transform: translate(-12vw, 8vh)  scale(0.94); }
+  50%  { transform: translate(-6vw, -10vh) scale(1.1);  }
+  80%  { transform: translate(6vw,   4vh)  scale(0.96); }
+  100% { transform: translate(0,    0)    scale(1);    }
+}
+@keyframes orbDrift5 {
+  0%   { transform: translate(0,    0)    scale(1);    }
+  35%  { transform: translate(-7vw,  -6vh) scale(1.07); }
+  65%  { transform: translate(10vw,   4vh) scale(0.93); }
+  90%  { transform: translate(2vw,   10vh) scale(1.05); }
+  100% { transform: translate(0,    0)    scale(1);    }
+}
+
 
 /* Scrollbar */
 ::-webkit-scrollbar {
