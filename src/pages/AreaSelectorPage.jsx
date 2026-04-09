@@ -183,10 +183,10 @@ export default function AreaSelectorPage() {
 
   return (
     <div style={{
-      minHeight: '100vh', background: 'var(--bg-base)',
+      minHeight: '100vh', background: 'transparent',
       display: 'flex', flexDirection: 'column',
       alignItems: 'center', justifyContent: 'center',
-      padding: '24px', position: 'relative', overflow: 'hidden',
+      padding: '24px', position: 'relative',
     }}>
       <div style={{
         position: 'absolute', inset: 0, opacity: 0.025,
