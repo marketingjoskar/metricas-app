@@ -43,9 +43,11 @@
   --gerencia-color: #A5B4FC;
   /* Indigo-300 (tenue) */
 
-  --glass-bg: rgba(8, 12, 28, 0.70);
+  --glass-bg: rgba(15, 23, 42, 0.7);
   --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-shadow: rgba(0, 0, 0, 0.40);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --sidebar-bg: rgba(8, 12, 28, 0.75);
+  --topbar-bg: rgba(8, 12, 28, 0.6);
 
   --radius-sm: 8px;
   --radius-md: 14px;
@@ -68,7 +70,7 @@
   --bg-hover: #e8eef6;
   /* Hover state             */
 
-  --border: rgba(59, 130, 246, 0.10);
+  --border: rgba(15, 23, 42, 0.08);
   --border-bright: rgba(59, 130, 246, 0.22);
 
   --text-primary: #0F172A;
@@ -91,9 +93,11 @@
   --gerencia-color: #6366F1;
   /* Indigo-500        */
 
-  --glass-bg: rgba(255, 255, 255, 0.75);
-  --glass-border: rgba(148, 163, 184, 0.15);
-  --glass-shadow: rgba(15, 23, 42, 0.08);
+  --glass-bg: rgba(251, 251, 254, 0.75);
+  --glass-border: rgba(15, 23, 42, 0.08);
+  --glass-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
+  --sidebar-bg: rgba(251, 251, 254, 0.85);
+  --topbar-bg: rgba(251, 251, 254, 0.65);
 }
 
 html,

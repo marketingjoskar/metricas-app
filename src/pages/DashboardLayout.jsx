@@ -73,11 +73,11 @@ export default function DashboardLayout() {
         top: 0,
         height: '100vh',
         overflow: 'hidden',
-        background: 'rgba(8,12,28,0.65)',
+        background: 'var(--sidebar-bg)',
         backdropFilter: 'blur(28px) saturate(1.6)',
         WebkitBackdropFilter: 'blur(28px) saturate(1.6)',
-        borderRight: `1px solid rgba(${rgb},0.12)`,
-        boxShadow: `1px 0 0 rgba(${rgb},0.06), inset -1px 0 0 rgba(255,255,255,0.03)`,
+        borderRight: `1px solid var(--border)`,
+        boxShadow: `1px 0 0 rgba(${rgb},0.06)`,
         zIndex: 20,
       }}>
 
@@ -98,7 +98,7 @@ export default function DashboardLayout() {
             <span style={{
               fontWeight: 700, fontSize: '1rem',
               letterSpacing: '-0.5px',
-              background: `linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.55))`,
+              background: 'linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary))',
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
             }}>MetricHub</span>
@@ -106,7 +106,7 @@ export default function DashboardLayout() {
           <div style={{
             fontFamily: 'var(--font-mono)',
             fontSize: '0.62rem',
-            color: 'rgba(255,255,255,0.3)',
+            color: 'var(--text-muted)',
             letterSpacing: '0.08em',
           }}>
             {monthLabel}
@@ -133,7 +133,7 @@ export default function DashboardLayout() {
             <div style={{
               fontFamily: 'var(--font-mono)',
               fontSize: '0.58rem',
-              color: 'rgba(255,255,255,0.28)',
+              color: 'var(--text-muted)',
               marginTop: 2,
             }}>área activa</div>
           </div>
@@ -165,7 +165,7 @@ export default function DashboardLayout() {
                   border: isActive ? `1px solid rgba(${rgb},0.25)` : '1px solid transparent',
                   marginBottom: 2,
                   background: isActive ? `rgba(${rgb},0.12)` : 'transparent',
-                  color: isActive ? '#fff' : 'rgba(255,255,255,0.42)',
+                  color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
                   fontSize: '0.82rem',
                   fontWeight: isActive ? 600 : 400,
                   textAlign: 'left',
@@ -206,9 +206,9 @@ export default function DashboardLayout() {
               width: '100%',
               padding: '9px 12px',
               background: 'transparent',
-              border: '1px solid rgba(255,255,255,0.10)',
+              border: '1px solid var(--border)',
               borderRadius: 10,
-              color: 'rgba(255,255,255,0.4)',
+              color: 'var(--text-muted)',
               fontSize: '0.78rem',
               textAlign: 'left',
               display: 'flex', alignItems: 'center', gap: 8,
@@ -260,13 +260,13 @@ export default function DashboardLayout() {
         {/* Top bar */}
         <div style={{
           position: 'sticky', top: 0, zIndex: 10,
-          background: 'rgba(8,12,28,0.55)',
+          background: 'var(--topbar-bg)',
           backdropFilter: 'blur(24px) saturate(1.5)',
           WebkitBackdropFilter: 'blur(24px) saturate(1.5)',
-          borderBottom: `1px solid rgba(${rgb},0.12)`,
+          borderBottom: `1px solid var(--border)`,
           padding: '13px 32px',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          boxShadow: `0 1px 0 rgba(${rgb},0.06)`,
+          boxShadow: `0 1px 0 var(--border)`,
         }}>
           <div style={{
             height: 8, width: 8, borderRadius: '50%',

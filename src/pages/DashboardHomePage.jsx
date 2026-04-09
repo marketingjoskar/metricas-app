@@ -20,21 +20,21 @@ function StatCard({ label, value, unit = '', color, icon, delay = 0 }) {
         position: 'relative', overflow: 'hidden',
         borderRadius: 18,
         padding: '22px 20px',
-        background: 'rgba(255,255,255,0.07)',
+        background: 'var(--glass-bg)',
         backdropFilter: 'blur(28px) saturate(1.6)',
         WebkitBackdropFilter: 'blur(28px) saturate(1.6)',
         border: `1px solid rgba(${rgb},0.18)`,
-        boxShadow: `0 4px 24px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.08)`,
+        boxShadow: 'var(--glass-shadow)',
         transition: 'transform 0.3s cubic-bezier(.22,1,.36,1), box-shadow 0.3s',
         cursor: 'default',
       }}
       onMouseEnter={e => {
         e.currentTarget.style.transform = 'translateY(-4px) scale(1.01)'
-        e.currentTarget.style.boxShadow = `0 16px 40px rgba(${rgb},0.20), 0 4px 16px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.12)`
+        e.currentTarget.style.boxShadow = `0 16px 40px rgba(${rgb},0.20)`
       }}
       onMouseLeave={e => {
         e.currentTarget.style.transform = 'translateY(0) scale(1)'
-        e.currentTarget.style.boxShadow = `0 4px 24px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.08)`
+        e.currentTarget.style.boxShadow = 'var(--glass-shadow)'
       }}
     >
       {/* top accent line */}
@@ -66,7 +66,7 @@ function StatCard({ label, value, unit = '', color, icon, delay = 0 }) {
 
       <div style={{
         fontSize: '0.76rem',
-        color: 'rgba(255,255,255,0.40)',
+        color: 'var(--text-muted)',
         letterSpacing: '0.01em',
       }}>{label}</div>
     </div>
@@ -80,25 +80,25 @@ function CtaCard({ color, rgb, icon, message, label, onClick }) {
       position: 'relative', overflow: 'hidden',
       borderRadius: 18,
       padding: '32px',
-      background: 'rgba(255,255,255,0.05)',
+      background: 'var(--bg-elevated)',
       backdropFilter: 'blur(28px)',
       WebkitBackdropFilter: 'blur(28px)',
       border: `1px dashed rgba(${rgb},0.30)`,
-      boxShadow: `0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.07)`,
+      boxShadow: 'var(--glass-shadow)',
       textAlign: 'center',
     }}>
       {icon && <div style={{ fontSize: 28, marginBottom: 10 }}>{icon}</div>}
-      <p style={{ color: 'rgba(255,255,255,0.42)', marginBottom: 16, fontSize: '0.88rem' }}>
+      <p style={{ color: 'var(--text-secondary)', marginBottom: 16, fontSize: '0.88rem' }}>
         {message}
       </p>
       <button
         onClick={onClick}
         style={{
           padding: '12px 28px',
-          background: `rgba(${rgb},0.16)`,
-          border: `1px solid rgba(${rgb},0.35)`,
+          background: `rgba(${rgb},0.2)`,
+          border: `1px solid rgba(${rgb},0.4)`,
           borderRadius: 12,
-          color: '#fff',
+          color: 'var(--text-primary)',
           fontSize: '0.88rem', fontWeight: 700,
           boxShadow: `0 4px 20px rgba(${rgb},0.22)`,
           transition: 'all 0.25s cubic-bezier(.22,1,.36,1)',
@@ -131,11 +131,11 @@ function PageTitle({ title, subtitle, color }) {
       <h1 style={{
         fontSize: 'clamp(1.5rem, 3vw, 2rem)',
         fontWeight: 800, letterSpacing: '-1px', marginBottom: 6,
-        background: `linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.55))`,
+        background: 'linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary))',
         WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
         backgroundClip: 'text',
       }}>{title}</h1>
-      <p style={{ color: 'rgba(255,255,255,0.38)', fontSize: '0.9rem' }}>{subtitle}</p>
+      <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>{subtitle}</p>
     </div>
   )
 }
