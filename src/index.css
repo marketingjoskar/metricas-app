@@ -9,23 +9,23 @@
 }
 
 :root {
-  /* ── DARK MODE – Slate Blue-Grey ─────────────────────────── */
-  --bg-gradient: #0D1117;
-  --bg-base: #0D1117;
-  /* Deep slate-navy base   */
-  --bg-surface: #161B22;
-  /* Card surface — dark    */
-  --bg-elevated: #1E2530;
-  /* Elevated input/hover   */
-  --bg-hover: #252D3A;
+  /* ── DARK MODE – Navy-Violet Deep ────────────────────────── */
+  --bg-gradient: #080C1C;
+  --bg-base: #080C1C;
+  /* Deep Navy base         */
+  --bg-surface: #0F172A;
+  /* Slate-Navy Card        */
+  --bg-elevated: #1E293B;
+  /* Elevated surface       */
+  --bg-hover: #334155;
   /* Hover state            */
 
-  --border: rgba(99, 130, 170, 0.12);
-  --border-bright: rgba(99, 130, 170, 0.26);
+  --border: rgba(148, 163, 184, 0.08);
+  --border-bright: rgba(148, 163, 184, 0.18);
 
-  --text-primary: #E2E8F0;
-  --text-secondary: #8EA4BE;
-  --text-muted: #4D6278;
+  --text-primary: #F1F5F9;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
 
   /* Blue accent (not violet) */
   --accent: #3B82F6;
@@ -43,9 +43,9 @@
   --gerencia-color: #A5B4FC;
   /* Indigo-300 (tenue) */
 
-  --glass-bg: rgba(13, 17, 23, 0.70);
-  --glass-border: rgba(99, 130, 170, 0.12);
-  --glass-shadow: rgba(0, 0, 0, 0.50);
+  --glass-bg: rgba(8, 12, 28, 0.70);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-shadow: rgba(0, 0, 0, 0.40);
 
   --radius-sm: 8px;
   --radius-md: 14px;
@@ -91,9 +91,9 @@
   --gerencia-color: #6366F1;
   /* Indigo-500        */
 
-  --glass-bg: rgba(255, 255, 255, 0.60);
-  --glass-border: rgba(59, 130, 246, 0.10);
-  --glass-shadow: rgba(15, 23, 42, 0.05);
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(148, 163, 184, 0.15);
+  --glass-shadow: rgba(15, 23, 42, 0.08);
 }
 
 html,
@@ -123,13 +123,13 @@ body {
   transition: background 0.4s, border-color 0.4s, box-shadow 0.4s;
 }
 
-/* Light mode: cards are solid white, no blur needed */
+/* Light mode: cards are white cards with subtle glass effect */
 :root[data-theme="light"] .glass-panel {
-  background: var(--bg-surface);
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border);
-  box-shadow: 0 2px 16px rgba(59, 130, 246, 0.06), 0 1px 4px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -148,13 +148,13 @@ body {
   --orb5: rgba(15, 80, 160, 0.55);   /* Ocean blue         */
 }
 
-/* Orb base colors ─ light mode overrides (pastel sky-blue) */
+/* Orb base colors ─ light mode overrides (extremely subtle pastel sky-blue) */
 :root[data-theme="light"] {
-  --orb1: rgba(186, 213, 245, 0.65); /* Sky-blue soft      */
-  --orb2: rgba(199, 220, 248, 0.55); /* Blue-200 pale      */
-  --orb3: rgba(214, 232, 252, 0.50); /* Blue-100 pale      */
-  --orb4: rgba(172, 204, 242, 0.60); /* Cornflower soft    */
-  --orb5: rgba(224, 238, 252, 0.70); /* Ice blue pastel    */
+  --orb1: rgba(186, 213, 245, 0.12); /* Sky-blue faint      */
+  --orb2: rgba(199, 220, 248, 0.10); /* Blue-200 faint      */
+  --orb3: rgba(214, 232, 252, 0.08); /* Blue-100 faint      */
+  --orb4: rgba(172, 204, 242, 0.12); /* Cornflower faint    */
+  --orb5: rgba(224, 238, 252, 0.14); /* Ice blue faint      */
 }
 
 /* ── Container ── */
