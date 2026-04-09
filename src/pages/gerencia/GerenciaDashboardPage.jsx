@@ -34,11 +34,11 @@ function KpiCard({ label, value, sub, accent, icon, delay = 0 }) {
       onMouseLeave={() => setHovered(false)}
       style={{
         animationDelay: `${delay}s`,
-        background: 'rgba(255, 255, 255, 0.07)',
+        background: 'var(--glass-bg)',
         backdropFilter: 'blur(28px)',
-        border: hovered ? `1px solid ${accent}66` : '1px solid rgba(255, 255, 255, 0.1)',
+        border: hovered ? `1px solid ${accent}66` : '1px solid var(--glass-border)',
         borderRadius: 24, padding: '24px', position: 'relative', overflow: 'hidden',
-        boxShadow: hovered ? `0 12px 40px ${accent}22` : '0 8px 32px rgba(0, 0, 0, 0.15)',
+        boxShadow: hovered ? `0 12px 40px ${accent}22` : 'var(--glass-shadow)',
         transform: hovered ? 'translateY(-8px) scale(1.01)' : 'translateY(0) scale(1)',
         transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
         cursor: 'default'
@@ -46,12 +46,12 @@ function KpiCard({ label, value, sub, accent, icon, delay = 0 }) {
     >
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: accent, opacity: 0.8 }} />
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}>
-        <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{label}</span>
+        <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-muted)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{label}</span>
         <span style={{ fontSize: 24, filter: `drop-shadow(0 0 10px ${accent}44)` }}>{icon}</span>
       </div>
       <div style={{ 
         fontFamily: 'var(--font-mono)', fontSize: '2.8rem', fontWeight: 800, 
-        color: '#fff', letterSpacing: '-2px', lineHeight: 1, marginBottom: 8 
+        color: 'var(--text-primary)', letterSpacing: '-2px', lineHeight: 1, marginBottom: 8 
       }}>
         {value}
       </div>
@@ -68,11 +68,11 @@ function AreaSection({ title, accent, icon, children, to, navigate }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{ 
-        background: 'rgba(255, 255, 255, 0.07)', backdropFilter: 'blur(28px)',
+        background: 'var(--glass-bg)', backdropFilter: 'blur(28px)',
         borderRadius: 32, overflow: 'hidden', display: 'flex', flexDirection: 'column',
-        border: hovered ? `1px solid ${accent}66` : '1px solid rgba(255, 255, 255, 0.08)',
+        border: hovered ? `1px solid ${accent}66` : '1px solid var(--glass-border)',
         transition: 'all 0.3s ease',
-        boxShadow: hovered ? `0 12px 32px ${accent}11` : 'none'
+        boxShadow: hovered ? `0 12px 32px ${accent}11` : 'var(--glass-shadow)'
       }}
     >
       <div style={{ 
@@ -82,7 +82,7 @@ function AreaSection({ title, accent, icon, children, to, navigate }) {
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <span style={{ fontSize: 20 }}>{icon}</span>
-          <span style={{ fontSize: '0.85rem', fontWeight: 800, color: '#fff', letterSpacing: '0.05em', textTransform: 'uppercase' }}>{title}</span>
+          <span style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '0.05em', textTransform: 'uppercase' }}>{title}</span>
         </div>
         {to && (
           <button 
@@ -107,8 +107,8 @@ function AreaSection({ title, accent, icon, children, to, navigate }) {
 function MetricRow({ label, value, color = 'rgba(255,255,255,0.6)' }) {
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-      <span style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.5)', fontWeight: 500 }}>{label}</span>
-      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1rem', fontWeight: 800, color: color }}>{value}</span>
+      <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', fontWeight: 500 }}>{label}</span>
+      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1rem', fontWeight: 800, color: color === 'rgba(255,255,255,0.6)' ? 'var(--text-primary)' : color }}>{value}</span>
     </div>
   )
 }
@@ -182,7 +182,7 @@ export default function GerenciaDashboardPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 4 }}>
             <h1 style={{ 
               fontSize: '2.5rem', fontWeight: 900, letterSpacing: '-2px', margin: 0,
-              background: 'linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.55))',
+              background: 'linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary))',
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
             }}>
               Vista Ejecutiva
@@ -199,31 +199,31 @@ export default function GerenciaDashboardPage() {
               </div>
             )}
           </div>
-          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '1.1rem', fontWeight: 500 }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', fontWeight: 500 }}>
             Gerencia · Resumen consolidado del rendimiento mensual
           </p>
         </div>
         
         <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
           <div style={{ 
-            background: 'rgba(255,255,255,0.05)', borderRadius: 16, padding: 4, 
-            border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center' 
+            background: 'var(--bg-elevated)', borderRadius: 16, padding: 4, 
+            border: '1px solid var(--border)', display: 'flex', alignItems: 'center' 
           }}>
             <button onClick={() => month===0 ? (setYear(y=>y-1), setMonth(11)) : setMonth(m=>m-1)} 
-              style={{ width: 40, height: 40, borderRadius: 12, background: 'transparent', border: 'none', color: '#fff', fontSize: '1.2rem', cursor: 'pointer' }}>‹</button>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.85rem', color: '#fff', minWidth: 140, textAlign: 'center', fontWeight: 800 }}>
+              style={{ width: 40, height: 40, borderRadius: 12, background: 'transparent', border: 'none', color: 'var(--text-primary)', fontSize: '1.2rem', cursor: 'pointer' }}>‹</button>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.85rem', color: 'var(--text-primary)', minWidth: 140, textAlign: 'center', fontWeight: 800 }}>
               {MONTHS_ES[month].toUpperCase()} {year}
             </span>
             <button onClick={() => isCurrentMonth ? null : month===11 ? (setYear(y=>y+1), setMonth(0)) : setMonth(m=>m+1)} 
               disabled={isCurrentMonth} style={{ 
                 width: 40, height: 40, borderRadius: 12, background: 'transparent', border: 'none', 
-                color: isCurrentMonth ? 'rgba(255,255,255,0.2)' : '#fff', fontSize: '1.2rem', 
+                color: isCurrentMonth ? 'var(--text-muted)' : 'var(--text-primary)', fontSize: '1.2rem', 
                 cursor: isCurrentMonth ? 'not-allowed' : 'pointer' 
               }}>›</button>
           </div>
           <button onClick={loadAll} style={{ 
-            width: 48, height: 48, borderRadius: 16, background: 'rgba(255,255,255,0.05)', 
-            border: '1px solid rgba(255,255,255,0.1)', color: accentColor, cursor: 'pointer', display: 'flex', 
+            width: 48, height: 48, borderRadius: 16, background: 'var(--bg-elevated)', 
+            border: '1px solid var(--border)', color: accentColor, cursor: 'pointer', display: 'flex', 
             alignItems: 'center', justifyContent: 'center', fontSize: 20, transition: 'all 0.3s' 
           }} onMouseEnter={e => e.currentTarget.style.transform = 'rotate(180deg)'} onMouseLeave={e => e.currentTarget.style.transform = 'rotate(0deg)'}>↻</button>
         </div>
@@ -248,11 +248,9 @@ export default function GerenciaDashboardPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 2fr)) 1fr', gap: 24, marginBottom: 32 }}>
             {/* Strategies Chart */}
             <div className="glass-panel" style={{ 
-              background: 'rgba(255, 255, 255, 0.07)', backdropFilter: 'blur(28px)', 
-              padding: '32px', borderRadius: 32, border: '1px solid rgba(255,255,255,0.1)',
-              boxShadow: '0 8px 32px rgba(0,0,0,0.15)'
+              padding: '32px', borderRadius: 32 
             }}>
-              <div style={{ fontSize: '0.8rem', fontWeight: 800, color: 'rgba(255,255,255,0.5)', letterSpacing: '0.1em', marginBottom: 32, textTransform: 'uppercase' }}>TOP 5 ESTRATEGIAS (MÁXIMA RENTABILIDAD)</div>
+              <div style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--text-secondary)', letterSpacing: '0.1em', marginBottom: 32, textTransform: 'uppercase' }}>TOP 5 ESTRATEGIAS (MÁXIMA RENTABILIDAD)</div>
               <div style={{ width: '100%', height: 350 }}>
                 <ResponsiveContainer>
                   <BarChart layout="vertical" data={strategiesData} margin={{ left: 20, right: 30 }}>
@@ -268,11 +266,10 @@ export default function GerenciaDashboardPage() {
 
             {/* Area Activity Donut */}
             <div className="glass-panel" style={{ 
-              background: 'rgba(255, 255, 255, 0.07)', backdropFilter: 'blur(28px)', 
-              padding: '32px', borderRadius: 32, border: '1px solid rgba(255,255,255,0.1)',
-              display: 'flex', flexDirection: 'column', boxShadow: '0 8px 32px rgba(0,0,0,0.15)'
+              padding: '32px', borderRadius: 32, 
+              display: 'flex', flexDirection: 'column'
             }}>
-              <div style={{ fontSize: '0.8rem', fontWeight: 800, color: 'rgba(255,255,255,0.5)', letterSpacing: '0.1em', marginBottom: 24, textTransform: 'uppercase' }}>ACTIVIDAD TRASVERSAL</div>
+              <div style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--text-secondary)', letterSpacing: '0.1em', marginBottom: 24, textTransform: 'uppercase' }}>ACTIVIDAD TRASVERSAL</div>
               <div style={{ flex: 1, position: 'relative', minHeight: 220 }}>
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
@@ -292,9 +289,9 @@ export default function GerenciaDashboardPage() {
                   <div key={f.name} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                       <div style={{ width: 10, height: 10, borderRadius: '50%', background: trafficColors[i % trafficColors.length], boxShadow: `0 0 10px ${trafficColors[i % trafficColors.length]}88` }} />
-                      <span style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.6)', fontWeight: 600 }}>{f.name}</span>
+                      <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', fontWeight: 600 }}>{f.name}</span>
                     </div>
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem', fontWeight: 800, color: '#fff' }}>{f.value.toFixed(0)}</span>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem', fontWeight: 800, color: 'var(--text-primary)' }}>{f.value.toFixed(0)}</span>
                   </div>
                 ))}
               </div>
