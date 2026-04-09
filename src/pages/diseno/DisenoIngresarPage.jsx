@@ -53,18 +53,18 @@ function Counter({ value, onChange, color }) {
         onClick={() => onChange(Math.max(0, value - 1))}
         style={{
           width: 36, height: 36, borderRadius: 10,
-          background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)',
-          color: '#fff', fontSize: '1.2rem', fontWeight: 600,
+          background: 'var(--bg-elevated)', border: '1px solid var(--border)',
+          color: 'var(--text-primary)', fontSize: '1.2rem', fontWeight: 600,
           display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
           transition: 'all 0.2s',
         }}
         onMouseEnter={e => {
-          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'
-          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)'
+          e.currentTarget.style.background = 'var(--bg-hover)'
+          e.currentTarget.style.borderColor = 'var(--accent)'
         }}
         onMouseLeave={e => {
-          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
-          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'
+          e.currentTarget.style.background = 'var(--bg-elevated)'
+          e.currentTarget.style.borderColor = 'var(--border)'
         }}
       >
         −
@@ -82,19 +82,19 @@ function Counter({ value, onChange, color }) {
         onClick={() => onChange(value + 1)}
         style={{
           width: 36, height: 36, borderRadius: 10,
-          background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)',
-          color: '#fff', fontSize: '1.2rem', fontWeight: 600,
+          background: 'var(--bg-elevated)', border: '1px solid var(--border)',
+          color: 'var(--text-primary)', fontSize: '1.2rem', fontWeight: 600,
           display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
           transition: 'all 0.2s',
         }}
         onMouseEnter={e => {
-          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'
+          e.currentTarget.style.background = 'var(--bg-hover)'
           e.currentTarget.style.borderColor = color
           e.currentTarget.style.boxShadow = `0 0 15px ${color}33`
         }}
         onMouseLeave={e => {
-          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
-          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'
+          e.currentTarget.style.background = 'var(--bg-elevated)'
+          e.currentTarget.style.borderColor = 'var(--border)'
           e.currentTarget.style.boxShadow = 'none'
         }}
       >
@@ -107,15 +107,16 @@ function Counter({ value, onChange, color }) {
 function ExistingRecordModal({ date, existingCount, onEdit, onNew, onCancel }) {
   return (
     <div style={{
-      position: 'fixed', inset: 0, background: 'rgba(8,12,28,0.4)',
-      backdropFilter: 'blur(12px)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+      position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)',
+      backdropFilter: 'blur(20px)', display: 'flex', alignItems: 'center', justifyContent: 'center',
       zIndex: 9999, animation: 'fadeIn 0.3s ease', padding: 24,
     }}>
       <div className="animate-fadeUp" style={{
-        background: 'rgba(255, 255, 255, 0.07)', backdropFilter: 'blur(28px)',
-        border: '1px solid rgba(255, 255, 255, 0.15)', borderRadius: 32,
+        background: 'var(--glass-bg)', backdropFilter: 'blur(40px) saturate(1.8)',
+        WebkitBackdropFilter: 'blur(40px) saturate(1.8)',
+        border: '1px solid var(--border)', borderRadius: 32,
         padding: '48px 40px', width: '100%', maxWidth: 450,
-        boxShadow: '0 24px 64px rgba(0, 0, 0, 0.4)', textAlign: 'center',
+        boxShadow: 'var(--glass-shadow)', textAlign: 'center',
         position: 'relative'
       }}>
         {/* Top Accent */}
@@ -276,8 +277,8 @@ export default function DisenoIngresarPage() {
 
   const glassInputStyle = {
     width: '100%', padding: '14px 18px', fontSize: '1rem',
-    background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)',
-    borderRadius: 16, color: '#fff', boxSizing: 'border-box', outline: 'none', transition: 'all 0.2s'
+    background: 'var(--bg-body)', border: '1px solid var(--border)',
+    borderRadius: 16, color: 'var(--text-primary)', boxSizing: 'border-box', outline: 'none', transition: 'all 0.2s'
   }
 
   return (
@@ -287,7 +288,7 @@ export default function DisenoIngresarPage() {
         <div>
           <h1 style={{ 
             fontSize: '2.5rem', fontWeight: 900, letterSpacing: '-2px', marginBottom: 4,
-            background: 'linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.55))',
+            background: 'linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary))',
             WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
           }}>
             Registro Diario
@@ -320,9 +321,10 @@ export default function DisenoIngresarPage() {
           
           {/* Production Section */}
           <div style={{
-            background: 'rgba(255, 255, 255, 0.07)', backdropFilter: 'blur(28px)', 
-            border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: 28, overflow: 'hidden',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15)'
+            background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)',
+            WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+            border: '1px solid var(--border)', borderRadius: 28, overflow: 'hidden',
+            boxShadow: 'var(--glass-shadow)'
           }}>
             <div style={{ padding: '24px 32px', borderBottom: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>

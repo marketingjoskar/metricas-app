@@ -67,9 +67,9 @@ function PinInput({ area, onCancel }) {
         onClick={onCancel}
         style={{
           position: 'absolute', inset: 0,
-          background: 'rgba(8, 10, 20, 0.55)',
-          backdropFilter: 'blur(18px)',
-          WebkitBackdropFilter: 'blur(18px)',
+          background: 'rgba(0, 0, 0, 0.65)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
         }}
       />
 
@@ -79,11 +79,11 @@ function PinInput({ area, onCancel }) {
         width: '100%', maxWidth: 360,
         padding: '40px 32px 36px',
         borderRadius: 28,
-        background: 'rgba(255,255,255,0.08)',
+        background: 'var(--glass-bg)',
         backdropFilter: 'blur(40px) saturate(1.8)',
         WebkitBackdropFilter: 'blur(40px) saturate(1.8)',
-        border: `1px solid rgba(${accentRGB},0.25)`,
-        boxShadow: `0 8px 48px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.12)`,
+        border: `1px solid rgba(${accentRGB},0.35)`,
+        boxShadow: 'var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,0.08)',
         animation: 'fadeUp 0.3s cubic-bezier(.22,1,.36,1)',
       }}>
 
@@ -105,11 +105,11 @@ function PinInput({ area, onCancel }) {
           </div>
           <h2 style={{
             fontSize: '1.3rem', fontWeight: 700,
-            letterSpacing: '-0.5px', color: '#fff', marginBottom: 4,
+            letterSpacing: '-0.5px', color: 'var(--text-primary)', marginBottom: 4,
           }}>
             {area.area_nombre}
           </h2>
-          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.82rem' }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.82rem' }}>
             Ingresá tu PIN de 4 dígitos
           </p>
         </div>
@@ -121,8 +121,8 @@ function PinInput({ area, onCancel }) {
               width: 20, height: 20, borderRadius: '50%',
               background: pin.length > i
                 ? area.color
-                : 'rgba(255,255,255,0.08)',
-              border: `2px solid ${pin.length > i ? area.color : 'rgba(255,255,255,0.2)'}`,
+                : 'var(--bg-elevated)',
+              border: `2px solid ${pin.length > i ? area.color : 'var(--border)'}`,
               transition: 'all 0.18s cubic-bezier(.34,1.56,.64,1)',
               transform: pin.length > i ? 'scale(1.15)' : 'scale(1)',
               boxShadow: pin.length > i ? `0 0 14px ${area.color}80` : 'none',
@@ -139,11 +139,11 @@ function PinInput({ area, onCancel }) {
           {/* row: cancel / 0 / backspace */}
           <button onClick={onCancel} style={{
             padding: '14px', background: 'transparent', border: 'none',
-            color: 'rgba(255,255,255,0.35)', fontSize: '1rem', cursor: 'pointer',
+            color: 'var(--text-muted)', fontSize: '1rem', cursor: 'pointer',
             borderRadius: 14, transition: 'color 0.2s',
           }}
-            onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.65)'}
-            onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.35)'}
+            onMouseEnter={e => e.currentTarget.style.color = 'var(--text-secondary)'}
+            onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
           >✕</button>
           <PinButton label="0" color={area.color} accentRGB={accentRGB}
             onClick={() => !loading && setPin(p => p.length < 4 ? p + '0' : p)} />
@@ -188,14 +188,13 @@ function PinButton({ label, color, accentRGB, onClick }) {
       onClick={onClick}
       style={{
         padding: '16px',
-        background: 'rgba(255,255,255,0.07)',
-        border: '1px solid rgba(255,255,255,0.1)',
+        background: 'var(--bg-elevated)',
+        border: '1px solid var(--border)',
         borderRadius: 14,
-        color: '#fff',
+        color: 'var(--text-primary)',
         fontSize: '1.2rem', fontWeight: 600,
         cursor: 'pointer',
         transition: 'all 0.18s ease',
-        backdropFilter: 'blur(8px)',
       }}
       onMouseEnter={e => {
         e.currentTarget.style.background = `rgba(${accentRGB},0.22)`
@@ -204,8 +203,8 @@ function PinButton({ label, color, accentRGB, onClick }) {
         e.currentTarget.style.boxShadow = `0 4px 18px rgba(${accentRGB},0.25)`
       }}
       onMouseLeave={e => {
-        e.currentTarget.style.background = 'rgba(255,255,255,0.07)'
-        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'
+        e.currentTarget.style.background = 'var(--bg-elevated)'
+        e.currentTarget.style.borderColor = 'var(--border)'
         e.currentTarget.style.transform = 'scale(1)'
         e.currentTarget.style.boxShadow = 'none'
       }}
@@ -238,7 +237,7 @@ export default function AreaSelectorPage() {
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{
           width: 32, height: 32, borderRadius: '50%',
-          border: '2px solid rgba(255,255,255,0.15)', borderTopColor: '#7DD3FC',
+          border: '2px solid var(--border)', borderTopColor: 'var(--accent)',
           animation: 'spin 0.8s linear infinite',
         }} />
       </div>
@@ -273,7 +272,7 @@ export default function AreaSelectorPage() {
             fontSize: 'clamp(2rem, 5vw, 3.2rem)',
             fontWeight: 800,
             letterSpacing: '-2px',
-            background: 'linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.55) 100%)',
+            background: 'linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary) 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
@@ -281,7 +280,7 @@ export default function AreaSelectorPage() {
           }}>
             Seleccioná tu área
           </h1>
-          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.95rem', letterSpacing: '0.02em' }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', letterSpacing: '0.02em' }}>
             Cada área tiene su propio PIN de acceso
           </p>
         </div>
@@ -340,11 +339,11 @@ function AreaCard({ area, delay, onSelect }) {
         borderRadius: 22,
         padding: '30px 26px 26px',
         textAlign: 'left', cursor: 'pointer',
-        background: 'rgba(255,255,255,0.07)',
+        background: 'var(--glass-bg)',
         backdropFilter: 'blur(28px) saturate(1.6)',
         WebkitBackdropFilter: 'blur(28px) saturate(1.6)',
-        border: `1px solid rgba(${accentRGB},0.18)`,
-        boxShadow: `0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.1)`,
+        border: `1px solid rgba(${accentRGB},0.3)`,
+        boxShadow: `0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05)`,
         transition: 'transform 0.35s cubic-bezier(.22,1,.36,1), border-color 0.3s, box-shadow 0.3s',
       }}
       onMouseEnter={e => {
@@ -385,7 +384,7 @@ function AreaCard({ area, delay, onSelect }) {
       {/* name */}
       <h3 style={{
         fontSize: '1.05rem', fontWeight: 700,
-        color: '#fff',
+        color: 'var(--text-primary)',
         letterSpacing: '-0.3px', marginBottom: 4,
         textShadow: '0 1px 6px rgba(0,0,0,0.4)',
       }}>

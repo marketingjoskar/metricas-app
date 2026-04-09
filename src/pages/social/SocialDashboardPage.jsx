@@ -34,8 +34,8 @@ function GlassModal({ isOpen, onClose, title, children }) {
     <div style={{
       position: 'fixed',
       top: 0, left: 0, right: 0, bottom: 0,
-      background: 'rgba(8, 12, 28, 0.4)',
-      backdropFilter: 'blur(10px)',
+      background: 'rgba(0, 0, 0, 0.65)',
+      backdropFilter: 'blur(20px)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -211,7 +211,7 @@ export default function SocialDashboardPage() {
           <div className="animate-spin" style={{ width: 40, height: 40, borderRadius: '50%', border: '3px solid rgba(255,255,255,0.1)', borderTopColor: color }} />
         </div>
       ) : !metrics && campanas.length===0 && videos.length===0 ? (
-        <div style={{textAlign:'center',padding:'80px 24px',border:`1px dashed ${color}33`,borderRadius:24,background:'rgba(255,255,255,0.03)'}}>
+        <div style={{textAlign:'center',padding:'80px 24px',borderRadius:24,background:'var(--bg-elevated)', border: '1px solid var(--border)'}}>
           <div style={{fontSize:48,marginBottom:16}}>📱</div>
           <p style={{color:'rgba(255,255,255,0.5)',marginBottom:24, fontSize: '1.1rem'}}>No hay datos para {MONTHS_ES[month]} {year}</p>
           <div style={{display:'flex',gap:16,justifyContent:'center',flexWrap:'wrap'}}>
@@ -291,15 +291,15 @@ export default function SocialDashboardPage() {
              {/* Comparative Chart */}
              <div 
                className="animate-fadeUp"
-               style={{
-                 animationDelay: '0.4s',
-                 background: 'rgba(255, 255, 255, 0.05)',
-                 backdropFilter: 'blur(28px)',
-                 borderRadius: 28,
-                 padding: '30px',
-                 border: '1px solid rgba(255,255,255,0.1)',
-                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)'
-               }}
+                style={{
+                  animationDelay: '0.4s',
+                  background: 'var(--glass-bg)',
+                  backdropFilter: 'blur(28px)',
+                  borderRadius: 28,
+                  padding: '30px',
+                  border: '1px solid var(--glass-border)',
+                  boxShadow: 'var(--glass-shadow)'
+                }}
              >
                 <div style={{fontSize:'0.85rem',fontWeight: 700,color:'var(--text-muted)',letterSpacing:'0.1em',marginBottom:24, textTransform: 'uppercase'}}>RENDIMIENTO VS MES ANTERIOR</div>
                 <div style={{width:'100%',height:320}}>

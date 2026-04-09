@@ -60,17 +60,17 @@ export default function LoginPage() {
             alignItems: 'center',
             justifyContent: 'center',
             width: 68, height: 68,
-            background: 'rgba(255,255,255,0.06)',
+            background: 'var(--bg-elevated)',
             backdropFilter: 'blur(20px)',
             WebkitBackdropFilter: 'blur(20px)',
-            border: '1px solid rgba(125,211,252,0.25)',
+            border: '1px solid var(--border-bright)',
             borderRadius: 22,
             marginBottom: 20,
-            boxShadow: '0 8px 32px rgba(0,0,0,0.35), 0 0 40px rgba(125,211,252,0.15), inset 0 1px 0 rgba(255,255,255,0.12)',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.5), 0 0 40px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.05)',
           }}>
             <span style={{
               fontSize: 28,
-              filter: 'drop-shadow(0 0 8px rgba(125,211,252,0.6))',
+              filter: 'drop-shadow(0 0 8px var(--accent))',
             }}>▦</span>
           </div>
 
@@ -99,18 +99,18 @@ export default function LoginPage() {
             position: 'relative',
             borderRadius: 28,
             padding: '36px 32px',
-            background: 'rgba(255,255,255,0.07)',
+            background: 'var(--glass-bg)',
             backdropFilter: 'blur(40px) saturate(1.8)',
             WebkitBackdropFilter: 'blur(40px) saturate(1.8)',
-            border: '1px solid rgba(125,211,252,0.18)',
-            boxShadow: '0 8px 48px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.10)',
+            border: '1px solid var(--glass-border)',
+            boxShadow: '0 8px 48px var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,0.05)',
             animation: shaking ? 'pinShake 0.45s ease' : 'none',
           }}
         >
           {/* Top accent gradient line */}
           <div style={{
             position: 'absolute', top: 0, left: 0, right: 0, height: 2,
-            background: 'linear-gradient(90deg, transparent, #7DD3FC, transparent)',
+            background: 'linear-gradient(90deg, transparent, var(--accent), transparent)',
             borderRadius: '28px 28px 0 0',
           }} />
 
@@ -118,7 +118,7 @@ export default function LoginPage() {
           <div style={{
             position: 'absolute', top: -30, left: -30,
             width: 100, height: 100, borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(125,211,252,0.12) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, var(--accent-glow) 0%, transparent 70%)',
             pointerEvents: 'none',
           }} />
 
@@ -146,20 +146,20 @@ export default function LoginPage() {
                 padding: '14px 16px',
                 fontSize: '1rem',
                 letterSpacing: '0.1em',
-                background: 'rgba(255,255,255,0.06)',
-                border: `1px solid ${error ? 'rgba(240,67,106,0.45)' : 'rgba(255,255,255,0.12)'}`,
+                background: 'var(--bg-elevated)',
+                border: `1px solid ${error ? '#F0436A' : 'var(--border)'}`,
                 borderRadius: 14,
-                color: '#fff',
+                color: 'var(--text-primary)',
                 marginBottom: 16,
                 outline: 'none',
                 transition: 'border-color 0.2s, box-shadow 0.2s',
               }}
               onFocus={e => {
-                e.currentTarget.style.borderColor = 'rgba(125,211,252,0.45)'
-                e.currentTarget.style.boxShadow = '0 0 0 3px rgba(125,211,252,0.10)'
+                e.currentTarget.style.borderColor = 'var(--accent)'
+                e.currentTarget.style.boxShadow = '0 0 0 3px var(--accent-glow)'
               }}
               onBlur={e => {
-                e.currentTarget.style.borderColor = error ? 'rgba(240,67,106,0.45)' : 'rgba(255,255,255,0.12)'
+                e.currentTarget.style.borderColor = error ? '#F0436A' : 'var(--border)'
                 e.currentTarget.style.boxShadow = 'none'
               }}
             />
@@ -183,29 +183,26 @@ export default function LoginPage() {
               style={{
                 width: '100%',
                 padding: '14px',
-                background: 'rgba(125,211,252,0.18)',
-                border: '1px solid rgba(125,211,252,0.35)',
+                background: 'var(--accent)',
+                border: 'none',
                 borderRadius: 14,
-                color: '#fff',
+                color: '#000',
                 fontSize: '0.95rem',
-                fontWeight: 700,
+                fontWeight: 800,
                 letterSpacing: '0.04em',
-                boxShadow: '0 4px 24px rgba(125,211,252,0.20)',
+                boxShadow: '0 4px 24px var(--accent-glow)',
                 transition: 'all 0.25s cubic-bezier(.22,1,.36,1)',
                 cursor: 'pointer',
-                backdropFilter: 'blur(8px)',
               }}
               onMouseEnter={e => {
-                e.currentTarget.style.background = 'rgba(125,211,252,0.28)'
-                e.currentTarget.style.borderColor = 'rgba(125,211,252,0.55)'
+                e.currentTarget.style.background = 'var(--accent-bright)'
                 e.currentTarget.style.transform = 'translateY(-2px)'
-                e.currentTarget.style.boxShadow = '0 8px 32px rgba(125,211,252,0.30)'
+                e.currentTarget.style.boxShadow = '0 8px 32px var(--accent-glow)'
               }}
               onMouseLeave={e => {
-                e.currentTarget.style.background = 'rgba(125,211,252,0.18)'
-                e.currentTarget.style.borderColor = 'rgba(125,211,252,0.35)'
+                e.currentTarget.style.background = 'var(--accent)'
                 e.currentTarget.style.transform = 'translateY(0)'
-                e.currentTarget.style.boxShadow = '0 4px 24px rgba(125,211,252,0.20)'
+                e.currentTarget.style.boxShadow = '0 4px 24px var(--accent-glow)'
               }}
             >
               Ingresar →

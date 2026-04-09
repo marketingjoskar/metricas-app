@@ -74,10 +74,10 @@ export default function DashboardLayout() {
         height: '100vh',
         overflow: 'hidden',
         background: 'var(--sidebar-bg)',
-        backdropFilter: 'blur(28px) saturate(1.6)',
-        WebkitBackdropFilter: 'blur(28px) saturate(1.6)',
+        backdropFilter: 'blur(32px) saturate(1.8)',
+        WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
         borderRight: `1px solid var(--border)`,
-        boxShadow: `1px 0 0 rgba(${rgb},0.06)`,
+        boxShadow: `1px 0 0 rgba(${rgb},0.08)`,
         zIndex: 20,
       }}>
 
@@ -145,10 +145,10 @@ export default function DashboardLayout() {
             fontSize: '0.58rem',
             letterSpacing: '0.18em',
             textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.22)',
-            fontWeight: 600,
+            color: 'var(--text-muted)',
+            fontWeight: 700,
             padding: '0 8px',
-            marginBottom: 6,
+            marginBottom: 8,
           }}>Navegación</div>
 
           {navItems.map(item => {
@@ -176,14 +176,14 @@ export default function DashboardLayout() {
                 }}
                 onMouseEnter={e => {
                   if (!isActive) {
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.06)'
-                    e.currentTarget.style.color = 'rgba(255,255,255,0.75)'
+                    e.currentTarget.style.background = 'var(--bg-hover)'
+                    e.currentTarget.style.color = 'var(--text-primary)'
                   }
                 }}
                 onMouseLeave={e => {
                   if (!isActive) {
                     e.currentTarget.style.background = 'transparent'
-                    e.currentTarget.style.color = 'rgba(255,255,255,0.42)'
+                    e.currentTarget.style.color = 'var(--text-secondary)'
                   }
                 }}
               >
@@ -216,13 +216,13 @@ export default function DashboardLayout() {
               cursor: 'pointer',
             }}
             onMouseEnter={e => {
-              e.currentTarget.style.borderColor = `rgba(${rgb},0.35)`
-              e.currentTarget.style.color = 'rgba(255,255,255,0.75)'
-              e.currentTarget.style.background = `rgba(${rgb},0.07)`
+              e.currentTarget.style.borderColor = `rgba(${rgb},0.4)`
+              e.currentTarget.style.color = 'var(--text-primary)'
+              e.currentTarget.style.background = `rgba(${rgb},0.1)`
             }}
             onMouseLeave={e => {
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.10)'
-              e.currentTarget.style.color = 'rgba(255,255,255,0.4)'
+              e.currentTarget.style.borderColor = 'var(--border)'
+              e.currentTarget.style.color = 'var(--text-muted)'
               e.currentTarget.style.background = 'transparent'
             }}
           >
@@ -235,7 +235,7 @@ export default function DashboardLayout() {
               padding: '9px 12px',
               background: 'transparent',
               border: 'none',
-              color: 'rgba(255,255,255,0.22)',
+              color: 'var(--text-muted)',
               fontSize: '0.73rem',
               textAlign: 'left',
               fontFamily: 'var(--font-mono)',
@@ -243,7 +243,7 @@ export default function DashboardLayout() {
               transition: 'color 0.18s ease',
             }}
             onMouseEnter={e => e.currentTarget.style.color = '#f0436a'}
-            onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.22)'}
+            onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
           >
             ✕ Cerrar sesión
           </button>
@@ -279,8 +279,9 @@ export default function DashboardLayout() {
             <span style={{
               fontFamily: 'var(--font-mono)',
               fontSize: '0.68rem',
-              color: 'rgba(255,255,255,0.4)',
+              color: 'var(--text-muted)',
               letterSpacing: '0.12em',
+              fontWeight: 700,
             }}>
               {currentArea.icono} {currentArea.area_nombre.toUpperCase()}
             </span>
@@ -289,7 +290,8 @@ export default function DashboardLayout() {
             <div style={{
               fontFamily: 'var(--font-mono)',
               fontSize: '0.68rem',
-              color: 'rgba(255,255,255,0.28)',
+              color: 'var(--text-muted)',
+              fontWeight: 500,
             }}>
               {new Date().toLocaleDateString('es-AR', {
                 weekday: 'short', day: '2-digit',

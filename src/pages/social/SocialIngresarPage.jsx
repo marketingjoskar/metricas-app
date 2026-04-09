@@ -252,12 +252,21 @@ export default function SocialIngresarPage() {
       .reduce((s, v) => s + (v.cantidad || 1), 0),
   }))
 
+  const glassCard = {
+    background: 'var(--glass-bg)',
+    backdropFilter: 'blur(32px) saturate(1.8)',
+    WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+    border: '1px solid var(--border)',
+    borderRadius: 24, padding: '28px',
+    boxShadow: 'var(--glass-shadow)',
+  }
+
   const glassInput = {
     width: '100%',
     padding: '12px 16px',
     fontSize: '1.2rem',
     fontFamily: 'var(--font-mono)',
-    background: 'var(--bg-elevated)', border: '1px solid var(--border)',
+    background: 'var(--bg-body)', border: '1px solid var(--border)',
     borderRadius: 12, color: 'var(--text-primary)', boxSizing: 'border-box',
     fontWeight: 700,
     outline: 'none',
@@ -285,17 +294,17 @@ export default function SocialIngresarPage() {
           <div style={{ 
             display: 'flex', 
             alignItems: 'center', 
-            background: 'rgba(255,255,255,0.05)', 
+            background: 'var(--bg-elevated)', 
             borderRadius: 14, 
             padding: '4px',
-            border: '1px solid rgba(255,255,255,0.1)'
+            border: '1px solid var(--border)'
           }}>
             <button
               onClick={() => {
                 if (month === 0) { setYear(y => y - 1); setMonth(11) }
                 else { setMonth(m => m - 1) }
               }}
-              style={{ width: 36, height: 36, borderRadius: 10, background: 'transparent', border: 'none', color: '#fff', fontSize: '1.1rem', cursor: 'pointer' }}
+              style={{ width: 36, height: 36, borderRadius: 10, background: 'transparent', border: 'none', color: 'var(--text-primary)', fontSize: '1.1rem', cursor: 'pointer' }}
             >‹</button>
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.85rem', color: 'var(--text-secondary)', minWidth: 120, textAlign: 'center', fontWeight: 600 }}>
               {MONTHS_ES[month]} {year}
@@ -315,8 +324,8 @@ export default function SocialIngresarPage() {
 
       {/* Tabs */}
       <div style={{ 
-        display: 'flex', gap: 6, marginBottom: 32, background: 'rgba(255,255,255,0.05)', 
-        padding: 6, borderRadius: 16, width: 'fit-content', border: '1px solid rgba(255,255,255,0.1)'
+        display: 'flex', gap: 6, marginBottom: 32, background: 'var(--bg-elevated)', 
+        padding: 6, borderRadius: 16, width: 'fit-content', border: '1px solid var(--border)'
       }}>
         {[
           ['metricas', '📊 Métricas Instagram'],
@@ -357,11 +366,9 @@ export default function SocialIngresarPage() {
                     key={f.key}
                     className="animate-fadeUp"
                     style={{
-                      background: 'rgba(255, 255, 255, 0.07)',
-                      backdropFilter: 'blur(28px)',
-                      border: `1px solid ${form[f.key] ? f.color + '44' : 'rgba(255,255,255,0.1)'}`,
-                      borderRadius: 24, padding: '28px', transition: 'all 0.3s',
-                      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                      ...glassCard,
+                      border: `1px solid ${form[f.key] ? f.color + '44' : 'var(--border)'}`,
+                      transition: 'all 0.3s',
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
@@ -379,9 +386,9 @@ export default function SocialIngresarPage() {
                         placeholder={f.placeholder}
                         style={{
                           ...glassInput,
-                          color: form[f.key] ? f.color : '#fff',
-                          borderColor: form[f.key] ? f.color + '77' : 'rgba(255,255,255,0.1)',
-                          background: form[f.key] ? `${f.color}0a` : 'rgba(255,255,255,0.05)'
+                          color: form[f.key] ? f.color : 'var(--text-primary)',
+                          borderColor: form[f.key] ? f.color + '77' : 'var(--border)',
+                          background: form[f.key] ? `${f.color}0a` : 'var(--bg-body)'
                         }}
                         onFocus={e => e.currentTarget.style.borderColor = f.color}
                         onBlur={e => e.currentTarget.style.borderColor = form[f.key] ? f.color + '77' : 'rgba(255,255,255,0.1)'}
@@ -404,28 +411,28 @@ export default function SocialIngresarPage() {
               </div>
 
               {/* Engagement Rate Insight */}
-              {form.interacciones && form.alcance && parseFloat(form.alcance) > 0 && (
+              {form.interacciones && form.alcance && (
                 <div
                   className="animate-fadeUp"
                   style={{
-                    background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(20px)',
-                    border: `1px solid ${color}33`, borderRadius: 20, padding: '20px 28px',
-                    display: 'flex', alignItems: 'center', gap: 24, boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+                    ...glassCard,
+                    border: `1px solid ${color}33`,
+                    display: 'flex', alignItems: 'center', gap: 24, padding: '20px 28px'
                   }}
                 >
                   <div style={{ width: 50, height: 50, borderRadius: 14, background: `${color}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>✨</div>
                   <div>
-                    <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>Engagement Rate Estimado</div>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>Engagement Rate Estimado</div>
                     <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1.8rem', fontWeight: 800, color, lineHeight: 1 }}>
                       {(parseFloat(form.interacciones) / parseFloat(form.alcance) * 100).toFixed(2)}%
                     </div>
                   </div>
-                  <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.3)', marginLeft: 'auto', fontStyle: 'italic' }}>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginLeft: 'auto', fontStyle: 'italic' }}>
                     Interacciones / Alcance × 100
                   </div>
                 </div>
               )}
-
+ 
               {/* Action Button */}
               <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 12 }}>
                 <button
@@ -433,9 +440,9 @@ export default function SocialIngresarPage() {
                   disabled={saving || !anyFilled}
                   style={{
                     padding: '16px 48px',
-                    background: saved ? GREEN : (anyFilled ? color : 'rgba(255,255,255,0.05)'),
+                    background: saved ? GREEN : (anyFilled ? color : 'var(--bg-elevated)'),
                     border: 'none', borderRadius: 16,
-                    color: (anyFilled || saved) ? '#080C1C' : 'rgba(255,255,255,0.2)',
+                    color: (anyFilled || saved) ? '#080C1C' : 'var(--text-muted)',
                     fontSize: '1rem', fontWeight: 800,
                     cursor: (anyFilled && !saving) ? 'pointer' : 'not-allowed',
                     boxShadow: (anyFilled && !saved) ? `0 8px 24px ${color}33` : 'none',
@@ -447,7 +454,7 @@ export default function SocialIngresarPage() {
                   {saving ? 'Procesando…' : saved ? '✓ Datos Guardados' : existing ? '✎ Actualizar Periodo' : '✚ Guardar Métricas'}
                 </button>
               </div>
-            </div>
+              </div>
           )}
 
           {activeTab === 'videos' && (
@@ -487,9 +494,7 @@ export default function SocialIngresarPage() {
               <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 24, alignItems: 'start' }}>
                 {/* Video Form */}
                 <div style={{
-                  background: 'rgba(255, 255, 255, 0.07)', backdropFilter: 'blur(28px)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: 28, padding: '32px',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)'
+                  ...glassCard, padding: '32px'
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
                     <div style={{ padding: '8px', borderRadius: 10, background: `${GREEN}22`, fontSize: 18 }}>✨</div>
@@ -572,11 +577,10 @@ export default function SocialIngresarPage() {
                 {/* Video List */}
                 {videos.length > 0 ? (
                   <div style={{
-                    background: 'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(20px)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: 28, overflow: 'hidden',
+                    ...glassCard, padding: 0, overflow: 'hidden',
                     maxHeight: 600, display: 'flex', flexDirection: 'column'
                   }}>
-                    <div style={{ padding: '20px 24px', borderBottom: '1px solid rgba(255,255,255,0.05)', fontSize: '0.8rem', fontWeight: 800, color: 'rgba(255,255,255,0.5)', letterSpacing: '0.1em' }}>
+                    <div style={{ padding: '20px 24px', borderBottom: '1px solid var(--border)', fontSize: '0.8rem', fontWeight: 800, color: 'var(--text-muted)', letterSpacing: '0.1em' }}>
                       REGISTROS DEL MES ({videos.length})
                     </div>
                     <div style={{ overflowY: 'auto', flex: 1 }}>
@@ -600,7 +604,7 @@ export default function SocialIngresarPage() {
                             </div>
 
                             <div style={{ flex: 1, minWidth: 0 }}>
-                              <div style={{ fontSize: '0.95rem', color: '#fff', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                              <div style={{ fontSize: '0.95rem', color: 'var(--text-primary)', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                                 {v.etiqueta}
                               </div>
                               <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.4)', fontFamily: 'var(--font-mono)', marginTop: 2 }}>

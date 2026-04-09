@@ -23,8 +23,8 @@ function GlassModal({ isOpen, onClose, title, children }) {
       padding: 24,
     }}>
       <div onClick={onClose} style={{
-        position: 'absolute', inset: 0, background: 'rgba(8,12,28,0.4)',
-        backdropFilter: 'blur(12px)', animation: 'fadeIn 0.3s ease'
+        position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.65)',
+        backdropFilter: 'blur(20px)', animation: 'fadeIn 0.3s ease'
       }} />
       <div className="animate-fadeUp" style={{
         position: 'relative', width: '100%', maxWidth: 1000,
@@ -278,9 +278,9 @@ export default function SistemasDashboardPage() {
                           <stop offset="95%" stopColor="#3B82F6" stopOpacity={0}/>
                         </linearGradient>
                       </defs>
-                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
-                      <XAxis dataKey="dia" stroke="rgba(255,255,255,0.3)" fontSize={11} tickLine={false} axisLine={false} />
-                      <YAxis stroke="rgba(255,255,255,0.3)" fontSize={11} tickLine={false} axisLine={false} />
+                      <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+                      <XAxis dataKey="dia" stroke="var(--text-muted)" fontSize={11} tickLine={false} axisLine={false} />
+                      <YAxis stroke="var(--text-muted)" fontSize={11} tickLine={false} axisLine={false} />
                       <Tooltip content={<CustomTooltip />} />
                       <Area type="monotone" dataKey="Optimizadas" stroke="#3B82F6" strokeWidth={4} fillOpacity={1} fill="url(#colorOpt)" />
                       <Area type="monotone" dataKey="Incidencias" stroke="#60A5FA" strokeWidth={4} fillOpacity={1} fill="url(#colorInc)" />

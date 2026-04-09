@@ -10,14 +10,14 @@
 
 :root {
   /* ── DARK MODE – Navy-Violet Deep ────────────────────────── */
-  --bg-gradient: #080C1C;
-  --bg-base: #080C1C;
-  /* Deep Navy base         */
-  --bg-surface: #0F172A;
-  /* Slate-Navy Card        */
-  --bg-elevated: #1E293B;
+  --bg-gradient: #050505;
+  --bg-base: #050505;
+  /* Obsidian base         */
+  --bg-surface: #0A0A0A;
+  /* Dark Slate Card        */
+  --bg-elevated: #161616;
   /* Elevated surface       */
-  --bg-hover: #334155;
+  --bg-hover: #1F1F1F;
   /* Hover state            */
 
   --border: rgba(148, 163, 184, 0.08);
@@ -27,11 +27,11 @@
   --text-secondary: #94A3B8;
   --text-muted: #64748B;
 
-  /* Blue accent (not violet) */
-  --accent: #3B82F6;
-  --accent-bright: #60A5FA;
-  --accent-secondary: #1E3A5F;
-  --accent-glow: rgba(59, 130, 246, 0.20);
+  /* Cyan accent (modern neon) */
+  --accent: #06b6d4;
+  --accent-bright: #22d3ee;
+  --accent-secondary: #083344;
+  --accent-glow: rgba(6, 182, 212, 0.20);
 
   /* Module accent colours – blue-slate family */
   --social-color: #7DD3FC;
@@ -43,11 +43,11 @@
   --gerencia-color: #A5B4FC;
   /* Indigo-300 (tenue) */
 
-  --glass-bg: rgba(15, 23, 42, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  --sidebar-bg: rgba(8, 12, 28, 0.75);
-  --topbar-bg: rgba(8, 12, 28, 0.6);
+  --glass-bg: rgba(5, 5, 5, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+  --sidebar-bg: rgba(5, 5, 5, 0.85);
+  --topbar-bg: rgba(5, 5, 5, 0.7);
 
   --radius-sm: 8px;
   --radius-md: 14px;
@@ -145,11 +145,11 @@ body {
 
 /* Orb base colors ─ dark mode: vibrant blue-violet for visible glass backdrop */
 :root {
-  --orb1: rgba(56, 120, 220, 0.70);  /* Vivid blue         */
-  --orb2: rgba(110, 58, 200, 0.55);  /* Indigo-violet      */
-  --orb3: rgba(30, 120, 190, 0.50);  /* Sky blue           */
-  --orb4: rgba(80, 40, 180, 0.60);   /* Deep violet        */
-  --orb5: rgba(15, 80, 160, 0.55);   /* Ocean blue         */
+  --orb1: rgba(6, 182, 212, 0.70);  /* Cyan               */
+  --orb2: rgba(217, 70, 239, 0.55);  /* Neon Purple        */
+  --orb3: rgba(14, 165, 233, 0.50);  /* Sky blue           */
+  --orb4: rgba(168, 85, 247, 0.60);  /* Purple             */
+  --orb5: rgba(8, 145, 178, 0.55);   /* Dark Cyan          */
 }
 
 /* Orb base colors ─ light mode overrides (extremely subtle pastel sky-blue) */
