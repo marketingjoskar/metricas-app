@@ -76,60 +76,60 @@ function PinInput({ area, onCancel }) {
       {/* glass card */}
       <div ref={shakeRef} style={{
         position: 'relative',
-        width: '100%', maxWidth: 380,
-        padding: '48px 32px 40px',
-        borderRadius: 36,
-        background: 'rgba(15, 23, 42, 0.9)', // Solid-ish navy glass
+        width: '92%', maxWidth: 320,
+        padding: '36px 24px 28px',
+        borderRadius: 32,
+        background: 'rgba(15, 23, 42, 0.95)', // Slightly more opaque for smaller size
         backdropFilter: 'blur(40px) saturate(1.8)',
         WebkitBackdropFilter: 'blur(40px) saturate(1.8)',
-        border: '1px solid rgba(255,255,255,0.08)',
-        boxShadow: '0 25px 60px rgba(0,0,0,0.5)',
-        animation: 'fadeUp 0.3s cubic-bezier(.22,1,.36,1)',
+        border: '1px solid rgba(255,255,255,0.1)',
+        boxShadow: '0 25px 60px rgba(0,0,0,0.6)',
+        animation: 'fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
       }}>
 
         {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: 32 }}>
+        <div style={{ textAlign: 'center', marginBottom: 28 }}>
           <div style={{
-            fontSize: 48, marginBottom: 16,
+            fontSize: 40, marginBottom: 12,
             filter: 'drop-shadow(0 0 10px rgba(255,255,255,0.1))',
           }}>
             {area.icono}
           </div>
           <h2 style={{
-            fontSize: '1.6rem', fontWeight: 700,
-            letterSpacing: '-0.5px', color: '#fff', marginBottom: 8,
+            fontSize: '1.4rem', fontWeight: 700,
+            letterSpacing: '-0.5px', color: '#fff', marginBottom: 6,
           }}>
             {area.area_nombre}
           </h2>
-          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.88rem', fontWeight: 400 }}>
+          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem', fontWeight: 400 }}>
             Ingresá tu PIN de 4 dígitos
           </p>
         </div>
 
         {/* PIN dots */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 18, marginBottom: 40 }}>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 14, marginBottom: 32 }}>
           {[0,1,2,3].map(i => (
             <div key={i} style={{
-              width: 14, height: 14, borderRadius: '50%',
+              width: 10, height: 10, borderRadius: '50%',
               background: pin.length > i ? '#fff' : 'transparent',
-              border: `2px solid ${pin.length > i ? '#fff' : 'rgba(255,255,255,0.2)'}`,
+              border: `1.5px solid ${pin.length > i ? '#fff' : 'rgba(255,255,255,0.2)'}`,
               transition: 'all 0.15s ease',
-              boxShadow: pin.length > i ? '0 0 12px #fff' : 'none',
+              boxShadow: pin.length > i ? '0 0 10px #fff' : 'none',
             }} />
           ))}
         </div>
 
         {/* Numpad */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 18 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 16 }}>
           {[1,2,3,4,5,6,7,8,9].map(n => (
             <PinButton key={n} label={n} color={area.color} accentRGB={accentRGB}
               onClick={() => !loading && setPin(p => p.length < 4 ? p + String(n) : p)} />
           ))}
           {/* row: cancel / 0 / backspace */}
           <button onClick={onCancel} style={{
-            padding: '18px', background: 'transparent', border: 'none',
-            color: 'rgba(255,255,255,0.3)', fontSize: '1.1rem', cursor: 'pointer',
-            borderRadius: 16, transition: 'all 0.2s',
+            padding: '14px', background: 'transparent', border: 'none',
+            color: 'rgba(255,255,255,0.3)', fontSize: '1rem', cursor: 'pointer',
+            borderRadius: 14, transition: 'all 0.2s',
           }}
             onMouseEnter={e => e.currentTarget.style.color = '#fff'}
             onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.3)'}
@@ -137,9 +137,9 @@ function PinInput({ area, onCancel }) {
           <PinButton label="0" color={area.color} accentRGB={accentRGB}
             onClick={() => !loading && setPin(p => p.length < 4 ? p + '0' : p)} />
           <button onClick={() => !loading && setPin(p => p.slice(0, -1))} style={{
-            padding: '18px', background: 'transparent', border: 'none',
-            color: 'rgba(255,255,255,0.4)', fontSize: '1.2rem', cursor: 'pointer',
-            borderRadius: 16, transition: 'all 0.2s',
+            padding: '14px', background: 'transparent', border: 'none',
+            color: 'rgba(255,255,255,0.4)', fontSize: '1.1rem', cursor: 'pointer',
+            borderRadius: 14, transition: 'all 0.2s',
           }}
             onMouseEnter={e => e.currentTarget.style.color = '#fff'}
             onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.4)'}
@@ -176,12 +176,12 @@ function PinButton({ label, color, accentRGB, onClick }) {
     <button
       onClick={onClick}
       style={{
-        padding: '18px',
+        padding: '14px',
         background: 'rgba(255,255,255,0.06)',
         border: '1px solid rgba(255,255,255,0.08)',
-        borderRadius: 16,
+        borderRadius: 14,
         color: '#fff',
-        fontSize: '1.3rem', fontWeight: 600,
+        fontSize: '1.2rem', fontWeight: 600,
         cursor: 'pointer',
         transition: 'all 0.2s cubic-bezier(.22,1,.36,1)',
       }}
@@ -245,27 +245,27 @@ export default function AreaSelectorPage() {
       <div style={{ position: 'relative', width: '100%', maxWidth: 720, zIndex: 1 }}>
 
         {/* Header */}
-        <div className="animate-fadeUp" style={{ textAlign: 'center', marginBottom: 52 }}>
+        <div className="animate-fadeUp" style={{ textAlign: 'center', marginBottom: 'clamp(32px, 8vh, 52px)' }}>
           <p style={{
-            fontSize: '0.8rem', letterSpacing: '0.2em',
+            fontSize: '0.75rem', letterSpacing: '0.2em',
             textTransform: 'uppercase',
             color: 'var(--accent)',
             fontWeight: 800,
-            marginBottom: 16,
+            marginBottom: 12,
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
           }}>
-            <span style={{ fontSize: 18 }}>▦</span> METRICHUB
+            <span style={{ fontSize: 16 }}>▦</span> METRICHUB
           </p>
           <h1 style={{
-            fontSize: '3.5rem',
+            fontSize: 'clamp(2rem, 10vw, 3.5rem)',
             fontWeight: 700,
             letterSpacing: '-2px',
             color: '#fff',
-            marginBottom: 14, lineHeight: 1.1,
+            marginBottom: 10, lineHeight: 1.1,
           }}>
             Seleccioná tu área
           </h1>
-          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '1.1rem', fontWeight: 400 }}>
+          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 'clamp(0.9rem, 3vw, 1.1rem)', fontWeight: 400 }}>
             Cada área tiene su propio PIN de acceso
           </p>
         </div>
@@ -273,8 +273,8 @@ export default function AreaSelectorPage() {
         {/* Area cards grid */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))',
-          gap: 18, marginBottom: 44,
+          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+          gap: 16, marginBottom: 44,
         }}>
           {areas.map((area, i) => (
             <AreaCard key={area.id} area={area} delay={i * 0.09}

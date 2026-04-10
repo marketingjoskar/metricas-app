@@ -48,8 +48,9 @@ export default function LoginPage() {
         style={{
           position: 'relative',
           width: '100%',
-          maxWidth: 420,
-          padding: '0 24px',
+          maxWidth: 440,
+          padding: '24px',
+          margin: '0 auto',
         }}
       >
         {/* Logo / brand */}
@@ -76,11 +77,12 @@ export default function LoginPage() {
 
           <h1 style={{
             fontFamily: 'var(--font-display)',
-            fontSize: '2.4rem',
+            fontSize: 'clamp(2rem, 8vw, 2.6rem)',
             fontWeight: 700,
             letterSpacing: '-1.5px',
             color: '#fff',
             marginBottom: 4,
+            lineHeight: 1,
           }}>MetricHub</h1>
 
           <p style={{
@@ -96,7 +98,7 @@ export default function LoginPage() {
           style={{
             position: 'relative',
             borderRadius: 32,
-            padding: '40px 32px',
+            padding: 'clamp(32px, 6vw, 42px) clamp(24px, 5vw, 36px)',
             background: 'var(--glass-bg)',
             backdropFilter: 'blur(40px) saturate(1.8)',
             WebkitBackdropFilter: 'blur(40px) saturate(1.8)',
