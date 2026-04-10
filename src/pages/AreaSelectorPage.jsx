@@ -9,6 +9,13 @@ const AREA_ROUTES = {
   gerencia: '/dashboard/gerencia',
 }
 
+const AREA_IMAGES = {
+  social:   'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=600',
+  diseno:   'https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&q=80&w=600',
+  sistemas: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=600',
+  gerencia: 'https://images.unsplash.com/photo-1454165833767-13143895e709?auto=format&fit=crop&q=80&w=600',
+}
+
 /* ─── PIN Modal ───────────────────────────────────────────── */
 function PinInput({ area, onCancel }) {
   const [pin, setPin]         = useState('')
@@ -342,6 +349,24 @@ function AreaCard({ area, delay, onSelect }) {
         e.currentTarget.style.boxShadow = `0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.1)`
       }}
     >
+      {/* background image accent */}
+      <img 
+        src={AREA_IMAGES[area.area_key]} 
+        alt="" 
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          opacity: 0.12,
+          mixBlendMode: 'overlay',
+          filter: 'grayscale(0.5) blur(1px)',
+          transition: 'opacity 0.3s ease',
+        }}
+        className="card-bg-img"
+      />
+
       {/* top gradient accent line */}
       <div style={{
         position: 'absolute', top: 0, left: 0, right: 0, height: 2,
@@ -360,6 +385,7 @@ function AreaCard({ area, delay, onSelect }) {
 
       {/* icon */}
       <div style={{
+        position: 'relative',
         fontSize: 36, marginBottom: 16, lineHeight: 1,
         filter: 'drop-shadow(0 4px 10px rgba(0,0,0,0.3))',
       }}>
@@ -368,6 +394,7 @@ function AreaCard({ area, delay, onSelect }) {
 
       {/* name */}
       <h3 style={{
+        position: 'relative',
         fontSize: '1.05rem', fontWeight: 700,
         color: 'var(--text-primary)',
         letterSpacing: '-0.3px', marginBottom: 4,
@@ -375,24 +402,6 @@ function AreaCard({ area, delay, onSelect }) {
       }}>
         {area.area_nombre}
       </h3>
-
-      {/* PIN dots */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 20 }}>
-        {[0,1,2,3].map(d => (
-          <div key={d} style={{
-            width: 7, height: 7, borderRadius: '50%',
-            border: `1.5px solid ${area.color}70`,
-            background: 'transparent',
-          }} />
-        ))}
-        <span style={{
-          marginLeft: 6, fontFamily: 'var(--font-mono)',
-          fontSize: '0.68rem', color: 'rgba(255,255,255,0.3)',
-          letterSpacing: '0.1em', textTransform: 'uppercase',
-        }}>
-          PIN requerido
-        </span>
-      </div>
     </button>
   )
 }
