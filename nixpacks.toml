@@ -1,2 +1,5 @@
-[variables]
-    NODE_VERSION = "20"
+[setup]
+node = "20"
+
+[phases.build]
+cmds = ["chmod -R +x node_modules/.bin", "npm run build"]
