@@ -70,30 +70,32 @@ function StatCard({ label, value, unit='', icon, color, sub, delay=0 }) {
       onMouseLeave={() => setHovered(false)}
       style={{
         animationDelay: `${delay}s`,
-        background: 'var(--glass-bg)',
-        backdropFilter: 'blur(28px)',
-        border: hovered ? `1px solid ${color}66` : '1px solid var(--glass-border)',
-        borderRadius: 24, padding: '24px', position: 'relative', overflow: 'hidden',
-        boxShadow: hovered ? `0 12px 40px ${color}22` : 'var(--glass-shadow)',
-        transform: hovered ? 'translateY(-8px) scale(1.01)' : 'translateY(0) scale(1)',
-        transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+        background: '#111827', // Very dark navy/gray
+        border: '1px solid rgba(255,255,255,0.05)',
+        borderRadius: 24, padding: '32px 28px', position: 'relative', overflow: 'hidden',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
+        transition: 'all 0.4s ease',
         cursor: 'default'
       }}
     >
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: color, opacity: 0.8 }} />
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 12 }}>
-        <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{label}</div>
-        <div style={{ fontSize: 24, filter: `drop-shadow(0 0 10px ${color}44)` }}>{icon}</div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+        <div style={{ 
+          fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: 800, 
+          letterSpacing: '0.12em', textTransform: 'uppercase' 
+        }}>{label}</div>
+        <div style={{ 
+          fontSize: 18, color: color, opacity: 0.8,
+          filter: `drop-shadow(0 0 8px ${color}44)` 
+        }}>{icon}</div>
       </div>
       <div style={{
-        fontFamily: 'var(--font-mono)',
-        fontSize: '2.8rem', fontWeight: 800,
-        color: 'var(--text-primary)', letterSpacing: '-2px', lineHeight: 1,
-        marginBottom: 8,
+        fontSize: '3.2rem', fontWeight: 700,
+        color: '#fff', letterSpacing: '-1.5px', lineHeight: 1,
+        marginBottom: 12,
       }}>
-        {value}<span style={{ fontSize: '1rem', fontWeight: 600, marginLeft: 6, color: 'var(--text-muted)', letterSpacing: 0 }}>{unit}</span>
+        {value}<span style={{ fontSize: '1.2rem', fontWeight: 400, marginLeft: 8, color: 'rgba(255,255,255,0.3)' }}>{unit}</span>
       </div>
-      {sub && <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>{sub}</div>}
+      {sub && <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.25)', fontWeight: 500 }}>{sub}</div>}
     </div>
   )
 }
@@ -178,48 +180,33 @@ export default function SistemasDashboardPage() {
   return (
     <div className="animate-fadeIn">
       {/* Header */}
-      <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:20, marginBottom:32 }}>
+      <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom: 48, gap: 20 }}>
         <div>
           <h1 style={{ 
-            fontSize: '2.5rem', fontWeight: 900, letterSpacing: '-2px', marginBottom: 4,
-            background: 'linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary))',
-            WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+            fontSize: '3rem', fontWeight: 700, letterSpacing: '-1px', color: '#fff', marginBottom: 8
           }}>
             Sistemas / Web
           </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', fontWeight: 500 }}>
-            Infraestructura técnica · Análisis de rendimiento digital
+          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '1.1rem', fontWeight: 400 }}>
+            Métricas Operativas y Analítica de Tráfico
           </p>
         </div>
 
-        <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-          <div style={{ 
-            background: 'var(--bg-elevated)', borderRadius: 16, padding: 4, 
-            border: '1px solid var(--border)', display: 'flex', alignItems: 'center' 
-          }}>
-            <button onClick={() => month === 0 ? (setYear(y=>y-1), setMonth(11)) : setMonth(m=>m-1)} 
-              style={{ width: 40, height: 40, borderRadius: 12, background: 'transparent', border: 'none', color: 'var(--text-primary)', fontSize: '1.2rem', cursor: 'pointer' }}>‹</button>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.85rem', color: 'var(--text-secondary)', minWidth: 120, textAlign: 'center', fontWeight: 700 }}>
-              {MONTHS_ES[month].toUpperCase()} {year}
-            </span>
-            <button onClick={() => isCurrentMonth ? null : month === 11 ? (setYear(y=>y+1), setMonth(0)) : setMonth(m=>m+1)} 
-              disabled={isCurrentMonth} style={{ 
-                width: 40, height: 40, borderRadius: 12, background: 'transparent', border: 'none', 
-                color: isCurrentMonth ? 'var(--text-muted)' : 'var(--text-primary)', fontSize: '1.2rem', 
-                cursor: isCurrentMonth ? 'not-allowed' : 'pointer' 
-              }}>›</button>
-          </div>
-
-          <button
-            onClick={() => navigate('/dashboard/sistemas/ingresar')}
-            style={{
-              padding: '12px 28px', background: accentColor, border: 'none', borderRadius: 16,
-              color: '#080C1C', fontSize: '0.9rem', fontWeight: 800, cursor: 'pointer',
-              boxShadow: `0 8px 24px ${accentColor}44`, transition: 'all 0.3s'
-            }}
-            onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-4px)'}
-            onMouseLeave={e => e.currentTarget.style.transform = 'none'}
-          >✚ Registrar Jornada</button>
+        <div style={{ 
+          background: 'rgba(255,255,255,0.03)', borderRadius: 16, padding: 6, 
+          border: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center' 
+        }}>
+          <button onClick={() => month === 0 ? (setYear(y=>y-1), setMonth(11)) : setMonth(m=>m-1)} 
+            style={{ width: 36, height: 36, borderRadius: 12, background: 'rgba(255,255,255,0.05)', border: 'none', color: '#fff', fontSize: '1rem', cursor: 'pointer' }}>‹</button>
+          <span style={{ fontSize: '0.9rem', color: '#fff', minWidth: 140, textAlign: 'center', fontWeight: 600 }}>
+            {MONTHS_ES[month]} {year}
+          </span>
+          <button onClick={() => isCurrentMonth ? null : month === 11 ? (setYear(y=>y+1), setMonth(0)) : setMonth(m=>m+1)} 
+            disabled={isCurrentMonth} style={{ 
+              width: 36, height: 36, borderRadius: 12, background: 'rgba(255,255,255,0.05)', border: 'none', 
+              color: isCurrentMonth ? 'rgba(255,255,255,0.2)' : '#fff', fontSize: '1rem', 
+              cursor: isCurrentMonth ? 'not-allowed' : 'pointer' 
+            }}>›</button>
         </div>
       </div>
 
@@ -254,36 +241,31 @@ export default function SistemasDashboardPage() {
             {/* Primary Evolution Chart */}
             {records.length > 0 && (
               <div className="animate-fadeUp" style={{ 
-                background: 'var(--glass-bg)', backdropFilter: 'blur(28px)', 
-                padding: '32px', borderRadius: 32, border: '1px solid var(--glass-border)',
-                boxShadow: 'var(--glass-shadow)'
+                background: '#111827',
+                padding: '32px', borderRadius: 32, border: '1px solid rgba(255,255,255,0.05)',
+                boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
               }}>
                 <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom: 32 }}>
-                  <div style={{ fontSize:'0.8rem', fontWeight: 800, color:'var(--text-muted)', letterSpacing:'0.1em', textTransform: 'uppercase' }}>ACTIVIDAD TÉCNICA DIARIA</div>
+                  <div style={{ fontSize:'0.75rem', fontWeight: 700, color:'rgba(255,255,255,0.4)', letterSpacing:'0.1em' }}>EVOLUCIÓN DIARIA</div>
                   <button onClick={() => setShowLogsModal(true)} style={{
-                    background: 'var(--bg-elevated)', border: '1px solid var(--border)', color: 'var(--text-primary)',
-                    padding: '8px 20px', borderRadius: 12, fontSize: '0.8rem', cursor: 'pointer', fontWeight: 700
-                  }}>Ver bitácora detallada</button>
+                    background: 'rgba(255,255,255,0.05)', border: 'none', color: '#fff',
+                    padding: '8px 16px', borderRadius: 10, fontSize: '0.8rem', cursor: 'pointer', fontWeight: 600
+                  }}>Ver detalles</button>
                 </div>
                 <div style={{ width: '100%', height: 350 }}>
                   <ResponsiveContainer>
                     <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                       <defs>
                         <linearGradient id="colorInc" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#60A5FA" stopOpacity={0.6}/>
-                          <stop offset="95%" stopColor="#60A5FA" stopOpacity={0}/>
-                        </linearGradient>
-                        <linearGradient id="colorOpt" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.4}/>
-                          <stop offset="95%" stopColor="#3B82F6" stopOpacity={0}/>
+                          <stop offset="5%" stopColor="var(--accent)" stopOpacity={0.3}/>
+                          <stop offset="95%" stopColor="var(--accent)" stopOpacity={0}/>
                         </linearGradient>
                       </defs>
-                      <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
-                      <XAxis dataKey="dia" stroke="var(--text-muted)" fontSize={11} tickLine={false} axisLine={false} />
-                      <YAxis stroke="var(--text-muted)" fontSize={11} tickLine={false} axisLine={false} />
+                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
+                      <XAxis dataKey="dia" stroke="rgba(255,255,255,0.2)" fontSize={11} tickLine={false} axisLine={false} />
+                      <YAxis stroke="rgba(255,255,255,0.2)" fontSize={11} tickLine={false} axisLine={false} />
                       <Tooltip content={<CustomTooltip />} />
-                      <Area type="monotone" dataKey="Optimizadas" stroke="#3B82F6" strokeWidth={4} fillOpacity={1} fill="url(#colorOpt)" />
-                      <Area type="monotone" dataKey="Incidencias" stroke="#60A5FA" strokeWidth={4} fillOpacity={1} fill="url(#colorInc)" />
+                      <Area type="monotone" dataKey="Incidencias" stroke="var(--accent)" strokeWidth={3} fillOpacity={1} fill="url(#colorInc)" />
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>

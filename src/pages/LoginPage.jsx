@@ -76,20 +76,18 @@ export default function LoginPage() {
 
           <h1 style={{
             fontFamily: 'var(--font-display)',
-            fontSize: '2rem',
-            fontWeight: 800,
+            fontSize: '2.4rem',
+            fontWeight: 700,
             letterSpacing: '-1.5px',
-            background: 'linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.55))',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-            marginBottom: 8,
+            color: '#fff',
+            marginBottom: 4,
           }}>MetricHub</h1>
 
           <p style={{
-            color: 'rgba(255,255,255,0.38)',
-            fontSize: '0.9rem',
-            letterSpacing: '0.02em',
+            color: 'rgba(255,255,255,0.45)',
+            fontSize: '0.85rem',
+            letterSpacing: '0.01em',
+            fontWeight: 400,
           }}>Dashboard interno del equipo</p>
         </div>
 
@@ -97,39 +95,30 @@ export default function LoginPage() {
         <div
           style={{
             position: 'relative',
-            borderRadius: 28,
-            padding: '36px 32px',
+            borderRadius: 32,
+            padding: '40px 32px',
             background: 'var(--glass-bg)',
             backdropFilter: 'blur(40px) saturate(1.8)',
             WebkitBackdropFilter: 'blur(40px) saturate(1.8)',
             border: '1px solid var(--glass-border)',
-            boxShadow: '0 8px 48px var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,0.05)',
+            boxShadow: '0 20px 50px rgba(0,0,0,0.3)',
             animation: shaking ? 'pinShake 0.45s ease' : 'none',
           }}
         >
-          {/* Top accent gradient line */}
+          {/* Top accent glow line */}
           <div style={{
-            position: 'absolute', top: 0, left: 0, right: 0, height: 2,
+            position: 'absolute', top: 0, left: '15%', right: '15%', height: 1.5,
             background: 'linear-gradient(90deg, transparent, var(--accent), transparent)',
-            borderRadius: '28px 28px 0 0',
-          }} />
-
-          {/* Inner top-left glow */}
-          <div style={{
-            position: 'absolute', top: -30, left: -30,
-            width: 100, height: 100, borderRadius: '50%',
-            background: 'radial-gradient(circle, var(--accent-glow) 0%, transparent 70%)',
-            pointerEvents: 'none',
           }} />
 
           <label style={{
             display: 'block',
-            fontSize: '0.72rem',
-            fontWeight: 600,
-            letterSpacing: '0.12em',
+            fontSize: '0.68rem',
+            fontWeight: 700,
+            letterSpacing: '0.1em',
             textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.38)',
-            marginBottom: 10,
+            color: 'rgba(255,255,255,0.4)',
+            marginBottom: 12,
           }}>
             Contraseña de acceso
           </label>
@@ -143,35 +132,38 @@ export default function LoginPage() {
               placeholder="••••••••••••"
               style={{
                 width: '100%',
-                padding: '14px 16px',
+                padding: '16px 18px',
                 fontSize: '1rem',
                 letterSpacing: '0.1em',
-                background: 'var(--bg-elevated)',
-                border: `1px solid ${error ? '#F0436A' : 'var(--border)'}`,
-                borderRadius: 14,
-                color: 'var(--text-primary)',
-                marginBottom: 16,
+                background: 'rgba(255,255,255,0.03)',
+                border: `1px solid ${error ? '#F0436A' : 'rgba(255,255,255,0.08)'}`,
+                borderRadius: 16,
+                color: '#fff',
+                marginBottom: 20,
                 outline: 'none',
-                transition: 'border-color 0.2s, box-shadow 0.2s',
+                transition: 'all 0.2s ease',
               }}
               onFocus={e => {
                 e.currentTarget.style.borderColor = 'var(--accent)'
-                e.currentTarget.style.boxShadow = '0 0 0 3px var(--accent-glow)'
+                e.currentTarget.style.boxShadow = '0 0 0 4px var(--accent-glow)'
+                e.currentTarget.style.background = 'rgba(255,255,255,0.06)'
               }}
               onBlur={e => {
-                e.currentTarget.style.borderColor = error ? '#F0436A' : 'var(--border)'
+                e.currentTarget.style.borderColor = error ? '#F0436A' : 'rgba(255,255,255,0.08)'
                 e.currentTarget.style.boxShadow = 'none'
+                e.currentTarget.style.background = 'rgba(255,255,255,0.03)'
               }}
             />
 
             {error && (
               <div style={{
                 color: '#ff6b8a',
-                fontSize: '0.82rem',
-                marginBottom: 14,
+                fontSize: '0.8rem',
+                marginBottom: 16,
                 display: 'flex',
                 alignItems: 'center',
                 gap: 6,
+                padding: '0 4px',
               }}>
                 <span>✕</span> {error}
               </div>
@@ -182,27 +174,27 @@ export default function LoginPage() {
               disabled={!password}
               style={{
                 width: '100%',
-                padding: '14px',
+                padding: '16px',
                 background: 'var(--accent)',
                 border: 'none',
-                borderRadius: 14,
-                color: '#000',
-                fontSize: '0.95rem',
-                fontWeight: 800,
-                letterSpacing: '0.04em',
-                boxShadow: '0 4px 24px var(--accent-glow)',
-                transition: 'all 0.25s cubic-bezier(.22,1,.36,1)',
+                borderRadius: 16,
+                color: '#fff',
+                fontSize: '1rem',
+                fontWeight: 600,
+                letterSpacing: '0.02em',
+                boxShadow: '0 10px 25px var(--accent-glow)',
+                transition: 'all 0.3s cubic-bezier(.22,1,.36,1)',
                 cursor: 'pointer',
               }}
               onMouseEnter={e => {
                 e.currentTarget.style.background = 'var(--accent-bright)'
                 e.currentTarget.style.transform = 'translateY(-2px)'
-                e.currentTarget.style.boxShadow = '0 8px 32px var(--accent-glow)'
+                e.currentTarget.style.boxShadow = '0 15px 35px var(--accent-glow)'
               }}
               onMouseLeave={e => {
                 e.currentTarget.style.background = 'var(--accent)'
                 e.currentTarget.style.transform = 'translateY(0)'
-                e.currentTarget.style.boxShadow = '0 4px 24px var(--accent-glow)'
+                e.currentTarget.style.boxShadow = '0 10px 25px var(--accent-glow)'
               }}
             >
               Ingresar →
@@ -213,11 +205,11 @@ export default function LoginPage() {
         {/* Footer label */}
         <p style={{
           textAlign: 'center',
-          marginTop: 24,
-          color: 'rgba(255,255,255,0.18)',
-          fontSize: '0.72rem',
+          marginTop: 28,
+          color: 'rgba(255,255,255,0.15)',
+          fontSize: '0.7rem',
           fontFamily: 'var(--font-mono)',
-          letterSpacing: '0.08em',
+          letterSpacing: '0.05em',
         }}>
           metricas.tuempresa.com · v1.0
         </p>

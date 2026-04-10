@@ -11,64 +11,38 @@ function hexToRGB(hex) {
 
 /* ── Glass stat card ──────────────────────────────────────────────────────── */
 function StatCard({ label, value, unit = '', color, icon, delay = 0 }) {
-  const rgb = hexToRGB(color)
   return (
     <div
       className="animate-fadeUp"
       style={{
         animationDelay: `${delay}s`,
         position: 'relative', overflow: 'hidden',
-        borderRadius: 18,
-        padding: '22px 20px',
-        background: 'var(--glass-bg)',
-        backdropFilter: 'blur(28px) saturate(1.6)',
-        WebkitBackdropFilter: 'blur(28px) saturate(1.6)',
-        border: `1px solid rgba(${rgb},0.18)`,
-        boxShadow: 'var(--glass-shadow)',
-        transition: 'transform 0.3s cubic-bezier(.22,1,.36,1), box-shadow 0.3s',
+        borderRadius: 24, padding: '32px 24px',
+        background: '#111827', // Dark navy
+        border: '1px solid rgba(255,255,255,0.05)',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
+        transition: 'all 0.4s ease',
         cursor: 'default',
       }}
-      onMouseEnter={e => {
-        e.currentTarget.style.transform = 'translateY(-4px) scale(1.01)'
-        e.currentTarget.style.boxShadow = `0 16px 40px rgba(${rgb},0.20)`
-      }}
-      onMouseLeave={e => {
-        e.currentTarget.style.transform = 'translateY(0) scale(1)'
-        e.currentTarget.style.boxShadow = 'var(--glass-shadow)'
-      }}
     >
-      {/* top accent line */}
-      <div style={{
-        position: 'absolute', top: 0, left: 0, right: 0, height: 2,
-        background: `linear-gradient(90deg, transparent, ${color}, transparent)`,
-      }} />
-      {/* inner corner glow */}
-      <div style={{
-        position: 'absolute', top: -20, left: -20,
-        width: 70, height: 70, borderRadius: '50%',
-        background: `radial-gradient(circle, rgba(${rgb},0.18) 0%, transparent 70%)`,
-        pointerEvents: 'none',
-      }} />
-
-      <div style={{
-        fontSize: '1.4rem', marginBottom: 10,
-        filter: `drop-shadow(0 4px 8px rgba(${rgb},0.4))`,
-      }}>{icon}</div>
-
-      <div style={{
-        fontFamily: 'var(--font-mono)',
-        fontSize: '1.75rem', fontWeight: 500,
-        color: color,
-        letterSpacing: '-1px', marginBottom: 4,
-      }}>
-        {value}<span style={{ fontSize: '0.85rem', marginLeft: 3 }}>{unit}</span>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+        <div style={{ 
+          fontSize: '0.7rem', color: 'rgba(255,255,255,0.4)', fontWeight: 800, 
+          letterSpacing: '0.12em', textTransform: 'uppercase' 
+        }}>{label}</div>
+        <div style={{ 
+          fontSize: 18, color: color, opacity: 0.8,
+          filter: `drop-shadow(0 0 8px ${color}44)` 
+        }}>{icon}</div>
       </div>
 
       <div style={{
-        fontSize: '0.76rem',
-        color: 'var(--text-muted)',
-        letterSpacing: '0.01em',
-      }}>{label}</div>
+        fontSize: '2.8rem', fontWeight: 700,
+        color: '#fff', letterSpacing: '-1.5px', lineHeight: 1,
+        marginBottom: 8,
+      }}>
+        {value}<span style={{ fontSize: '1rem', fontWeight: 400, marginLeft: 6, color: 'rgba(255,255,255,0.3)' }}>{unit}</span>
+      </div>
     </div>
   )
 }
@@ -78,44 +52,35 @@ function CtaCard({ color, rgb, icon, message, label, onClick }) {
   return (
     <div style={{
       position: 'relative', overflow: 'hidden',
-      borderRadius: 18,
-      padding: '32px',
-      background: 'var(--bg-elevated)',
-      backdropFilter: 'blur(28px)',
-      WebkitBackdropFilter: 'blur(28px)',
-      border: `1px dashed rgba(${rgb},0.30)`,
-      boxShadow: 'var(--glass-shadow)',
+      borderRadius: 24, padding: '40px 32px',
+      background: 'rgba(255,255,255,0.02)',
+      border: '1px dashed rgba(255,255,255,0.1)',
       textAlign: 'center',
     }}>
-      {icon && <div style={{ fontSize: 28, marginBottom: 10 }}>{icon}</div>}
-      <p style={{ color: 'var(--text-secondary)', marginBottom: 16, fontSize: '0.88rem' }}>
+      {icon && <div style={{ fontSize: 32, marginBottom: 16 }}>{icon}</div>}
+      <p style={{ color: 'rgba(255,255,255,0.4)', marginBottom: 24, fontSize: '1rem', fontWeight: 400 }}>
         {message}
       </p>
       <button
         onClick={onClick}
         style={{
-          padding: '12px 28px',
-          background: `rgba(${rgb},0.2)`,
-          border: `1px solid rgba(${rgb},0.4)`,
-          borderRadius: 12,
-          color: 'var(--text-primary)',
-          fontSize: '0.88rem', fontWeight: 700,
-          boxShadow: `0 4px 20px rgba(${rgb},0.22)`,
-          transition: 'all 0.25s cubic-bezier(.22,1,.36,1)',
+          padding: '12px 32px',
+          background: 'var(--accent)',
+          border: 'none',
+          borderRadius: 14,
+          color: '#080d21',
+          fontSize: '0.9rem', fontWeight: 700,
+          boxShadow: '0 8px 25px rgba(59,130,246,0.3)',
+          transition: 'all 0.3s ease',
           cursor: 'pointer',
-          backdropFilter: 'blur(8px)',
         }}
         onMouseEnter={e => {
-          e.currentTarget.style.background = `rgba(${rgb},0.28)`
-          e.currentTarget.style.borderColor = `rgba(${rgb},0.55)`
           e.currentTarget.style.transform = 'translateY(-2px)'
-          e.currentTarget.style.boxShadow = `0 10px 30px rgba(${rgb},0.32)`
+          e.currentTarget.style.boxShadow = '0 12px 35px rgba(59,130,246,0.4)'
         }}
         onMouseLeave={e => {
-          e.currentTarget.style.background = `rgba(${rgb},0.16)`
-          e.currentTarget.style.borderColor = `rgba(${rgb},0.35)`
           e.currentTarget.style.transform = 'translateY(0)'
-          e.currentTarget.style.boxShadow = `0 4px 20px rgba(${rgb},0.22)`
+          e.currentTarget.style.boxShadow = '0 8px 25px rgba(59,130,246,0.3)'
         }}
       >
         {label}
@@ -125,17 +90,13 @@ function CtaCard({ color, rgb, icon, message, label, onClick }) {
 }
 
 /* ── Page title component ──────────────────────────────────────────────────── */
-function PageTitle({ title, subtitle, color }) {
+function PageTitle({ title, subtitle }) {
   return (
-    <div style={{ marginBottom: 32 }}>
+    <div style={{ marginBottom: 40 }}>
       <h1 style={{
-        fontSize: 'clamp(1.5rem, 3vw, 2rem)',
-        fontWeight: 800, letterSpacing: '-1px', marginBottom: 6,
-        background: 'linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary))',
-        WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-        backgroundClip: 'text',
+        fontSize: '3rem', fontWeight: 700, letterSpacing: '-1px', color: '#fff', marginBottom: 8
       }}>{title}</h1>
-      <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>{subtitle}</p>
+      <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '1.1rem', fontWeight: 400 }}>{subtitle}</p>
     </div>
   )
 }

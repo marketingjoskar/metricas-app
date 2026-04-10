@@ -76,84 +76,73 @@ function PinInput({ area, onCancel }) {
       {/* glass card */}
       <div ref={shakeRef} style={{
         position: 'relative',
-        width: '100%', maxWidth: 360,
-        padding: '40px 32px 36px',
-        borderRadius: 28,
-        background: 'var(--glass-bg)',
+        width: '100%', maxWidth: 380,
+        padding: '48px 32px 40px',
+        borderRadius: 36,
+        background: 'rgba(15, 23, 42, 0.9)', // Solid-ish navy glass
         backdropFilter: 'blur(40px) saturate(1.8)',
         WebkitBackdropFilter: 'blur(40px) saturate(1.8)',
-        border: `1px solid rgba(${accentRGB},0.35)`,
-        boxShadow: 'var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,0.08)',
+        border: '1px solid rgba(255,255,255,0.08)',
+        boxShadow: '0 25px 60px rgba(0,0,0,0.5)',
         animation: 'fadeUp 0.3s cubic-bezier(.22,1,.36,1)',
       }}>
 
-        {/* top glow line */}
-        <div style={{
-          position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
-          width: '60%', height: 2,
-          background: `linear-gradient(90deg, transparent, ${area.color}, transparent)`,
-          borderRadius: 99,
-        }} />
-
         {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: 28 }}>
+        <div style={{ textAlign: 'center', marginBottom: 32 }}>
           <div style={{
-            fontSize: 42, marginBottom: 12,
-            filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.3))',
+            fontSize: 48, marginBottom: 16,
+            filter: 'drop-shadow(0 0 10px rgba(255,255,255,0.1))',
           }}>
             {area.icono}
           </div>
           <h2 style={{
-            fontSize: '1.3rem', fontWeight: 700,
-            letterSpacing: '-0.5px', color: 'var(--text-primary)', marginBottom: 4,
+            fontSize: '1.6rem', fontWeight: 700,
+            letterSpacing: '-0.5px', color: '#fff', marginBottom: 8,
           }}>
             {area.area_nombre}
           </h2>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.82rem' }}>
+          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.88rem', fontWeight: 400 }}>
             Ingresá tu PIN de 4 dígitos
           </p>
         </div>
 
         {/* PIN dots */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 16, marginBottom: 32 }}>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 18, marginBottom: 40 }}>
           {[0,1,2,3].map(i => (
             <div key={i} style={{
-              width: 20, height: 20, borderRadius: '50%',
-              background: pin.length > i
-                ? area.color
-                : 'var(--bg-elevated)',
-              border: `2px solid ${pin.length > i ? area.color : 'var(--border)'}`,
-              transition: 'all 0.18s cubic-bezier(.34,1.56,.64,1)',
-              transform: pin.length > i ? 'scale(1.15)' : 'scale(1)',
-              boxShadow: pin.length > i ? `0 0 14px ${area.color}80` : 'none',
+              width: 14, height: 14, borderRadius: '50%',
+              background: pin.length > i ? '#fff' : 'transparent',
+              border: `2px solid ${pin.length > i ? '#fff' : 'rgba(255,255,255,0.2)'}`,
+              transition: 'all 0.15s ease',
+              boxShadow: pin.length > i ? '0 0 12px #fff' : 'none',
             }} />
           ))}
         </div>
 
         {/* Numpad */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 14 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 18 }}>
           {[1,2,3,4,5,6,7,8,9].map(n => (
             <PinButton key={n} label={n} color={area.color} accentRGB={accentRGB}
               onClick={() => !loading && setPin(p => p.length < 4 ? p + String(n) : p)} />
           ))}
           {/* row: cancel / 0 / backspace */}
           <button onClick={onCancel} style={{
-            padding: '14px', background: 'transparent', border: 'none',
-            color: 'var(--text-muted)', fontSize: '1rem', cursor: 'pointer',
-            borderRadius: 14, transition: 'color 0.2s',
+            padding: '18px', background: 'transparent', border: 'none',
+            color: 'rgba(255,255,255,0.3)', fontSize: '1.1rem', cursor: 'pointer',
+            borderRadius: 16, transition: 'all 0.2s',
           }}
-            onMouseEnter={e => e.currentTarget.style.color = 'var(--text-secondary)'}
-            onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
+            onMouseEnter={e => e.currentTarget.style.color = '#fff'}
+            onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.3)'}
           >✕</button>
           <PinButton label="0" color={area.color} accentRGB={accentRGB}
             onClick={() => !loading && setPin(p => p.length < 4 ? p + '0' : p)} />
           <button onClick={() => !loading && setPin(p => p.slice(0, -1))} style={{
-            padding: '14px', background: 'transparent', border: 'none',
-            color: 'rgba(255,255,255,0.5)', fontSize: '1.1rem', cursor: 'pointer',
-            borderRadius: 14, transition: 'color 0.2s',
+            padding: '18px', background: 'transparent', border: 'none',
+            color: 'rgba(255,255,255,0.4)', fontSize: '1.2rem', cursor: 'pointer',
+            borderRadius: 16, transition: 'all 0.2s',
           }}
-            onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.85)'}
-            onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.5)'}
+            onMouseEnter={e => e.currentTarget.style.color = '#fff'}
+            onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.4)'}
           >⌫</button>
         </div>
 
@@ -187,29 +176,28 @@ function PinButton({ label, color, accentRGB, onClick }) {
     <button
       onClick={onClick}
       style={{
-        padding: '16px',
-        background: 'var(--bg-elevated)',
-        border: '1px solid var(--border)',
-        borderRadius: 14,
-        color: 'var(--text-primary)',
-        fontSize: '1.2rem', fontWeight: 600,
+        padding: '18px',
+        background: 'rgba(255,255,255,0.06)',
+        border: '1px solid rgba(255,255,255,0.08)',
+        borderRadius: 16,
+        color: '#fff',
+        fontSize: '1.3rem', fontWeight: 600,
         cursor: 'pointer',
-        transition: 'all 0.18s ease',
+        transition: 'all 0.2s cubic-bezier(.22,1,.36,1)',
       }}
       onMouseEnter={e => {
-        e.currentTarget.style.background = `rgba(${accentRGB},0.22)`
-        e.currentTarget.style.borderColor = `rgba(${accentRGB},0.45)`
-        e.currentTarget.style.transform = 'scale(1.06)'
-        e.currentTarget.style.boxShadow = `0 4px 18px rgba(${accentRGB},0.25)`
+        e.currentTarget.style.background = 'rgba(255,255,255,0.12)'
+        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'
+        e.currentTarget.style.transform = 'scale(1.04)'
+        e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.2)'
       }}
       onMouseLeave={e => {
-        e.currentTarget.style.background = 'var(--bg-elevated)'
-        e.currentTarget.style.borderColor = 'var(--border)'
+        e.currentTarget.style.background = 'rgba(255,255,255,0.06)'
+        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'
         e.currentTarget.style.transform = 'scale(1)'
         e.currentTarget.style.boxShadow = 'none'
       }}
-      onMouseDown={e => { e.currentTarget.style.transform = 'scale(0.94)' }}
-      onMouseUp={e  => { e.currentTarget.style.transform = 'scale(1.06)' }}
+      onMouseDown={e => { e.currentTarget.style.transform = 'scale(0.96)' }}
     >
       {label}
     </button>
@@ -259,28 +247,25 @@ export default function AreaSelectorPage() {
         {/* Header */}
         <div className="animate-fadeUp" style={{ textAlign: 'center', marginBottom: 52 }}>
           <p style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: '0.68rem', letterSpacing: '0.25em',
+            fontSize: '0.8rem', letterSpacing: '0.2em',
             textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.35)',
-            marginBottom: 14,
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+            color: 'var(--accent)',
+            fontWeight: 800,
+            marginBottom: 16,
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
           }}>
-            <span style={{ opacity: 0.6 }}>▦</span> MetricHub
+            <span style={{ fontSize: 18 }}>▦</span> METRICHUB
           </p>
           <h1 style={{
-            fontSize: 'clamp(2rem, 5vw, 3.2rem)',
-            fontWeight: 800,
+            fontSize: '3.5rem',
+            fontWeight: 700,
             letterSpacing: '-2px',
-            background: 'linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary) 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-            marginBottom: 12, lineHeight: 1.1,
+            color: '#fff',
+            marginBottom: 14, lineHeight: 1.1,
           }}>
             Seleccioná tu área
           </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', letterSpacing: '0.02em' }}>
+          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '1.1rem', fontWeight: 400 }}>
             Cada área tiene su propio PIN de acceso
           </p>
         </div>

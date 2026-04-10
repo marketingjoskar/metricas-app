@@ -9,45 +9,41 @@
 }
 
 :root {
-  /* ── DARK MODE – Navy-Violet Deep ────────────────────────── */
-  --bg-gradient: #050505;
-  --bg-base: #050505;
-  /* Obsidian base         */
-  --bg-surface: #0A0A0A;
-  /* Dark Slate Card        */
-  --bg-elevated: #161616;
-  /* Elevated surface       */
-  --bg-hover: #1F1F1F;
-  /* Hover state            */
+  /* ── DARK MODE – MetricHub Deep Blue ───────────────────────── */
+  --bg-gradient: #080d21;
+  --bg-base: #080d21;
+  /* Deep Navy base        */
+  --bg-surface: #0f172a;
+  /* Darker Navy Card      */
+  --bg-elevated: #1e293b;
+  /* Elevated surface      */
+  --bg-hover: #334155;
+  /* Hover state           */
 
-  --border: rgba(148, 163, 184, 0.08);
-  --border-bright: rgba(148, 163, 184, 0.18);
+  --border: rgba(148, 163, 184, 0.1);
+  --border-bright: rgba(148, 163, 184, 0.25);
 
-  --text-primary: #F1F5F9;
+  --text-primary: #ffffff;
   --text-secondary: #94A3B8;
   --text-muted: #64748B;
 
-  /* Cyan accent (modern neon) */
-  --accent: #06b6d4;
-  --accent-bright: #22d3ee;
-  --accent-secondary: #083344;
-  --accent-glow: rgba(6, 182, 212, 0.20);
+  /* MetricHub Blue accent */
+  --accent: #3b82f6;
+  --accent-bright: #60a5fa;
+  --accent-secondary: #1e3a8a;
+  --accent-glow: rgba(59, 130, 246, 0.25);
 
-  /* Module accent colours – blue-slate family */
-  --social-color: #7DD3FC;
-  /* Sky-300            */
-  --diseno-color: #93C5FD;
-  /* Blue-300           */
-  --sistemas-color: #60A5FA;
-  /* Blue-400           */
-  --gerencia-color: #A5B4FC;
-  /* Indigo-300 (tenue) */
+  /* Module accent colors — standardized blue family */
+  --social-color: #38bdf8;
+  --diseno-color: #60a5fa;
+  --sistemas-color: #3b82f6;
+  --gerencia-color: #818cf8;
 
-  --glass-bg: rgba(5, 5, 5, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.12);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
-  --sidebar-bg: rgba(5, 5, 5, 0.85);
-  --topbar-bg: rgba(5, 5, 5, 0.7);
+  --glass-bg: rgba(15, 23, 42, 0.4);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --sidebar-bg: rgba(8, 13, 33, 0.7);
+  --topbar-bg: rgba(8, 13, 33, 0.4);
 
   --radius-sm: 8px;
   --radius-md: 14px;
@@ -59,45 +55,35 @@
 }
 
 :root[data-theme="light"] {
-  /* ── LIGHT MODE – Warm White/Blue ────────────────────────── */
-  --bg-gradient: #fbfbfe;
-  --bg-base: #fbfbfe;
-  /* Premium off-white base  */
+  /* ── LIGHT MODE – Clean & Soft ───────────────────────────── */
+  --bg-gradient: #f8fafc;
+  --bg-base: #f8fafc;
   --bg-surface: #ffffff;
-  /* Pure-white cards        */
   --bg-elevated: #f1f5f9;
-  /* Inputs / raised areas   */
-  --bg-hover: #e8eef6;
-  /* Hover state             */
+  --bg-hover: #e2e8f0;
 
-  --border: rgba(15, 23, 42, 0.08);
-  --border-bright: rgba(59, 130, 246, 0.22);
+  --border: rgba(15, 23, 42, 0.06);
+  --border-bright: rgba(59, 130, 246, 0.15);
 
-  --text-primary: #0F172A;
+  --text-primary: #0f172a;
   --text-secondary: #475569;
-  --text-muted: #94A3B8;
+  --text-muted: #94a3b8;
 
-  /* Blue accent (consistent with dark mode) */
-  --accent: #3B82F6;
-  --accent-bright: #60A5FA;
-  --accent-secondary: #EFF6FF;
-  --accent-glow: rgba(59, 130, 246, 0.15);
+  --accent: #2563eb;
+  --accent-bright: #3b82f6;
+  --accent-secondary: #eff6ff;
+  --accent-glow: rgba(37, 99, 235, 0.1);
 
-  /* Module colours – blue family for light mode */
-  --social-color: #0284C7;
-  /* Sky-600           */
-  --diseno-color: #2563EB;
-  /* Blue-600          */
-  --sistemas-color: #3B82F6;
-  /* Blue-500          */
-  --gerencia-color: #6366F1;
-  /* Indigo-500        */
+  --social-color: #0284c7;
+  --diseno-color: #2563eb;
+  --sistemas-color: #3b82f6;
+  --gerencia-color: #6366f1;
 
-  --glass-bg: rgba(251, 251, 254, 0.75);
-  --glass-border: rgba(15, 23, 42, 0.08);
-  --glass-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
-  --sidebar-bg: rgba(251, 251, 254, 0.85);
-  --topbar-bg: rgba(251, 251, 254, 0.65);
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(15, 23, 42, 0.05);
+  --glass-shadow: 0 8px 32px rgba(15, 23, 42, 0.05);
+  --sidebar-bg: rgba(248, 250, 252, 0.8);
+  --topbar-bg: rgba(248, 250, 252, 0.6);
 }
 
 html,
@@ -117,17 +103,17 @@ body {
 }
 
 
-/* ── Glass panel — dark: frosted, light: clean white card ── */
+/* ── Glass panel overhaul ── */
 .glass-panel {
   background: var(--glass-bg);
-  backdrop-filter: blur(24px) saturate(1.5);
-  -webkit-backdrop-filter: blur(24px) saturate(1.5);
+  backdrop-filter: blur(32px) saturate(1.8);
+  -webkit-backdrop-filter: blur(32px) saturate(1.8);
   border: 1px solid var(--glass-border);
-  box-shadow: 0 4px 24px var(--glass-shadow);
+  box-shadow: 0 8px 32px var(--glass-shadow);
   transition: background 0.4s, border-color 0.4s, box-shadow 0.4s;
 }
 
-/* Light mode: cards are white cards with subtle glass effect */
+/* Light mode: cleaner cards */
 :root[data-theme="light"] .glass-panel {
   background: var(--glass-bg);
   backdrop-filter: blur(16px);
@@ -137,28 +123,23 @@ body {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   ANIMATED MESH BACKGROUND
-   — 5 blurred orbs drifting independently on CSS keyframes
-   — Dark mode: deep navy base + indigo/violet/purple orbs
-   — Light mode: lavender base + pastel indigo/violet orbs
+   ANIMATED AMBIENT BACKGROUND
    ═══════════════════════════════════════════════════════════ */
 
-/* Orb base colors ─ dark mode: vibrant blue-violet for visible glass backdrop */
 :root {
-  --orb1: rgba(6, 182, 212, 0.70);  /* Cyan               */
-  --orb2: rgba(217, 70, 239, 0.55);  /* Neon Purple        */
-  --orb3: rgba(14, 165, 233, 0.50);  /* Sky blue           */
-  --orb4: rgba(168, 85, 247, 0.60);  /* Purple             */
-  --orb5: rgba(8, 145, 178, 0.55);   /* Dark Cyan          */
+  --orb1: rgba(37, 99, 235, 0.45);  /* Metric Blue       */
+  --orb2: rgba(192, 38, 211, 0.25);  /* Magenta Glow      */
+  --orb3: rgba(56, 189, 248, 0.30);  /* Sky Blue         */
+  --orb4: rgba(124, 58, 237, 0.20);  /* Deep Purple      */
+  --orb5: rgba(15, 23, 42, 0.60);    /* Deep Navy        */
 }
 
-/* Orb base colors ─ light mode overrides (extremely subtle pastel sky-blue) */
 :root[data-theme="light"] {
-  --orb1: rgba(186, 213, 245, 0.12); /* Sky-blue faint      */
-  --orb2: rgba(199, 220, 248, 0.10); /* Blue-200 faint      */
-  --orb3: rgba(214, 232, 252, 0.08); /* Blue-100 faint      */
-  --orb4: rgba(172, 204, 242, 0.12); /* Cornflower faint    */
-  --orb5: rgba(224, 238, 252, 0.14); /* Ice blue faint      */
+  --orb1: rgba(186, 213, 245, 0.15);
+  --orb2: rgba(232, 213, 245, 0.10);
+  --orb3: rgba(214, 232, 252, 0.08);
+  --orb4: rgba(214, 213, 245, 0.10);
+  --orb5: rgba(224, 238, 252, 0.14);
 }
 
 /* ── Container ── */

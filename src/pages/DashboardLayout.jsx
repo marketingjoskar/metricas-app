@@ -90,65 +90,44 @@ export default function DashboardLayout() {
 
         {/* Logo */}
         <div style={{
-          padding: '28px 20px 18px',
-          borderBottom: `1px solid rgba(${rgb},0.10)`,
+          padding: '32px 24px 20px',
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
-            <span style={{ fontSize: 18, filter: `drop-shadow(0 0 6px ${hex}88)` }}>▦</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div style={{
+              width: 32, height: 32,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: 'var(--accent)',
+              borderRadius: 8,
+              boxShadow: '0 4px 12px var(--accent-glow)',
+            }}>
+              <span style={{ fontSize: 18, color: '#fff' }}>▦</span>
+            </div>
             <span style={{
-              fontWeight: 700, fontSize: '1rem',
+              fontWeight: 700, fontSize: '1.25rem',
               letterSpacing: '-0.5px',
-              background: 'linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary))',
-              WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
+              color: '#fff',
             }}>MetricHub</span>
           </div>
           <div style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: '0.62rem',
+            fontSize: '0.7rem',
             color: 'var(--text-muted)',
-            letterSpacing: '0.08em',
+            marginTop: 8,
+            fontWeight: 500,
           }}>
-            {monthLabel}
-          </div>
-        </div>
-
-        {/* Area badge */}
-        <div style={{
-          margin: '14px 12px',
-          padding: '10px 14px',
-          background: `rgba(${rgb},0.10)`,
-          border: `1px solid rgba(${rgb},0.22)`,
-          borderRadius: 'var(--radius-md)',
-          display: 'flex', alignItems: 'center', gap: 10,
-          boxShadow: `0 4px 16px rgba(${rgb},0.08)`,
-        }}>
-          <span style={{ fontSize: 18 }}>{currentArea.icono}</span>
-          <div>
-            <div style={{
-              fontSize: '0.78rem', fontWeight: 700,
-              color: hex, lineHeight: 1.2,
-              letterSpacing: '-0.2px',
-            }}>{currentArea.area_nombre}</div>
-            <div style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.58rem',
-              color: 'var(--text-muted)',
-              marginTop: 2,
-            }}>área activa</div>
+            {now.toLocaleDateString('es-AR', { month: 'long', year: 'numeric' })}
           </div>
         </div>
 
         {/* Navigation */}
-        <nav style={{ flex: 1, padding: '6px 10px', overflowY: 'auto' }}>
+        <nav style={{ flex: 1, padding: '20px 14px', overflowY: 'auto' }}>
           <div style={{
-            fontSize: '0.58rem',
-            letterSpacing: '0.18em',
+            fontSize: '0.62rem',
+            letterSpacing: '0.12em',
             textTransform: 'uppercase',
-            color: 'var(--text-muted)',
+            color: 'rgba(255,255,255,0.25)',
             fontWeight: 700,
-            padding: '0 8px',
-            marginBottom: 8,
+            padding: '0 12px',
+            marginBottom: 16,
           }}>Navegación</div>
 
           {navItems.map(item => {
@@ -159,25 +138,25 @@ export default function DashboardLayout() {
                 onClick={() => navigate(item.path)}
                 style={{
                   width: '100%',
-                  display: 'flex', alignItems: 'center', gap: 10,
-                  padding: '9px 12px',
-                  borderRadius: 10,
-                  border: isActive ? `1px solid rgba(${rgb},0.25)` : '1px solid transparent',
-                  marginBottom: 2,
-                  background: isActive ? `rgba(${rgb},0.12)` : 'transparent',
-                  color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
-                  fontSize: '0.82rem',
+                  display: 'flex', alignItems: 'center', gap: 12,
+                  padding: '12px 14px',
+                  borderRadius: 14,
+                  border: 'none',
+                  marginBottom: 4,
+                  background: isActive ? 'rgba(59, 130, 246, 0.15)' : 'transparent',
+                  color: isActive ? '#fff' : 'var(--text-secondary)',
+                  fontSize: '0.88rem',
                   fontWeight: isActive ? 600 : 400,
                   textAlign: 'left',
-                  transition: 'all 0.18s ease',
+                  transition: 'all 0.2s ease',
                   cursor: 'pointer',
-                  borderLeft: isActive ? `2px solid ${hex}` : '2px solid transparent',
-                  boxShadow: isActive ? `0 2px 12px rgba(${rgb},0.12)` : 'none',
+                  position: 'relative',
+                  overflow: 'hidden',
                 }}
                 onMouseEnter={e => {
                   if (!isActive) {
-                    e.currentTarget.style.background = 'var(--bg-hover)'
-                    e.currentTarget.style.color = 'var(--text-primary)'
+                    e.currentTarget.style.background = 'rgba(255,255,255,0.04)'
+                    e.currentTarget.style.color = '#fff'
                   }
                 }}
                 onMouseLeave={e => {
@@ -187,7 +166,15 @@ export default function DashboardLayout() {
                   }
                 }}
               >
-                <span style={{ fontSize: '0.85rem', opacity: isActive ? 1 : 0.7 }}>{item.icon}</span>
+                {isActive && (
+                  <div style={{
+                    position: 'absolute', left: 0, top: '20%', bottom: '20%',
+                    width: 3, background: 'var(--accent)',
+                    borderRadius: '0 4px 4px 0',
+                    boxShadow: '0 0 10px var(--accent)',
+                  }} />
+                )}
+                <span style={{ fontSize: '1rem', opacity: isActive ? 1 : 0.6 }}>{item.icon}</span>
                 {item.label}
               </button>
             )
@@ -261,43 +248,52 @@ export default function DashboardLayout() {
         <div style={{
           position: 'sticky', top: 0, zIndex: 10,
           background: 'var(--topbar-bg)',
-          backdropFilter: 'blur(24px) saturate(1.5)',
-          WebkitBackdropFilter: 'blur(24px) saturate(1.5)',
-          borderBottom: `1px solid var(--border)`,
-          padding: '13px 32px',
+          backdropFilter: 'blur(32px) saturate(1.8)',
+          WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+          borderBottom: '1px solid var(--border)',
+          padding: '16px 32px',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          boxShadow: `0 1px 0 var(--border)`,
         }}>
-          <div style={{
-            height: 8, width: 8, borderRadius: '50%',
-            background: hex,
-            boxShadow: `0 0 10px ${hex}`,
-            marginRight: 12,
-            animation: 'pulse-glow 2s ease infinite',
-          }} />
-          <div style={{ flex: 1 }}>
-            <span style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.68rem',
-              color: 'var(--text-muted)',
-              letterSpacing: '0.12em',
-              fontWeight: 700,
-            }}>
-              {currentArea.icono} {currentArea.area_nombre.toUpperCase()}
-            </span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+            <span style={{ fontSize: 18, color: 'var(--accent)', opacity: 0.8 }}>{currentArea.icono}</span>
             <div style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.68rem',
+              display: 'flex', alignItems: 'center', gap: 8,
+              fontSize: '0.75rem', fontWeight: 700,
+              letterSpacing: '0.05em', color: 'rgba(255,255,255,0.4)',
+            }}>
+              <span>{currentArea.area_nombre.toUpperCase()}</span>
+              <span>/</span>
+              <span style={{ color: '#fff' }}>
+                {(navItems.find(i => i.path === location.pathname)?.label || 'RESUMEN').toUpperCase()}
+              </span>
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
+            <div style={{
+              fontSize: '0.8rem',
               color: 'var(--text-muted)',
               fontWeight: 500,
             }}>
               {new Date().toLocaleDateString('es-AR', {
-                weekday: 'short', day: '2-digit',
-                month: 'short', year: 'numeric'
+                weekday: 'short', day: '2-digit', month: 'short'
               })}
             </div>
+            
+            <button style={{
+              background: 'var(--accent)',
+              color: '#fff',
+              border: 'none',
+              borderRadius: 12,
+              padding: '8px 16px',
+              fontSize: '0.82rem',
+              fontWeight: 600,
+              display: 'flex', alignItems: 'center', gap: 8,
+              boxShadow: '0 4px 12px var(--accent-glow)',
+            }}>
+              <span style={{ fontSize: 16 }}>+</span> Registrar hoy
+            </button>
+
             <ThemeToggle />
           </div>
         </div>

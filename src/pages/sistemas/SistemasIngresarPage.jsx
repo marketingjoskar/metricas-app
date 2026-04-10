@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
 
-const accentColor = '#FDBA74' // Amber 300 / Systems theme
+const accentColor = 'var(--accent)'
 
 function todayISO() {
   const n = new Date()
@@ -278,11 +278,10 @@ export default function SistemasIngresarPage() {
   }
 
   const glassCard = {
-    background: 'var(--bg-elevated)',
-    backdropFilter: 'blur(24px)',
-    border: '1px solid var(--border)',
-    borderRadius: 24, padding: '24px',
-    boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+    background: '#111827',
+    border: '1px solid rgba(255,255,255,0.05)',
+    borderRadius: 24, padding: '32px',
+    boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
   }
 
   return (
@@ -291,15 +290,13 @@ export default function SistemasIngresarPage() {
       <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:24, marginBottom:32 }}>
         <div>
           <h1 style={{ 
-            fontSize:'2.5rem', fontWeight: 900, letterSpacing:'-2px', marginBottom:4,
-            background: 'linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary))',
-            WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+            fontSize:'3rem', fontWeight: 700, letterSpacing:'-1px', color: '#fff', marginBottom: 8
           }}>
             Ingreso de Métricas
           </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', fontWeight: 500 }}>
-            Sistemas / Web · <span style={{ color: accentColor, fontWeight: 700 }}>{formatDateDisplay(selectedDate)}</span>
-            {mode==='edit' && <span style={{ marginLeft:12, fontSize:'0.75rem', background:`${accentColor}22`, color: accentColor, border:`1px solid ${accentColor}44`, borderRadius:99, padding:'4px 12px', fontWeight:800, textTransform: 'uppercase' }}>✎ Editando sistema</span>}
+          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '1.1rem', fontWeight: 400 }}>
+            Sistemas / Web · <span style={{ color: 'var(--accent)', fontWeight: 700 }}>{formatDateDisplay(selectedDate)}</span>
+            {mode==='edit' && <span style={{ marginLeft:12, fontSize:'0.75rem', background:`var(--accent-glow)`, color: 'var(--accent)', border:`1px solid var(--accent)33`, borderRadius:99, padding:'4px 12px', fontWeight:800, textTransform: 'uppercase' }}>✎ Editando sistema</span>}
           </p>
         </div>
         <div style={{ display:'flex', alignItems:'center', gap:12, background: 'var(--bg-elevated)', padding: '8px 16px', borderRadius: 16, border: '1px solid var(--border)' }}>
