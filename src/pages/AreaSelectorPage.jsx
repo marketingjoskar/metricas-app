@@ -415,23 +415,23 @@ function AreaCard({ area, delay, onSelect }) {
         </div>
       </div>
 
-      {/* Bottom section with Notch divider - Height increased to 68% for overlap */}
+      {/* Bottom section with Notch divider */}
       <div style={{
-        position: 'absolute', bottom: 0, left: 0, right: 0, height: '68%',
+        position: 'absolute', bottom: 0, left: 0, right: 0, height: '65%',
         background: 'var(--bg-surface)',
         clipPath: 'polygon(0% 24px, 45% 24px, 55% 0%, 100% 0%, 100% 100%, 0% 100%)',
-        padding: 'clamp(24px, 5vh, 32px) clamp(16px, 3vw, 24px) clamp(16px, 3vh, 24px)',
+        padding: 'clamp(32px, 5vh, 40px) clamp(16px, 3vw, 24px) clamp(16px, 3vh, 24px)',
         display: 'flex', flexDirection: 'column',
         justifyContent: 'space-between',
         transition: 'background 0.3s ease',
       }}>
         <div>
-          {/* Main Module Name - Adjusted position */}
+          {/* Main Module Name - Natural flow position */}
           <div style={{
-            position: 'absolute', top: -3, left: 'clamp(16px, 3vw, 24px)',
-            fontSize: 'clamp(0.85rem, 2vw, 1rem)', fontWeight: 700,
+            fontSize: 'clamp(1rem, 2.5vw, 1.25rem)', fontWeight: 700,
             color: 'var(--text-primary)',
-            letterSpacing: '-0.3px'
+            letterSpacing: '-0.3px',
+            marginTop: 4
           }}>
             {area.area_nombre}
           </div>
