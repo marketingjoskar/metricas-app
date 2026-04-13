@@ -473,5 +473,3 @@ function AreaCard({ area, delay, onSelect }) {
     </button>
   )
 }
-  )
-}
