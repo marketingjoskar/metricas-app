@@ -2,6 +2,15 @@ import { useState, useEffect, useRef } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 
+import { 
+  Share2, 
+  Palette, 
+  Cpu, 
+  BarChart3, 
+  ArrowLeft,
+  LayoutGrid
+} from 'lucide-react'
+
 const AREA_ROUTES = {
   social:   '/dashboard/social',
   diseno:   '/dashboard/diseno',
@@ -10,10 +19,17 @@ const AREA_ROUTES = {
 }
 
 const AREA_IMAGES = {
-  social:   'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=600',
-  diseno:   'https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&q=80&w=600',
-  sistemas: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=600',
-  gerencia: 'https://images.unsplash.com/photo-1454165833767-13143895e709?auto=format&fit=crop&q=80&w=600',
+  social:   'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=800',
+  diseno:   'https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&q=80&w=800',
+  sistemas: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800',
+  gerencia: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800',
+}
+
+const AREA_ICONS = {
+  social:   Share2,
+  diseno:   Palette,
+  sistemas: Cpu,
+  gerencia: BarChart3,
 }
 
 /* ─── PIN Modal ───────────────────────────────────────────── */
@@ -99,8 +115,9 @@ function PinInput({ area, onCancel }) {
           <div style={{
             fontSize: 40, marginBottom: 12,
             filter: 'drop-shadow(0 0 10px rgba(255,255,255,0.1))',
+            color: area.color
           }}>
-            {area.icono}
+            <AreaIcon areaKey={area.area_key} size={48} />
           </div>
           <h2 style={{
             fontSize: '1.4rem', fontWeight: 700,
@@ -177,6 +194,11 @@ function PinInput({ area, onCancel }) {
   )
 }
 
+function AreaIcon({ areaKey, size = 24 }) {
+  const Icon = AREA_ICONS[areaKey] || LayoutGrid
+  return <Icon size={size} />
+}
+
 /* Shared numpad button */
 function PinButton({ label, color, accentRGB, onClick }) {
   return (
@@ -249,7 +271,7 @@ export default function AreaSelectorPage() {
     }}>
 
       {/* ── Centered glass container ── */}
-      <div style={{ position: 'relative', width: '100%', maxWidth: 720, zIndex: 1 }}>
+      <div style={{ position: 'relative', width: '100%', maxWidth: 900, zIndex: 1 }}>
 
         {/* Header */}
         <div className="animate-fadeUp" style={{ textAlign: 'center', marginBottom: 'clamp(32px, 8vh, 52px)' }}>
@@ -261,7 +283,7 @@ export default function AreaSelectorPage() {
             marginBottom: 12,
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
           }}>
-            <span style={{ fontSize: 16 }}>▦</span> METRICHUB
+            <LayoutGrid size={16} /> METRICHUB
           </p>
           <h1 style={{
             fontSize: 'clamp(2rem, 10vw, 3.5rem)',
@@ -280,8 +302,8 @@ export default function AreaSelectorPage() {
         {/* Area cards grid */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-          gap: 16, marginBottom: 44,
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gap: 20, marginBottom: 44,
         }}>
           {areas.map((area, i) => (
             <AreaCard key={area.id} area={area} delay={i * 0.09}
@@ -292,6 +314,7 @@ export default function AreaSelectorPage() {
         {/* Logout */}
         <div style={{ textAlign: 'center' }}>
           <button onClick={logout} style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8,
             background: 'transparent', border: 'none',
             color: 'rgba(255,255,255,0.25)',
             fontSize: '0.8rem', fontFamily: 'var(--font-mono)',
@@ -302,7 +325,7 @@ export default function AreaSelectorPage() {
             onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.55)'}
             onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.25)'}
           >
-            ← Cerrar sesión
+            <ArrowLeft size={14} /> Cerrar sesión
           </button>
         </div>
       </div>
@@ -328,80 +351,127 @@ function AreaCard({ area, delay, onSelect }) {
         '--card-accent': accentRGB,
         '--card-color': area.color,
         position: 'relative', overflow: 'hidden',
-        borderRadius: 22,
-        padding: '30px 26px 26px',
+        borderRadius: 28,
+        padding: 0,
         textAlign: 'left', cursor: 'pointer',
-        background: 'var(--glass-bg)',
-        backdropFilter: 'blur(28px) saturate(1.6)',
-        WebkitBackdropFilter: 'blur(28px) saturate(1.6)',
-        border: `1px solid rgba(${accentRGB},0.3)`,
-        boxShadow: `0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05)`,
-        transition: 'transform 0.35s cubic-bezier(.22,1,.36,1), border-color 0.3s, box-shadow 0.3s',
+        background: 'var(--bg-surface)',
+        border: '1px solid var(--border)',
+        boxShadow: 'var(--glass-shadow)',
+        transition: 'all 0.4s cubic-bezier(.16,1,.3,1)',
+        aspectRatio: '1 / 1.1',
       }}
       onMouseEnter={e => {
-        e.currentTarget.style.transform = 'translateY(-8px) scale(1.01)'
+        e.currentTarget.style.transform = 'translateY(-10px)'
         e.currentTarget.style.borderColor = `rgba(${accentRGB},0.5)`
-        e.currentTarget.style.boxShadow = `0 24px 56px rgba(${accentRGB},0.22), 0 4px 16px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.18)`
+        e.currentTarget.style.boxShadow = `0 30px 60px -12px rgba(0,0,0,0.5), 0 18px 36px -18px rgba(0,0,0,0.5), 0 0 0 1px rgba(${accentRGB},0.2)`
       }}
       onMouseLeave={e => {
-        e.currentTarget.style.transform = 'translateY(0) scale(1)'
-        e.currentTarget.style.borderColor = `rgba(${accentRGB},0.18)`
-        e.currentTarget.style.boxShadow = `0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.1)`
+        e.currentTarget.style.transform = 'translateY(0)'
+        e.currentTarget.style.borderColor = 'var(--border)'
+        e.currentTarget.style.boxShadow = 'var(--glass-shadow)'
       }}
     >
-      {/* background image accent */}
-      <img 
-        src={AREA_IMAGES[area.area_key]} 
-        alt="" 
-        style={{
-          position: 'absolute',
-          inset: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          opacity: 0.12,
-          mixBlendMode: 'overlay',
-          filter: 'grayscale(0.5) blur(1px)',
-          transition: 'opacity 0.3s ease',
-        }}
-        className="card-bg-img"
-      />
-
-      {/* top gradient accent line */}
+      {/* Top half with Image */}
       <div style={{
-        position: 'absolute', top: 0, left: 0, right: 0, height: 2,
-        background: `linear-gradient(90deg, transparent, ${area.color}, transparent)`,
-        opacity: 0.9,
-      }} />
-
-      {/* subtle inner glow at top-left corner */}
-      <div style={{
-        position: 'absolute', top: -40, left: -40,
-        width: 120, height: 120,
-        borderRadius: '50%',
-        background: `radial-gradient(circle, rgba(${accentRGB},0.18) 0%, transparent 70%)`,
-        pointerEvents: 'none',
-      }} />
-
-      {/* icon */}
-      <div style={{
-        position: 'relative',
-        fontSize: 36, marginBottom: 16, lineHeight: 1,
-        filter: 'drop-shadow(0 4px 10px rgba(0,0,0,0.3))',
+        position: 'absolute', top: 0, left: 0, right: 0, height: '45%',
+        overflow: 'hidden'
       }}>
-        {area.icono}
+        <img 
+          src={AREA_IMAGES[area.area_key]} 
+          alt="" 
+          style={{
+            width: '100%', height: '100%', objectFit: 'cover',
+            filter: 'brightness(0.7) contrast(1.1)',
+            transition: 'transform 0.6s ease',
+          }}
+          className="card-image"
+        />
+        {/* Module ID / Short Label */}
+        <div style={{
+          position: 'absolute', top: 20, right: 20,
+          background: 'rgba(255,255,255,0.15)',
+          backdropFilter: 'blur(8px)',
+          padding: '4px 10px', borderRadius: 8,
+          fontSize: '0.65rem', fontWeight: 700, color: '#fff',
+          textTransform: 'uppercase', letterSpacing: '0.05em',
+          border: '1px solid rgba(255,255,255,0.1)'
+        }}>
+          MetricHub App
+        </div>
       </div>
 
-      {/* name */}
-      <h3 style={{
-        position: 'relative',
-        fontSize: '1.05rem', fontWeight: 700,
-        color: 'var(--text-primary)',
-        letterSpacing: '-0.3px', marginBottom: 4,
-        textShadow: '0 1px 6px rgba(0,0,0,0.4)',
+      {/* Bottom section with Notch divider */}
+      <div style={{
+        position: 'absolute', bottom: 0, left: 0, right: 0, height: '62%',
+        background: 'var(--bg-surface)',
+        clipPath: 'polygon(0% 28px, 45% 28px, 55% 0%, 100% 0%, 100% 100%, 0% 100%)',
+        padding: '40px 24px 24px',
+        display: 'flex', flexDirection: 'column',
+        justifyContent: 'space-between',
+        transition: 'background 0.3s ease',
       }}>
-        {area.area_nombre}
-      </h3>
+        <div>
+          {/* Main Module Name inside the higher part (tab area) */}
+          <div style={{
+            position: 'absolute', top: -4, left: 24,
+            fontSize: '1rem', fontWeight: 700,
+            color: 'var(--text-primary)',
+            letterSpacing: '-0.3px'
+          }}>
+            {area.area_nombre}
+          </div>
+
+          <div style={{ marginTop: 12 }}>
+            <p style={{ 
+              fontSize: '0.75rem', color: 'var(--text-muted)', 
+              marginBottom: 16, fontWeight: 500 
+            }}>
+              {area.area_key === 'gerencia' ? 'Control & Análisis' : 'Métricas & Gestión'}
+            </p>
+            
+            {/* Visual Icon with color accent */}
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: 12,
+              color: area.color
+            }}>
+              <div style={{
+                width: 44, height: 44, borderRadius: 14,
+                background: `rgba(${accentRGB}, 0.1)`,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                boxShadow: `0 0 20px rgba(${accentRGB}, 0.1)`
+              }}>
+                <AreaIcon areaKey={area.area_key} size={22} />
+              </div>
+              <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
+                Panel {area.area_nombre}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Stats footer (like the reference) */}
+        <div style={{
+          display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end',
+          borderTop: '1px solid var(--border)', paddingTop: 16,
+        }}>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <span style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+              {area.area_key === 'social' ? '24' : area.area_key === 'sistemas' ? '12' : '08'}
+            </span>
+            <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>
+              Métricas
+            </span>
+          </div>
+          <div style={{ textAlign: 'right' }}>
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', fontWeight: 600 }}>
+              Acceso Seguro
+            </span>
+          </div>
+        </div>
+      </div>
+
     </button>
+  )
+}
   )
 }
