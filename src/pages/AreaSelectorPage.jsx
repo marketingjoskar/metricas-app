@@ -373,7 +373,10 @@ function AreaCard({ area, delay, onSelect }) {
         border: '1px solid var(--border)',
         boxShadow: 'var(--glass-shadow)',
         transition: 'all 0.4s cubic-bezier(.16,1,.3,1)',
-        aspectRatio: '1 / 1', // Perfect square to save vertical space
+        display: 'flex',
+        flexDirection: 'column',
+        aspectRatio: '4 / 5', // Taller ratio to fit text properly
+        minHeight: '280px',
       }}
       onMouseEnter={e => {
         e.currentTarget.style.transform = 'translateY(-8px)'
@@ -386,10 +389,12 @@ function AreaCard({ area, delay, onSelect }) {
         e.currentTarget.style.boxShadow = 'var(--glass-shadow)'
       }}
     >
-      {/* Top half with Image - Height reduced to 40% */}
+      {/* Top half with Image - Now flex basis */}
       <div style={{
-        position: 'absolute', top: 0, left: 0, right: 0, height: '40%',
-        overflow: 'hidden'
+        width: '100%', height: '42%',
+        position: 'relative',
+        overflow: 'hidden',
+        zIndex: 0
       }}>
         <img 
           src={AREA_IMAGES[area.area_key]} 
@@ -417,10 +422,13 @@ function AreaCard({ area, delay, onSelect }) {
 
       {/* Bottom section with Notch divider */}
       <div style={{
-        position: 'absolute', bottom: 0, left: 0, right: 0, height: '65%',
+        flex: 1, width: '100%',
+        position: 'relative',
+        zIndex: 1,
+        marginTop: '-24px', // Create notch overlap safely without absolute position
         background: 'var(--bg-surface)',
         clipPath: 'polygon(0% 24px, 45% 24px, 55% 0%, 100% 0%, 100% 100%, 0% 100%)',
-        padding: 'clamp(32px, 5vh, 40px) clamp(16px, 3vw, 24px) clamp(16px, 3vh, 24px)',
+        padding: '36px 20px 20px', // Safe padding to clear notch
         display: 'flex', flexDirection: 'column',
         justifyContent: 'space-between',
         transition: 'background 0.3s ease',
