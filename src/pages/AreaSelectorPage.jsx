@@ -249,6 +249,13 @@ export default function AreaSelectorPage() {
   const { areas, loading, logout } = useAuth()
   const [selectedArea, setSelectedArea] = useState(null)
 
+  // Reorder areas directly to ensure gerencia stays at the end
+  const sortedAreas = areas ? [...areas].sort((a, b) => {
+    if (a.area_key === 'gerencia' && b.area_key !== 'gerencia') return 1;
+    if (b.area_key === 'gerencia' && a.area_key !== 'gerencia') return -1;
+    return 0;
+  }) : []
+
   if (loading) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -320,7 +327,7 @@ export default function AreaSelectorPage() {
           width: '100%',
           justifyContent: 'center'
         }}>
-          {areas.map((area, i) => (
+          {sortedAreas.map((area, i) => (
             <AreaCard key={area.id} area={area} delay={i * 0.09}
               onSelect={() => setSelectedArea(area)} />
           ))}
@@ -406,18 +413,6 @@ function AreaCard({ area, delay, onSelect }) {
           }}
           className="card-image"
         />
-        {/* Label - Smaller */}
-        <div style={{
-          position: 'absolute', top: 12, right: 12,
-          background: 'rgba(255,255,255,0.1)',
-          backdropFilter: 'blur(8px)',
-          padding: '3px 8px', borderRadius: 6,
-          fontSize: '0.6rem', fontWeight: 700, color: '#fff',
-          textTransform: 'uppercase', letterSpacing: '0.05em',
-          border: '1px solid rgba(255,255,255,0.1)'
-        }}>
-          APP
-        </div>
       </div>
 
       {/* Bottom section with Notch divider */}
@@ -441,36 +436,16 @@ function AreaCard({ area, delay, onSelect }) {
             letterSpacing: '-0.3px',
             marginTop: 4
           }}>
-            {area.area_nombre}
+            {area.area_key === 'gerencia' ? 'Gerencia' : area.area_nombre}
           </div>
 
           <div style={{ marginTop: 'clamp(8px, 2vh, 12px)' }}>
             <p style={{ 
               fontSize: '0.65rem', color: 'var(--text-muted)', 
-              marginBottom: 'clamp(8px, 2vh, 12px)', fontWeight: 500 
+              marginBottom: 0, fontWeight: 500 
             }}>
               {area.area_key === 'gerencia' ? 'Control & Análisis' : 'Métricas & Gestión'}
             </p>
-            
-            {/* Visual Icon - More compact */}
-            <div style={{
-              display: 'flex', alignItems: 'center', gap: 10,
-              color: area.color
-            }}>
-              <div style={{
-                width: 'clamp(32px, 5vw, 40px)', 
-                height: 'clamp(32px, 5vw, 40px)', 
-                borderRadius: 12,
-                background: `rgba(${accentRGB}, 0.1)`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                boxShadow: `0 0 15px rgba(${accentRGB}, 0.05)`
-              }}>
-                <AreaIcon areaKey={area.area_key} size={18} />
-              </div>
-              <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
-                Panel v2.0
-              </span>
-            </div>
           </div>
         </div>
 
@@ -489,7 +464,7 @@ function AreaCard({ area, delay, onSelect }) {
           </div>
           <div style={{ textAlign: 'right' }}>
             <span style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', fontWeight: 600 }}>
-              ESTADO: OK
+              {area.last_login_date ? area.last_login_date : '13 OCT'}
             </span>
           </div>
         </div>
