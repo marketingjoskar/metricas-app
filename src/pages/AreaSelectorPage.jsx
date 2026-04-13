@@ -263,47 +263,62 @@ export default function AreaSelectorPage() {
 
   return (
     <div style={{
-      minHeight: '100vh',
+      height: '100vh',
+      width: '100%',
       display: 'flex', flexDirection: 'column',
       alignItems: 'center', justifyContent: 'center',
-      padding: '24px', position: 'relative',
+      padding: '20px', position: 'relative',
       background: 'transparent',
+      overflow: 'hidden' // Prevent scroll
     }}>
 
-      {/* ── Centered glass container ── */}
-      <div style={{ position: 'relative', width: '100%', maxWidth: 900, zIndex: 1 }}>
+      {/* ── Centered container ── */}
+      <div style={{ 
+        position: 'relative', 
+        width: '100%', 
+        maxWidth: 1000, 
+        zIndex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        maxHeight: '100%',
+        justifyContent: 'center'
+      }}>
 
-        {/* Header */}
-        <div className="animate-fadeUp" style={{ textAlign: 'center', marginBottom: 'clamp(32px, 8vh, 52px)' }}>
+        {/* Header - More compact */}
+        <div className="animate-fadeUp" style={{ textAlign: 'center', marginBottom: 'clamp(16px, 4vh, 32px)' }}>
           <p style={{
-            fontSize: '0.75rem', letterSpacing: '0.2em',
+            fontSize: '0.7rem', letterSpacing: '0.2em',
             textTransform: 'uppercase',
             color: 'var(--accent)',
             fontWeight: 800,
-            marginBottom: 12,
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+            marginBottom: 8,
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
           }}>
-            <LayoutGrid size={16} /> METRICHUB
+            <LayoutGrid size={14} /> METRICHUB
           </p>
           <h1 style={{
-            fontSize: 'clamp(2rem, 10vw, 3.5rem)',
+            fontSize: 'clamp(1.5rem, 6vw, 2.75rem)',
             fontWeight: 700,
-            letterSpacing: '-2px',
+            letterSpacing: '-1.5px',
             color: '#fff',
-            marginBottom: 10, lineHeight: 1.1,
+            marginBottom: 6, lineHeight: 1.1,
           }}>
             Seleccioná tu área
           </h1>
-          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 'clamp(0.9rem, 3vw, 1.1rem)', fontWeight: 400 }}>
-            Cada área tiene su propio PIN de acceso
+          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 'clamp(0.8rem, 2vw, 0.95rem)', fontWeight: 400 }}>
+            Panel de control avanzado
           </p>
         </div>
 
-        {/* Area cards grid */}
+        {/* Responsive Grid */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: 20, marginBottom: 44,
+          // 4 columns on large screens, 2 columns on mobile/tablet to avoid overflow
+          gridTemplateColumns: 'repeat(auto-fit, minmax(clamp(160px, 20vw, 220px), 1fr))',
+          gap: 'clamp(12px, 2vw, 20px)', 
+          marginBottom: 'clamp(20px, 4vh, 32px)',
+          width: '100%',
+          justifyContent: 'center'
         }}>
           {areas.map((area, i) => (
             <AreaCard key={area.id} area={area} delay={i * 0.09}
@@ -311,13 +326,13 @@ export default function AreaSelectorPage() {
           ))}
         </div>
 
-        {/* Logout */}
+        {/* Logout - Compact */}
         <div style={{ textAlign: 'center' }}>
           <button onClick={logout} style={{
             display: 'inline-flex', alignItems: 'center', gap: 8,
             background: 'transparent', border: 'none',
             color: 'rgba(255,255,255,0.25)',
-            fontSize: '0.8rem', fontFamily: 'var(--font-mono)',
+            fontSize: '0.75rem', fontFamily: 'var(--font-mono)',
             letterSpacing: '0.08em', cursor: 'pointer',
             transition: 'color 0.25s',
             padding: '6px 12px',
@@ -325,7 +340,7 @@ export default function AreaSelectorPage() {
             onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.55)'}
             onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.25)'}
           >
-            <ArrowLeft size={14} /> Cerrar sesión
+            <ArrowLeft size={12} /> Salir
           </button>
         </div>
       </div>
@@ -351,19 +366,19 @@ function AreaCard({ area, delay, onSelect }) {
         '--card-accent': accentRGB,
         '--card-color': area.color,
         position: 'relative', overflow: 'hidden',
-        borderRadius: 28,
+        borderRadius: 'clamp(20px, 3vw, 28px)',
         padding: 0,
         textAlign: 'left', cursor: 'pointer',
         background: 'var(--bg-surface)',
         border: '1px solid var(--border)',
         boxShadow: 'var(--glass-shadow)',
         transition: 'all 0.4s cubic-bezier(.16,1,.3,1)',
-        aspectRatio: '1 / 1.1',
+        aspectRatio: '1 / 1', // Perfect square to save vertical space
       }}
       onMouseEnter={e => {
-        e.currentTarget.style.transform = 'translateY(-10px)'
+        e.currentTarget.style.transform = 'translateY(-8px)'
         e.currentTarget.style.borderColor = `rgba(${accentRGB},0.5)`
-        e.currentTarget.style.boxShadow = `0 30px 60px -12px rgba(0,0,0,0.5), 0 18px 36px -18px rgba(0,0,0,0.5), 0 0 0 1px rgba(${accentRGB},0.2)`
+        e.currentTarget.style.boxShadow = `0 20px 40px -10px rgba(0,0,0,0.5), 0 0 0 1px rgba(${accentRGB},0.2)`
       }}
       onMouseLeave={e => {
         e.currentTarget.style.transform = 'translateY(0)'
@@ -371,9 +386,9 @@ function AreaCard({ area, delay, onSelect }) {
         e.currentTarget.style.boxShadow = 'var(--glass-shadow)'
       }}
     >
-      {/* Top half with Image */}
+      {/* Top half with Image - Height reduced to 40% */}
       <div style={{
-        position: 'absolute', top: 0, left: 0, right: 0, height: '45%',
+        position: 'absolute', top: 0, left: 0, right: 0, height: '40%',
         overflow: 'hidden'
       }}>
         <img 
@@ -381,95 +396,99 @@ function AreaCard({ area, delay, onSelect }) {
           alt="" 
           style={{
             width: '100%', height: '100%', objectFit: 'cover',
-            filter: 'brightness(0.7) contrast(1.1)',
+            filter: 'brightness(0.75) contrast(1.1)',
             transition: 'transform 0.6s ease',
           }}
           className="card-image"
         />
-        {/* Module ID / Short Label */}
+        {/* Label - Smaller */}
         <div style={{
-          position: 'absolute', top: 20, right: 20,
-          background: 'rgba(255,255,255,0.15)',
+          position: 'absolute', top: 12, right: 12,
+          background: 'rgba(255,255,255,0.1)',
           backdropFilter: 'blur(8px)',
-          padding: '4px 10px', borderRadius: 8,
-          fontSize: '0.65rem', fontWeight: 700, color: '#fff',
+          padding: '3px 8px', borderRadius: 6,
+          fontSize: '0.6rem', fontWeight: 700, color: '#fff',
           textTransform: 'uppercase', letterSpacing: '0.05em',
           border: '1px solid rgba(255,255,255,0.1)'
         }}>
-          MetricHub App
+          APP
         </div>
       </div>
 
-      {/* Bottom section with Notch divider */}
+      {/* Bottom section with Notch divider - Height increased to 68% for overlap */}
       <div style={{
-        position: 'absolute', bottom: 0, left: 0, right: 0, height: '62%',
+        position: 'absolute', bottom: 0, left: 0, right: 0, height: '68%',
         background: 'var(--bg-surface)',
-        clipPath: 'polygon(0% 28px, 45% 28px, 55% 0%, 100% 0%, 100% 100%, 0% 100%)',
-        padding: '40px 24px 24px',
+        clipPath: 'polygon(0% 24px, 45% 24px, 55% 0%, 100% 0%, 100% 100%, 0% 100%)',
+        padding: 'clamp(24px, 5vh, 32px) clamp(16px, 3vw, 24px) clamp(16px, 3vh, 24px)',
         display: 'flex', flexDirection: 'column',
         justifyContent: 'space-between',
         transition: 'background 0.3s ease',
       }}>
         <div>
-          {/* Main Module Name inside the higher part (tab area) */}
+          {/* Main Module Name - Adjusted position */}
           <div style={{
-            position: 'absolute', top: -4, left: 24,
-            fontSize: '1rem', fontWeight: 700,
+            position: 'absolute', top: -3, left: 'clamp(16px, 3vw, 24px)',
+            fontSize: 'clamp(0.85rem, 2vw, 1rem)', fontWeight: 700,
             color: 'var(--text-primary)',
             letterSpacing: '-0.3px'
           }}>
             {area.area_nombre}
           </div>
 
-          <div style={{ marginTop: 12 }}>
+          <div style={{ marginTop: 'clamp(8px, 2vh, 12px)' }}>
             <p style={{ 
-              fontSize: '0.75rem', color: 'var(--text-muted)', 
-              marginBottom: 16, fontWeight: 500 
+              fontSize: '0.65rem', color: 'var(--text-muted)', 
+              marginBottom: 'clamp(8px, 2vh, 12px)', fontWeight: 500 
             }}>
               {area.area_key === 'gerencia' ? 'Control & Análisis' : 'Métricas & Gestión'}
             </p>
             
-            {/* Visual Icon with color accent */}
+            {/* Visual Icon - More compact */}
             <div style={{
-              display: 'flex', alignItems: 'center', gap: 12,
+              display: 'flex', alignItems: 'center', gap: 10,
               color: area.color
             }}>
               <div style={{
-                width: 44, height: 44, borderRadius: 14,
+                width: 'clamp(32px, 5vw, 40px)', 
+                height: 'clamp(32px, 5vw, 40px)', 
+                borderRadius: 12,
                 background: `rgba(${accentRGB}, 0.1)`,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                boxShadow: `0 0 20px rgba(${accentRGB}, 0.1)`
+                boxShadow: `0 0 15px rgba(${accentRGB}, 0.05)`
               }}>
-                <AreaIcon areaKey={area.area_key} size={22} />
+                <AreaIcon areaKey={area.area_key} size={18} />
               </div>
-              <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
-                Panel {area.area_nombre}
+              <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
+                Panel v2.0
               </span>
             </div>
           </div>
         </div>
 
-        {/* Stats footer (like the reference) */}
+        {/* Stats footer - More compact */}
         <div style={{
           display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end',
-          borderTop: '1px solid var(--border)', paddingTop: 16,
+          borderTop: '1px solid var(--border)', paddingTop: 12,
         }}>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+            <span style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)' }}>
               {area.area_key === 'social' ? '24' : area.area_key === 'sistemas' ? '12' : '08'}
             </span>
-            <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>
-              Métricas
+            <span style={{ fontSize: '0.6rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>
+              METRICS
             </span>
           </div>
           <div style={{ textAlign: 'right' }}>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', fontWeight: 600 }}>
-              Acceso Seguro
+            <span style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', fontWeight: 600 }}>
+              ESTADO: OK
             </span>
           </div>
         </div>
       </div>
 
     </button>
+  )
+}
   )
 }
