@@ -14,6 +14,16 @@ RUN npm install
 # Copiar el resto del código
 COPY . .
 
+# Argumentos de construcción para Vite (Dokploy los pasará aquí)
+ARG VITE_SUPABASE_URL
+ARG VITE_SUPABASE_ANON_KEY
+ARG VITE_DASHBOARD_PASSWORD
+
+# Convertir ARGs en ENVs para que el proceso de 'npm run build' los vea
+ENV VITE_SUPABASE_URL=$VITE_SUPABASE_URL
+ENV VITE_SUPABASE_ANON_KEY=$VITE_SUPABASE_ANON_KEY
+ENV VITE_DASHBOARD_PASSWORD=$VITE_DASHBOARD_PASSWORD
+
 # Construir la aplicación
 RUN npm run build
 
