@@ -1,0 +1,8 @@
+[setup]
+node = "20"
+
+[phases.build]
+cmds = ["npm install", "npm run build"]
+
+[start]
+cmd = "nginx -g 'daemon off;' -c /app/nginx.conf"
