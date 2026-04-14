@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
+import GlassDatePicker from '../../components/GlassDatePicker'
 
 const accentColor = '#93C5FD' // Design theme color
 const GREEN = '#10b981'
@@ -301,9 +302,11 @@ export default function DisenoIngresarPage() {
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <span style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', fontWeight: 700, letterSpacing: '0.1em' }}>CAMBIAR FECHA:</span>
-          <input
-            type="date" value={selectedDate} max={today} onChange={e => setSelectedDate(e.target.value)}
-            style={{ ...glassInputStyle, width: 'auto', padding: '10px 16px', fontSize: '0.9rem', colorScheme: 'dark' }}
+          <GlassDatePicker 
+            value={selectedDate} 
+            max={today} 
+            onChange={(newDate) => setSelectedDate(newDate)} 
+            accentColor={accentColor}
           />
         </div>
       </div>

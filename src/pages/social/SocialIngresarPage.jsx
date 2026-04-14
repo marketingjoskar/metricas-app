@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
+import GlassDatePicker from '../../components/GlassDatePicker'
 
 const color = '#7DD3FC' // Social color from user request
 const RED = '#f0436a'
@@ -550,11 +551,10 @@ export default function SocialIngresarPage() {
                     </div>
                     <div>
                       <label style={{ display: 'block', fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)', fontWeight: 700, marginBottom: 8, letterSpacing: '0.1em' }}>FECHA</label>
-                      <input
-                        type="date"
+                      <GlassDatePicker
                         value={newVideo.fecha}
-                        onChange={e => setNewVideo(v => ({ ...v, fecha: e.target.value }))}
-                        style={{ ...glassInput, fontSize: '1rem', padding: '14px 18px', colorScheme: 'dark' }}
+                        onChange={d => setNewVideo(v => ({ ...v, fecha: d }))}
+                        accentColor={color}
                       />
                     </div>
                   </div>

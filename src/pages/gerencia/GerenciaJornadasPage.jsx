@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
+import GlassDatePicker from '../../components/GlassDatePicker'
 
 const accentColor = '#C084FC' // Purple 400 - Gerencia Theme
 
@@ -90,7 +91,7 @@ function JornadaForm({ initial, onSave, onCancel }) {
           </div>
           <div>
             <label style={labelStyle}>Fecha de Ejecución *</label>
-            <input type="date" value={form.fecha} onChange={e => setForm(f => ({ ...f, fecha: e.target.value }))} style={inputStyle} />
+            <GlassDatePicker value={form.fecha} onChange={newDate => setForm(f => ({ ...f, fecha: newDate }))} accentColor={accentColor} />
           </div>
         </div>
       </div>

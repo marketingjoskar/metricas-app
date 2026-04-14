@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
+import GlassDatePicker from '../../components/GlassDatePicker'
 
 const color = '#7DD3FC' // Social color from user request
 const RED = '#f0436a'
@@ -113,11 +114,11 @@ function CampanaForm({ initial, onSave, onCancel }) {
           </div>
           <div>
             <label style={lbl}>Fecha inicio</label>
-            <input type="date" value={form.fecha_inicio} onChange={e=>setForm(f=>({...f,fecha_inicio:e.target.value}))} style={{...glassInput, colorScheme: 'dark'}} />
+            <GlassDatePicker value={form.fecha_inicio} onChange={(d) => setForm(f => ({...f, fecha_inicio: d}))} accentColor={color} />
           </div>
           <div>
             <label style={lbl}>Fecha fin</label>
-            <input type="date" value={form.fecha_fin} onChange={e=>setForm(f=>({...f,fecha_fin:e.target.value}))} style={{...glassInput, colorScheme: 'dark'}} />
+            <GlassDatePicker value={form.fecha_fin} onChange={(d) => setForm(f => ({...f, fecha_fin: d}))} accentColor={color} />
           </div>
         </div>
 

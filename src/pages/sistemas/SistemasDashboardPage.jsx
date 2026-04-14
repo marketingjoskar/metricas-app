@@ -31,7 +31,7 @@ function GlassModal({ isOpen, onClose, title, children }) {
         maxHeight: '85vh', display: 'flex', flexDirection: 'column',
         borderRadius: 32, overflow: 'hidden',
         boxShadow: 'var(--glass-shadow)',
-        background: 'var(--glass-bg)',
+        background: 'rgba(15, 23, 42, 0.9)',
         backdropFilter: 'blur(28px)',
         border: '1px solid var(--glass-border)',
       }}>
@@ -40,19 +40,18 @@ function GlassModal({ isOpen, onClose, title, children }) {
         
         <div style={{
           padding: '24px 32px', borderBottom: '1px solid var(--border)',
-          display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+          background: 'rgba(0,0,0,0.2)'
         }}>
           <h2 style={{ 
-            fontSize: '1.5rem', fontWeight: 800, margin: 0, 
-            background: 'linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary))',
-            WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+            fontSize: '1.5rem', fontWeight: 800, margin: 0, color: 'var(--text-primary)'
           }}>{title}</h2>
           <button onClick={onClose} style={{
             background: 'var(--bg-elevated)', border: '1px solid var(--border)', color: 'var(--text-primary)',
             width: 36, height: 36, borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center'
           }}>✕</button>
         </div>
-        <div style={{ padding: 32, overflowY: 'auto' }}>
+        <div className="custom-scrollbar" style={{ overflowY: 'auto', overflowX: 'hidden', flex: 1 }}>
           {children}
         </div>
       </div>
@@ -371,8 +370,8 @@ export default function SistemasDashboardPage() {
 
           {/* Records Detail Modal */}
           <GlassModal isOpen={showLogsModal} onClose={() => setShowLogsModal(false)} title={`Bitácora de Sistemas - ${MONTHS_ES[month]} ${year}`}>
-            <div style={{ overflowX: 'auto', margin: '0 -32px' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem' }}>
+            <div className="custom-scrollbar" style={{ overflowX: 'auto', padding: '0 32px 32px 32px' }}>
+              <table style={{ width: '100%', minWidth: 600, borderCollapse: 'collapse', fontSize: '0.9rem' }}>
                 <thead>
                   <tr style={{ background: 'rgba(255,255,255,0.03)' }}>
                     {['Fecha', 'Incidencias', 'Cód. Barras', 'Optimizadas', 'Notas'].map(h => (

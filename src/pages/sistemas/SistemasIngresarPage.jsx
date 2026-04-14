@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
+import GlassDatePicker from '../../components/GlassDatePicker'
 
 const accentColor = 'var(--accent)'
 
@@ -301,11 +302,12 @@ export default function SistemasIngresarPage() {
         </div>
         <div style={{ display:'flex', alignItems:'center', gap:12, background: 'var(--bg-elevated)', padding: '8px 16px', borderRadius: 16, border: '1px solid var(--border)' }}>
           <span style={{ fontSize:'0.75rem', color:'var(--text-muted)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Jornada:</span>
-          <input type="date" value={selectedDate} max={today} onChange={e=>setSelectedDate(e.target.value)}
-            style={{ 
-              background: 'transparent', border: 'none', color: 'var(--text-primary)', fontSize: '1rem', 
-              fontWeight: 700, fontFamily: 'var(--font-mono)', outline: 'none', cursor: 'pointer' 
-            }} />
+          <GlassDatePicker 
+            value={selectedDate} 
+            max={today} 
+            onChange={(newDate) => setSelectedDate(newDate)} 
+            accentColor={accentColor}
+          />
         </div>
       </div>
 
