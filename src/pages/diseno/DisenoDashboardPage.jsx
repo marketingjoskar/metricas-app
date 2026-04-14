@@ -79,11 +79,12 @@ function StatCard({ label, value, unit = '', icon, color, sub, delay = 0 }) {
       onMouseLeave={() => setHovered(false)}
       style={{
         animationDelay: `${delay}s`,
-        background: 'rgba(255, 255, 255, 0.07)',
-        backdropFilter: 'blur(28px)',
-        border: hovered ? `1px solid ${color}66` : '1px solid rgba(255, 255, 255, 0.1)',
+        background: 'var(--glass-bg)',
+        backdropFilter: 'blur(32px) saturate(1.8)',
+        WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+        border: hovered ? `1px solid ${color}66` : '1px solid var(--border)',
         borderRadius: 24, padding: '24px', position: 'relative', overflow: 'hidden',
-        boxShadow: hovered ? `0 12px 40px ${color}22` : '0 8px 32px rgba(0, 0, 0, 0.15)',
+        boxShadow: hovered ? `0 12px 40px ${color}22` : 'var(--glass-shadow)',
         transform: hovered ? 'translateY(-8px) scale(1.01)' : 'translateY(0) scale(1)',
         transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
         cursor: 'default'
@@ -277,9 +278,9 @@ export default function DisenoDashboardPage() {
           <div style={{ display: 'grid', gridTemplateColumns: pieData.length > 0 ? '2fr 1fr' : '1fr', gap: 24, marginBottom: 24 }}>
             {/* Main Area Chart */}
             <div className="animate-fadeUp" style={{ 
-              background: 'rgba(255, 255, 255, 0.07)', backdropFilter: 'blur(28px)', 
-              padding: '32px', borderRadius: 32, border: '1px solid rgba(255,255,255,0.1)',
-              boxShadow: '0 8px 32px rgba(0,0,0,0.15)'
+              background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)', 
+              padding: '32px', borderRadius: 32, border: '1px solid var(--border)',
+              boxShadow: 'var(--glass-shadow)'
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
                 <div style={{ fontSize: '0.8rem', fontWeight: 800, color: 'rgba(255,255,255,0.5)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>FLUJO DE PRODUCCIÓN DIARIA</div>
@@ -310,9 +311,9 @@ export default function DisenoDashboardPage() {
             {/* Side Donut Chart */}
             {pieData.length > 0 && (
               <div className="animate-fadeUp" style={{ 
-                background: 'rgba(255, 255, 255, 0.07)', backdropFilter: 'blur(28px)', 
-                padding: '32px', borderRadius: 32, border: '1px solid rgba(255,255,255,0.1)',
-                display: 'flex', flexDirection: 'column', boxShadow: '0 8px 32px rgba(0,0,0,0.15)',
+                background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)', 
+                padding: '32px', borderRadius: 32, border: '1px solid var(--border)',
+                display: 'flex', flexDirection: 'column', boxShadow: 'var(--glass-shadow)',
                 animationDelay: '0.1s'
               }}>
                 <div style={{ fontSize: '0.8rem', fontWeight: 800, color: 'rgba(255,255,255,0.5)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 24 }}>MIX DE TRABAJO</div>
@@ -351,8 +352,8 @@ export default function DisenoDashboardPage() {
           {/* Tags Cloud */}
           {allTags.length > 0 && (
             <div className="animate-fadeUp" style={{
-              background: 'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(20px)',
-              padding: '24px 32px', borderRadius: 24, border: '1px solid rgba(255,255,255,0.08)',
+              background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+              padding: '24px 32px', borderRadius: 24, border: '1px solid var(--border)', boxShadow: 'var(--glass-shadow)',
               animationDelay: '0.2s'
             }}>
               <div style={{ fontSize: '0.8rem', fontWeight: 800, color: 'rgba(255,255,255,0.5)', marginBottom: 20, letterSpacing: '0.1em', textTransform: 'uppercase' }}>TENDENCIAS Y CONCEPTOS DEL MES</div>

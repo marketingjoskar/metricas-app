@@ -102,9 +102,10 @@ export default function SocialCompararPage() {
       <div 
         className="animate-fadeUp"
         style={{
-          background: 'rgba(255, 255, 255, 0.05)',
-          backdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
+          background: 'var(--glass-bg)',
+          backdropFilter: 'blur(32px) saturate(1.8)',
+          WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+          border: '1px solid var(--border)',
           borderRadius: 24,
           padding: '24px 32px',
           display: 'flex',
@@ -112,7 +113,7 @@ export default function SocialCompararPage() {
           justifyContent: 'center',
           gap: 40,
           marginBottom: 32,
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+          boxShadow: 'var(--glass-shadow)'
         }}
       >
         <div style={{ display:'flex', alignItems:'center', gap:16 }}>
@@ -157,14 +158,15 @@ export default function SocialCompararPage() {
                 className="animate-fadeUp"
                 style={{
                   animationDelay: `${i * 0.1}s`,
-                  background: 'rgba(255, 255, 255, 0.07)',
-                  backdropFilter: 'blur(28px)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  background: 'var(--glass-bg)',
+                  backdropFilter: 'blur(32px) saturate(1.8)',
+                  WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+                  border: '1px solid var(--border)',
                   borderRadius: 24,
                   padding: '32px',
                   position: 'relative',
                   overflow: 'hidden',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                  boxShadow: 'var(--glass-shadow)',
                 }}
               >
                 {/* Glow Accent */}
@@ -215,15 +217,16 @@ export default function SocialCompararPage() {
           className="animate-fadeUp"
           style={{
             marginTop: 32,
-            background: 'rgba(255, 255, 255, 0.04)',
-            backdropFilter: 'blur(20px)',
-            border: `1px solid ${color}33`,
+            background: 'var(--glass-bg)',
+            backdropFilter: 'blur(32px) saturate(1.8)',
+            WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+            border: `1px solid var(--border)`,
             borderRadius: 24,
             padding: '32px',
             display: 'flex',
             alignItems: 'center',
             gap: 40,
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+            boxShadow: 'var(--glass-shadow)',
             position: 'relative',
             overflow: 'hidden'
           }}

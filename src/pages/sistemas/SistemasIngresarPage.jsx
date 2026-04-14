@@ -78,10 +78,10 @@ function ExistingModal({ date, onEdit, onNew, onCancel }) {
       zIndex:2000, animation:'fadeIn 0.3s ease',
     }}>
       <div className="animate-fadeUp" style={{
-        background:'var(--bg-elevated)', backdropFilter: 'blur(28px)',
+        background:'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
         border:'1px solid var(--border)',
         borderRadius:32, padding:'48px 40px', width:'100%', maxWidth:420,
-        boxShadow:'0 24px 60px rgba(0,0,0,0.5)', textAlign:'center',
+        boxShadow:'var(--glass-shadow)', textAlign:'center',
         position: 'relative', overflow: 'hidden'
       }}>
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: `linear-gradient(90deg, transparent, ${accentColor}, transparent)` }} />
@@ -279,10 +279,10 @@ export default function SistemasIngresarPage() {
   }
 
   const glassCard = {
-    background: '#111827',
-    border: '1px solid rgba(255,255,255,0.05)',
+    background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+    border: '1px solid var(--border)',
     borderRadius: 24, padding: '32px',
-    boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
+    boxShadow: 'var(--glass-shadow)',
   }
 
   return (

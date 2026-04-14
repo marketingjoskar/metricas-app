@@ -18,9 +18,9 @@ function StatCard({ label, value, unit = '', color, icon, delay = 0 }) {
         animationDelay: `${delay}s`,
         position: 'relative', overflow: 'hidden',
         borderRadius: 24, padding: '32px 24px',
-        background: '#111827', // Dark navy
-        border: '1px solid rgba(255,255,255,0.05)',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
+        background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+        border: '1px solid var(--border)',
+        boxShadow: 'var(--glass-shadow)',
         transition: 'all 0.4s ease',
         cursor: 'default',
       }}
@@ -53,8 +53,9 @@ function CtaCard({ color, rgb, icon, message, label, onClick }) {
     <div style={{
       position: 'relative', overflow: 'hidden',
       borderRadius: 24, padding: '40px 32px',
-      background: 'rgba(255,255,255,0.02)',
-      border: '1px dashed rgba(255,255,255,0.1)',
+      background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+      border: '2px dashed var(--border)',
+      boxShadow: 'var(--glass-shadow)',
       textAlign: 'center',
     }}>
       {icon && <div style={{ fontSize: 32, marginBottom: 16 }}>{icon}</div>}

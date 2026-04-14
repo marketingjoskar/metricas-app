@@ -211,7 +211,7 @@ export default function SocialDashboardPage() {
           <div className="animate-spin" style={{ width: 40, height: 40, borderRadius: '50%', border: '3px solid rgba(255,255,255,0.1)', borderTopColor: color }} />
         </div>
       ) : !metrics && campanas.length===0 && videos.length===0 ? (
-        <div style={{textAlign:'center',padding:'80px 24px',borderRadius:24,background:'var(--bg-elevated)', border: '1px solid var(--border)'}}>
+        <div style={{textAlign:'center',padding:'80px 24px',borderRadius:24,background:'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)', border: '1px solid var(--border)', boxShadow: 'var(--glass-shadow)'}}>
           <div style={{fontSize:48,marginBottom:16}}>📱</div>
           <p style={{color:'rgba(255,255,255,0.5)',marginBottom:24, fontSize: '1.1rem'}}>No hay datos para {MONTHS_ES[month]} {year}</p>
           <div style={{display:'flex',gap:16,justifyContent:'center',flexWrap:'wrap'}}>
@@ -236,9 +236,9 @@ export default function SocialDashboardPage() {
                 style={{
                   animationDelay: `${i * 0.1}s`,
                   background: 'var(--glass-bg)',
-                  backdropFilter: 'blur(28px)',
-                  WebkitBackdropFilter: 'blur(28px)',
-                  border: `1px solid ${k.c}2e`,
+                  backdropFilter: 'blur(32px) saturate(1.8)',
+                  WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+                  border: `1px solid var(--border)`,
                   borderRadius: 24,
                   padding: '28px',
                   position: 'relative',
@@ -254,7 +254,7 @@ export default function SocialDashboardPage() {
                 onMouseLeave={e => {
                   e.currentTarget.style.transform = 'none'
                   e.currentTarget.style.boxShadow = 'var(--glass-shadow)'
-                  e.currentTarget.style.borderColor = `${k.c}2e`
+                  e.currentTarget.style.borderColor = `var(--border)`
                 }}
               >
                 <div style={{
@@ -294,10 +294,11 @@ export default function SocialDashboardPage() {
                 style={{
                   animationDelay: '0.4s',
                   background: 'var(--glass-bg)',
-                  backdropFilter: 'blur(28px)',
+                  backdropFilter: 'blur(32px) saturate(1.8)',
+                  WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
                   borderRadius: 28,
                   padding: '30px',
-                  border: '1px solid var(--glass-border)',
+                  border: '1px solid var(--border)',
                   boxShadow: 'var(--glass-shadow)'
                 }}
              >
@@ -328,10 +329,11 @@ export default function SocialDashboardPage() {
                 style={{
                   animationDelay: '0.5s',
                   background: 'var(--glass-bg)',
-                  backdropFilter: 'blur(28px)',
+                  backdropFilter: 'blur(32px) saturate(1.8)',
+                  WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
                   borderRadius: 28,
                   padding: '30px',
-                  border: '1px solid var(--glass-border)',
+                  border: '1px solid var(--border)',
                   boxShadow: 'var(--glass-shadow)',
                   display: 'flex', flexDirection: 'column'
                 }}
@@ -378,11 +380,12 @@ export default function SocialDashboardPage() {
                 style={{
                   animationDelay: '0.6s',
                   background: 'var(--glass-bg)',
-                  backdropFilter: 'blur(28px)',
+                  backdropFilter: 'blur(32px) saturate(1.8)',
+                  WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
                   borderRadius: 24,
                   padding: '30px',
                   display: 'flex', alignItems: 'center', gap: 24,
-                  border: `1px solid ${color}22`,
+                  border: `1px solid var(--border)`,
                   boxShadow: 'var(--glass-shadow)'
                 }}
               >
@@ -468,7 +471,7 @@ export default function SocialDashboardPage() {
                     return (
                       <div key={v.id} style={{
                         display:'flex',alignItems:'center',gap:16,padding:'18px',
-                        background:'rgba(255,255,255,0.05)', borderRadius:16, border:'1px solid rgba(255,255,255,0.1)'
+                        background:'var(--bg-elevated)', borderRadius:16, border:'1px solid var(--border)'
                       }}>
                         <span style={{
                           fontSize:'0.75rem',fontWeight: 700,color:red.color,

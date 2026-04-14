@@ -68,7 +68,7 @@ function AreaSection({ title, accent, icon, children, to, navigate }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{ 
-        background: 'var(--glass-bg)', backdropFilter: 'blur(28px)',
+        background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
         borderRadius: 32, overflow: 'hidden', display: 'flex', flexDirection: 'column',
         border: hovered ? `1px solid ${accent}66` : '1px solid var(--glass-border)',
         transition: 'all 0.3s ease',
@@ -257,7 +257,7 @@ export default function GerenciaDashboardPage() {
                     <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="var(--border)" />
                     <XAxis type="number" hide />
                     <YAxis dataKey="name" type="category" stroke="var(--text-secondary)" fontSize={11} width={120} tickLine={false} axisLine={false} fontWeight={600} />
-                    <Tooltip cursor={{fill: 'var(--bg-hover)'}} contentStyle={{ background: 'var(--glass-bg)', backdropFilter: 'blur(24px)', border: '1px solid var(--glass-border)', borderRadius: 12, boxShadow: 'var(--glass-shadow)' }} itemStyle={{ color: 'var(--text-primary)', fontWeight: 700 }} />
+                    <Tooltip cursor={{fill: 'var(--bg-hover)'}} contentStyle={{ background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)', border: '1px solid var(--border)', borderRadius: 12, boxShadow: 'var(--glass-shadow)' }} itemStyle={{ color: 'var(--text-primary)', fontWeight: 700 }} />
                     <Bar dataKey="ingresos" fill={accentColor} radius={[0, 8, 8, 0]} barSize={34} />
                   </BarChart>
                 </ResponsiveContainer>
@@ -276,7 +276,7 @@ export default function GerenciaDashboardPage() {
                     <Pie data={activityData} innerRadius={75} outerRadius={100} paddingAngle={10} dataKey="value" stroke="none">
                       {activityData.map((entry, index) => <Cell key={`cell-${index}`} fill={trafficColors[index % trafficColors.length]} />)}
                     </Pie>
-                    <Tooltip contentStyle={{ background: 'var(--glass-bg)', backdropFilter: 'blur(24px)', border: '1px solid var(--glass-border)', borderRadius: 12, boxShadow: '0 4px 24px var(--glass-shadow)' }} itemStyle={{ color: 'var(--text-primary)', fontWeight: 700 }} />
+                    <Tooltip contentStyle={{ background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)', border: '1px solid var(--border)', borderRadius: 12, boxShadow: 'var(--glass-shadow)' }} itemStyle={{ color: 'var(--text-primary)', fontWeight: 700 }} />
                   </PieChart>
                 </ResponsiveContainer>
                 <div style={{ position: 'absolute', inset: 0, transform: 'translateY(-5%)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', pointerEvents: 'none' }}>

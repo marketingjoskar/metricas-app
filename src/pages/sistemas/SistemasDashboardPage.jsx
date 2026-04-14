@@ -69,10 +69,10 @@ function StatCard({ label, value, unit='', icon, color, sub, delay=0 }) {
       onMouseLeave={() => setHovered(false)}
       style={{
         animationDelay: `${delay}s`,
-        background: '#111827', // Very dark navy/gray
-        border: '1px solid rgba(255,255,255,0.05)',
+        background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+        border: '1px solid var(--border)',
         borderRadius: 24, padding: '32px 28px', position: 'relative', overflow: 'hidden',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
+        boxShadow: 'var(--glass-shadow)',
         transition: 'all 0.4s ease',
         cursor: 'default'
       }}
@@ -104,8 +104,8 @@ const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
       <div style={{ 
-        background: 'var(--glass-bg)', backdropFilter: 'blur(24px)', border: '1px solid var(--glass-border)',
-        padding: '12px 16px', borderRadius: 12, boxShadow: '0 4px 24px var(--glass-shadow)' 
+        background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)', border: '1px solid var(--border)',
+        padding: '12px 16px', borderRadius: 12, boxShadow: 'var(--glass-shadow)' 
       }}>
         <p style={{ margin: 0, fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 800, marginBottom: 6 }}>Día {label}</p>
         {payload.map((entry, index) => (
@@ -240,9 +240,9 @@ export default function SistemasDashboardPage() {
             {/* Primary Evolution Chart */}
             {records.length > 0 && (
               <div className="animate-fadeUp" style={{ 
-                background: '#111827',
-                padding: '32px', borderRadius: 32, border: '1px solid rgba(255,255,255,0.05)',
-                boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
+                background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+                padding: '32px', borderRadius: 32, border: '1px solid var(--glass-border)',
+                boxShadow: 'var(--glass-shadow)',
               }}>
                 <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom: 32 }}>
                   <div style={{ fontSize:'0.75rem', fontWeight: 700, color:'rgba(255,255,255,0.4)', letterSpacing:'0.1em' }}>EVOLUCIÓN DIARIA</div>
@@ -274,8 +274,8 @@ export default function SistemasDashboardPage() {
             {/* Donut Chart - Traffic Sources */}
             {ga4data && traficoTotal > 0 && (
               <div className="animate-fadeUp" style={{ 
-                background: 'var(--glass-bg)', backdropFilter: 'blur(28px)', 
-                padding: '32px', borderRadius: 32, border: '1px solid var(--glass-border)',
+                background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+                padding: '32px', borderRadius: 32, border: '1px solid var(--border)',
                 display: 'flex', flexDirection: 'column', boxShadow: 'var(--glass-shadow)',
                 animationDelay: '0.1s'
               }}>
@@ -340,8 +340,8 @@ export default function SistemasDashboardPage() {
               {/* SEO Top Keywords */}
               {ga4data.seo_keywords?.length > 0 && (
                 <div className="animate-fadeUp" style={{ 
-                  background: 'var(--glass-bg)', backdropFilter: 'blur(20px)', 
-                  padding: '32px', borderRadius: 32, border: '1px solid var(--glass-border)',
+                  background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+                  padding: '32px', borderRadius: 32, border: '1px solid var(--border)',
                   animationDelay: '0.3s', boxShadow: 'var(--glass-shadow)'
                 }}>
                 <div style={{ fontSize:'0.8rem', fontWeight: 800, color:'var(--text-muted)', marginBottom:24, letterSpacing:'0.1em', textTransform: 'uppercase' }}>RANKING SEO (TOP KEYWORDS)</div>
