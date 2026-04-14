@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
+import GlassDatePicker from '../../components/GlassDatePicker'
 
 const accentColor = '#C084FC' // Purple 400 - Gerencia Theme
 
@@ -77,7 +78,7 @@ function JornadaForm({ initial, onSave, onCancel }) {
 
   return (
     <div className="animate-fadeUp" style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-      <div style={{ background: 'rgba(255, 255, 255, 0.07)', backdropFilter: 'blur(28px)', border: '1px solid rgba(255, 255, 255, 0.12)', borderRadius: 32, padding: '32px', boxShadow: '0 8px 32px rgba(0,0,0,0.15)' }}>
+      <div style={{ background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)', border: '1px solid var(--border)', borderRadius: 32, padding: '32px', boxShadow: 'var(--glass-shadow)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
           <span style={{ fontSize: 24 }}>🏥</span>
           <span style={{ fontWeight: 800, fontSize: '1.1rem', color: '#fff', letterSpacing: '-0.5px' }}>Identificación de la Jornada</span>
@@ -90,12 +91,12 @@ function JornadaForm({ initial, onSave, onCancel }) {
           </div>
           <div>
             <label style={labelStyle}>Fecha de Ejecución *</label>
-            <input type="date" value={form.fecha} onChange={e => setForm(f => ({ ...f, fecha: e.target.value }))} style={inputStyle} />
+            <GlassDatePicker value={form.fecha} onChange={newDate => setForm(f => ({ ...f, fecha: newDate }))} accentColor={accentColor} />
           </div>
         </div>
       </div>
 
-      <div style={{ background: 'rgba(255, 255, 255, 0.07)', backdropFilter: 'blur(28px)', border: '1px solid rgba(255, 255, 255, 0.12)', borderRadius: 32, padding: '32px', boxShadow: '0 8px 32px rgba(0,0,0,0.15)' }}>
+      <div style={{ background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)', border: '1px solid var(--border)', borderRadius: 32, padding: '32px', boxShadow: 'var(--glass-shadow)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
           <span style={{ fontSize: 24 }}>🤝</span>
           <span style={{ fontWeight: 800, fontSize: '1.1rem', color: '#fff', letterSpacing: '-0.5px' }}>Áreas de Apoyo Involucradas</span>
@@ -124,7 +125,7 @@ function JornadaForm({ initial, onSave, onCancel }) {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24 }}>
-        <div style={{ background: 'rgba(255, 255, 255, 0.07)', backdropFilter: 'blur(28px)', border: '1px solid rgba(255, 255, 255, 0.12)', borderRadius: 32, padding: '32px', boxShadow: '0 8px 32px rgba(0,0,0,0.15)' }}>
+        <div style={{ background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)', border: '1px solid var(--border)', borderRadius: 32, padding: '32px', boxShadow: 'var(--glass-shadow)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
             <span style={{ fontSize: 24 }}>💰</span>
             <span style={{ fontWeight: 800, fontSize: '1.1rem', color: '#fff', letterSpacing: '-0.5px' }}>Inversión Estimada</span>
@@ -134,7 +135,7 @@ function JornadaForm({ initial, onSave, onCancel }) {
             placeholder="$ 0.00"
             style={{ ...inputStyle, fontSize: '1.8rem', fontWeight: 800, fontFamily: 'var(--font-mono)', color: form.gasto_total ? '#10B981' : 'rgba(255,255,255,0.2)' }} />
         </div>
-        <div style={{ background: 'rgba(255, 255, 255, 0.07)', backdropFilter: 'blur(28px)', border: '1px solid rgba(255, 255, 255, 0.12)', borderRadius: 32, padding: '32px', boxShadow: '0 8px 32px rgba(0,0,0,0.15)' }}>
+        <div style={{ background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)', border: '1px solid var(--border)', borderRadius: 32, padding: '32px', boxShadow: 'var(--glass-shadow)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
             <span style={{ fontSize: 24 }}>📝</span>
             <span style={{ fontWeight: 800, fontSize: '1.1rem', color: '#fff', letterSpacing: '-0.5px' }}>Bitácora / Notas</span>
@@ -282,10 +283,10 @@ export default function GerenciaJornadasPage() {
                 { label:'Media por operativo', value:jornadas.length?formatMoney(Math.round(totalGasto/jornadas.length)):'—', icon:'📊', c:'#3B82F6' },
               ].map((k,i) => (
                 <div key={i} className="animate-fadeUp" style={{
-                  animationDelay:`${i*0.1}s`, background:'rgba(255, 255, 255, 0.07)',
-                  backdropFilter: 'blur(28px)', border:'1px solid rgba(255, 255, 255, 0.1)',
+                  animationDelay:`${i*0.1}s`, background:'var(--glass-bg)',
+                  backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)', border:'1px solid var(--border)',
                   borderRadius:24, padding:'28px', position:'relative', overflow:'hidden',
-                  boxShadow:'0 8px 32px rgba(0,0,0,0.15)'
+                  boxShadow:'var(--glass-shadow)'
                 }}>
                   <div style={{ position:'absolute', top:0, left:0, right:0, height:2, background:k.c, opacity:0.8 }} />
                   <div style={{ fontSize:28, marginBottom:16, filter: `drop-shadow(0 0 8px ${k.c}44)` }}>{k.icon}</div>
@@ -319,12 +320,13 @@ export default function GerenciaJornadasPage() {
               {jornadas.map((j,i) => (
                 <div key={j.id} className="animate-fadeUp" style={{
                   animationDelay:`${i*0.06}s`,
-                  background:'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(28px)',
-                  border:'1px solid rgba(255, 255, 255, 0.1)', borderRadius:24, padding:'24px 32px',
-                  transition: 'all 0.3s ease', position: 'relative', overflow: 'hidden'
+                  background:'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+                  border:'1px solid var(--border)', borderRadius:24, padding:'24px 32px',
+                  transition: 'all 0.3s ease', position: 'relative', overflow: 'hidden',
+                  boxShadow: 'var(--glass-shadow)'
                 }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = `0 12px 30px rgba(0,0,0,0.2)` }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none' }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)' }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)' }}
                 >
                   <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:24, flexWrap:'wrap' }}>
                     <div style={{ flex:1, minWidth:250 }}>

@@ -48,8 +48,9 @@ export default function LoginPage() {
         style={{
           position: 'relative',
           width: '100%',
-          maxWidth: 420,
-          padding: '0 24px',
+          maxWidth: 440,
+          padding: '24px',
+          margin: '0 auto',
         }}
       >
         {/* Logo / brand */}
@@ -60,36 +61,35 @@ export default function LoginPage() {
             alignItems: 'center',
             justifyContent: 'center',
             width: 68, height: 68,
-            background: 'rgba(255,255,255,0.06)',
+            background: 'var(--bg-elevated)',
             backdropFilter: 'blur(20px)',
             WebkitBackdropFilter: 'blur(20px)',
-            border: '1px solid rgba(125,211,252,0.25)',
+            border: '1px solid var(--border-bright)',
             borderRadius: 22,
             marginBottom: 20,
-            boxShadow: '0 8px 32px rgba(0,0,0,0.35), 0 0 40px rgba(125,211,252,0.15), inset 0 1px 0 rgba(255,255,255,0.12)',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.5), 0 0 40px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.05)',
           }}>
             <span style={{
               fontSize: 28,
-              filter: 'drop-shadow(0 0 8px rgba(125,211,252,0.6))',
+              filter: 'drop-shadow(0 0 8px var(--accent))',
             }}>▦</span>
           </div>
 
           <h1 style={{
             fontFamily: 'var(--font-display)',
-            fontSize: '2rem',
-            fontWeight: 800,
+            fontSize: 'clamp(2rem, 8vw, 2.6rem)',
+            fontWeight: 700,
             letterSpacing: '-1.5px',
-            background: 'linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.55))',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-            marginBottom: 8,
+            color: '#fff',
+            marginBottom: 4,
+            lineHeight: 1,
           }}>MetricHub</h1>
 
           <p style={{
-            color: 'rgba(255,255,255,0.38)',
-            fontSize: '0.9rem',
-            letterSpacing: '0.02em',
+            color: 'rgba(255,255,255,0.45)',
+            fontSize: '0.85rem',
+            letterSpacing: '0.01em',
+            fontWeight: 400,
           }}>Dashboard interno del equipo</p>
         </div>
 
@@ -97,39 +97,30 @@ export default function LoginPage() {
         <div
           style={{
             position: 'relative',
-            borderRadius: 28,
-            padding: '36px 32px',
-            background: 'rgba(255,255,255,0.07)',
+            borderRadius: 32,
+            padding: 'clamp(32px, 6vw, 42px) clamp(24px, 5vw, 36px)',
+            background: 'var(--glass-bg)',
             backdropFilter: 'blur(40px) saturate(1.8)',
             WebkitBackdropFilter: 'blur(40px) saturate(1.8)',
-            border: '1px solid rgba(125,211,252,0.18)',
-            boxShadow: '0 8px 48px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.10)',
+            border: '1px solid var(--glass-border)',
+            boxShadow: '0 20px 50px rgba(0,0,0,0.3)',
             animation: shaking ? 'pinShake 0.45s ease' : 'none',
           }}
         >
-          {/* Top accent gradient line */}
+          {/* Top accent glow line */}
           <div style={{
-            position: 'absolute', top: 0, left: 0, right: 0, height: 2,
-            background: 'linear-gradient(90deg, transparent, #7DD3FC, transparent)',
-            borderRadius: '28px 28px 0 0',
-          }} />
-
-          {/* Inner top-left glow */}
-          <div style={{
-            position: 'absolute', top: -30, left: -30,
-            width: 100, height: 100, borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(125,211,252,0.12) 0%, transparent 70%)',
-            pointerEvents: 'none',
+            position: 'absolute', top: 0, left: '15%', right: '15%', height: 1.5,
+            background: 'linear-gradient(90deg, transparent, var(--accent), transparent)',
           }} />
 
           <label style={{
             display: 'block',
-            fontSize: '0.72rem',
-            fontWeight: 600,
-            letterSpacing: '0.12em',
+            fontSize: '0.68rem',
+            fontWeight: 700,
+            letterSpacing: '0.1em',
             textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.38)',
-            marginBottom: 10,
+            color: 'rgba(255,255,255,0.4)',
+            marginBottom: 12,
           }}>
             Contraseña de acceso
           </label>
@@ -143,35 +134,38 @@ export default function LoginPage() {
               placeholder="••••••••••••"
               style={{
                 width: '100%',
-                padding: '14px 16px',
+                padding: '16px 18px',
                 fontSize: '1rem',
                 letterSpacing: '0.1em',
-                background: 'rgba(255,255,255,0.06)',
-                border: `1px solid ${error ? 'rgba(240,67,106,0.45)' : 'rgba(255,255,255,0.12)'}`,
-                borderRadius: 14,
+                background: 'rgba(255,255,255,0.03)',
+                border: `1px solid ${error ? '#F0436A' : 'rgba(255,255,255,0.08)'}`,
+                borderRadius: 16,
                 color: '#fff',
-                marginBottom: 16,
+                marginBottom: 20,
                 outline: 'none',
-                transition: 'border-color 0.2s, box-shadow 0.2s',
+                transition: 'all 0.2s ease',
               }}
               onFocus={e => {
-                e.currentTarget.style.borderColor = 'rgba(125,211,252,0.45)'
-                e.currentTarget.style.boxShadow = '0 0 0 3px rgba(125,211,252,0.10)'
+                e.currentTarget.style.borderColor = 'var(--accent)'
+                e.currentTarget.style.boxShadow = '0 0 0 4px var(--accent-glow)'
+                e.currentTarget.style.background = 'rgba(255,255,255,0.06)'
               }}
               onBlur={e => {
-                e.currentTarget.style.borderColor = error ? 'rgba(240,67,106,0.45)' : 'rgba(255,255,255,0.12)'
+                e.currentTarget.style.borderColor = error ? '#F0436A' : 'rgba(255,255,255,0.08)'
                 e.currentTarget.style.boxShadow = 'none'
+                e.currentTarget.style.background = 'rgba(255,255,255,0.03)'
               }}
             />
 
             {error && (
               <div style={{
                 color: '#ff6b8a',
-                fontSize: '0.82rem',
-                marginBottom: 14,
+                fontSize: '0.8rem',
+                marginBottom: 16,
                 display: 'flex',
                 alignItems: 'center',
                 gap: 6,
+                padding: '0 4px',
               }}>
                 <span>✕</span> {error}
               </div>
@@ -182,30 +176,27 @@ export default function LoginPage() {
               disabled={!password}
               style={{
                 width: '100%',
-                padding: '14px',
-                background: 'rgba(125,211,252,0.18)',
-                border: '1px solid rgba(125,211,252,0.35)',
-                borderRadius: 14,
+                padding: '16px',
+                background: 'var(--accent)',
+                border: 'none',
+                borderRadius: 16,
                 color: '#fff',
-                fontSize: '0.95rem',
-                fontWeight: 700,
-                letterSpacing: '0.04em',
-                boxShadow: '0 4px 24px rgba(125,211,252,0.20)',
-                transition: 'all 0.25s cubic-bezier(.22,1,.36,1)',
+                fontSize: '1rem',
+                fontWeight: 600,
+                letterSpacing: '0.02em',
+                boxShadow: '0 10px 25px var(--accent-glow)',
+                transition: 'all 0.3s cubic-bezier(.22,1,.36,1)',
                 cursor: 'pointer',
-                backdropFilter: 'blur(8px)',
               }}
               onMouseEnter={e => {
-                e.currentTarget.style.background = 'rgba(125,211,252,0.28)'
-                e.currentTarget.style.borderColor = 'rgba(125,211,252,0.55)'
+                e.currentTarget.style.background = 'var(--accent-bright)'
                 e.currentTarget.style.transform = 'translateY(-2px)'
-                e.currentTarget.style.boxShadow = '0 8px 32px rgba(125,211,252,0.30)'
+                e.currentTarget.style.boxShadow = '0 15px 35px var(--accent-glow)'
               }}
               onMouseLeave={e => {
-                e.currentTarget.style.background = 'rgba(125,211,252,0.18)'
-                e.currentTarget.style.borderColor = 'rgba(125,211,252,0.35)'
+                e.currentTarget.style.background = 'var(--accent)'
                 e.currentTarget.style.transform = 'translateY(0)'
-                e.currentTarget.style.boxShadow = '0 4px 24px rgba(125,211,252,0.20)'
+                e.currentTarget.style.boxShadow = '0 10px 25px var(--accent-glow)'
               }}
             >
               Ingresar →
@@ -216,11 +207,11 @@ export default function LoginPage() {
         {/* Footer label */}
         <p style={{
           textAlign: 'center',
-          marginTop: 24,
-          color: 'rgba(255,255,255,0.18)',
-          fontSize: '0.72rem',
+          marginTop: 28,
+          color: 'rgba(255,255,255,0.15)',
+          fontSize: '0.7rem',
           fontFamily: 'var(--font-mono)',
-          letterSpacing: '0.08em',
+          letterSpacing: '0.05em',
         }}>
           metricas.tuempresa.com · v1.0
         </p>

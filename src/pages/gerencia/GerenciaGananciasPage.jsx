@@ -180,9 +180,10 @@ export default function GerenciaGananciasPage() {
           justifyContent:'center', zIndex:1000, padding: 20
         }}>
           <div className="animate-scaleIn" style={{
-            background:'rgba(255,255,255,0.07)', border:`1px solid ${accentColor}44`,
+            background:'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)', 
+            border:'1px solid var(--border)',
             borderRadius:32, padding:'40px', width:'100%', maxWidth:700,
-            maxHeight:'90vh', overflow:'auto', boxShadow:`0 32px 64px rgba(0,0,0,0.5)`,
+            maxHeight:'90vh', overflow:'auto', boxShadow:'var(--glass-shadow)',
             position: 'relative'
           }}>
             <h2 style={{ fontSize:'1.8rem', fontWeight: 900, letterSpacing:'-1px', marginBottom:8, color: '#fff' }}>Vista Previa</h2>
@@ -274,7 +275,7 @@ export default function GerenciaGananciasPage() {
       ) : rows.length === 0 ? (
         <div style={{ 
           textAlign:'center', padding:'80px 40px', border:`2px dashed rgba(255,255,255,0.1)`, 
-          borderRadius:32, background:'rgba(255,255,255,0.03)', backdropFilter: 'blur(20px)'
+          borderRadius:32, background:'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)', boxShadow:'var(--glass-shadow)'
         }}>
           <div style={{ fontSize:64, marginBottom:24, filter: 'grayscale(1) opacity(0.5)' }}>📊</div>
           <h2 style={{ color:'#fff', fontSize: '1.5rem', fontWeight: 800, marginBottom:8 }}>Cero Registros</h2>
@@ -310,10 +311,10 @@ export default function GerenciaGananciasPage() {
               { label:'Ticket Promedio', value:rows.length ? formatMoney(Math.round(totalIngresos/rows.length)) : '—', icon:'📈', c:'#FDBA74' },
             ].map((k,i) => (
               <div key={i} className="animate-fadeUp" style={{
-                animationDelay:`${i*0.1}s`, background:'rgba(255, 255, 255, 0.07)',
-                backdropFilter: 'blur(28px)', border:'1px solid rgba(255, 255, 255, 0.1)',
+                animationDelay:`${i*0.1}s`, background:'var(--glass-bg)',
+                backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)', border:'1px solid var(--border)',
                 borderRadius:24, padding:'28px', position:'relative', overflow:'hidden',
-                boxShadow:'0 8px 32px rgba(0,0,0,0.15)', transition: 'all 0.3s'
+                boxShadow:'var(--glass-shadow)', transition: 'all 0.3s'
               }}>
                 <div style={{ position:'absolute', top:0, left:0, right:0, height:2, background:k.c, opacity:0.8 }} />
                 <div style={{ fontSize:28, marginBottom:16, filter: `drop-shadow(0 0 8px ${k.c}44)` }}>{k.icon}</div>
@@ -328,9 +329,9 @@ export default function GerenciaGananciasPage() {
 
           {/* Table Container */}
           <div style={{ 
-            background:'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(28px)',
-            border:'1px solid rgba(255, 255, 255, 0.1)', borderRadius:32, 
-            overflow:'hidden', boxShadow:'0 12px 40px rgba(0,0,0,0.2)' 
+            background:'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+            border:'1px solid var(--border)', borderRadius:32, 
+            overflow:'hidden', boxShadow:'var(--glass-shadow)' 
           }}>
             <div style={{ 
               padding:'24px 32px', borderBottom:'1px solid rgba(255, 255, 255, 0.08)', 

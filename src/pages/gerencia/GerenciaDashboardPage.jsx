@@ -68,7 +68,7 @@ function AreaSection({ title, accent, icon, children, to, navigate }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{ 
-        background: 'var(--glass-bg)', backdropFilter: 'blur(28px)',
+        background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
         borderRadius: 32, overflow: 'hidden', display: 'flex', flexDirection: 'column',
         border: hovered ? `1px solid ${accent}66` : '1px solid var(--glass-border)',
         transition: 'all 0.3s ease',
@@ -76,9 +76,9 @@ function AreaSection({ title, accent, icon, children, to, navigate }) {
       }}
     >
       <div style={{ 
-        padding: '20px 24px', borderBottom: '1px solid rgba(255,255,255,0.08)', 
+        padding: '20px 24px', borderBottom: '1px solid var(--border)', 
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        background: 'rgba(255, 255, 255, 0.03)'
+        background: 'var(--bg-elevated)'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <span style={{ fontSize: 20 }}>{icon}</span>
@@ -88,12 +88,12 @@ function AreaSection({ title, accent, icon, children, to, navigate }) {
           <button 
             onClick={() => navigate(to)} 
             style={{ 
-              background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)', 
+              background: 'var(--bg-elevated)', border: '1px solid var(--border)', 
               color: accent, padding: '6px 16px', borderRadius: 12, fontSize: '0.75rem', 
               fontWeight: 800, cursor: 'pointer', transition: 'all 0.2s'
             }}
-            onMouseEnter={e => { e.currentTarget.style.background = accent; e.currentTarget.style.color = '#080C1C' }}
-            onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'; e.currentTarget.style.color = accent }}
+            onMouseEnter={e => { e.currentTarget.style.background = accent; e.currentTarget.style.color = '#000' }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'var(--bg-elevated)'; e.currentTarget.style.color = accent }}
           >
             DETALLES →
           </button>
@@ -254,10 +254,10 @@ export default function GerenciaDashboardPage() {
               <div style={{ width: '100%', height: 350 }}>
                 <ResponsiveContainer>
                   <BarChart layout="vertical" data={strategiesData} margin={{ left: 20, right: 30 }}>
-                    <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="rgba(255,255,255,0.05)" />
+                    <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="var(--border)" />
                     <XAxis type="number" hide />
-                    <YAxis dataKey="name" type="category" stroke="rgba(255,255,255,0.6)" fontSize={11} width={120} tickLine={false} axisLine={false} fontWeight={600} />
-                    <Tooltip cursor={{fill: 'rgba(255,255,255,0.03)'}} contentStyle={{ background: 'var(--glass-bg)', backdropFilter: 'blur(24px)', border: '1px solid var(--glass-border)', borderRadius: 12, boxShadow: '0 4px 24px var(--glass-shadow)' }} itemStyle={{ color: 'var(--text-primary)', fontWeight: 700 }} />
+                    <YAxis dataKey="name" type="category" stroke="var(--text-secondary)" fontSize={11} width={120} tickLine={false} axisLine={false} fontWeight={600} />
+                    <Tooltip cursor={{fill: 'var(--bg-hover)'}} contentStyle={{ background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)', border: '1px solid var(--border)', borderRadius: 12, boxShadow: 'var(--glass-shadow)' }} itemStyle={{ color: 'var(--text-primary)', fontWeight: 700 }} />
                     <Bar dataKey="ingresos" fill={accentColor} radius={[0, 8, 8, 0]} barSize={34} />
                   </BarChart>
                 </ResponsiveContainer>
@@ -276,7 +276,7 @@ export default function GerenciaDashboardPage() {
                     <Pie data={activityData} innerRadius={75} outerRadius={100} paddingAngle={10} dataKey="value" stroke="none">
                       {activityData.map((entry, index) => <Cell key={`cell-${index}`} fill={trafficColors[index % trafficColors.length]} />)}
                     </Pie>
-                    <Tooltip contentStyle={{ background: 'var(--glass-bg)', backdropFilter: 'blur(24px)', border: '1px solid var(--glass-border)', borderRadius: 12, boxShadow: '0 4px 24px var(--glass-shadow)' }} itemStyle={{ color: 'var(--text-primary)', fontWeight: 700 }} />
+                    <Tooltip contentStyle={{ background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)', border: '1px solid var(--border)', borderRadius: 12, boxShadow: 'var(--glass-shadow)' }} itemStyle={{ color: 'var(--text-primary)', fontWeight: 700 }} />
                   </PieChart>
                 </ResponsiveContainer>
                 <div style={{ position: 'absolute', inset: 0, transform: 'translateY(-5%)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', pointerEvents: 'none' }}>

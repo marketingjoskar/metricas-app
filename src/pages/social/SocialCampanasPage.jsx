@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
+import GlassDatePicker from '../../components/GlassDatePicker'
 
 const color = '#7DD3FC' // Social color from user request
 const RED = '#f0436a'
@@ -96,9 +97,9 @@ function CampanaForm({ initial, onSave, onCancel }) {
       <div 
         className="animate-fadeUp"
         style={{ 
-          background:'rgba(255, 255, 255, 0.07)', backdropFilter: 'blur(28px)', 
-          border:'1px solid rgba(255, 255, 255, 0.1)', borderRadius:24, padding:32,
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)'
+          background:'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+          border:'1px solid var(--border)', borderRadius:24, padding:32,
+          boxShadow: 'var(--glass-shadow)'
         }}
       >
         <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:24 }}>
@@ -113,11 +114,11 @@ function CampanaForm({ initial, onSave, onCancel }) {
           </div>
           <div>
             <label style={lbl}>Fecha inicio</label>
-            <input type="date" value={form.fecha_inicio} onChange={e=>setForm(f=>({...f,fecha_inicio:e.target.value}))} style={{...glassInput, colorScheme: 'dark'}} />
+            <GlassDatePicker value={form.fecha_inicio} onChange={(d) => setForm(f => ({...f, fecha_inicio: d}))} accentColor={color} />
           </div>
           <div>
             <label style={lbl}>Fecha fin</label>
-            <input type="date" value={form.fecha_fin} onChange={e=>setForm(f=>({...f,fecha_fin:e.target.value}))} style={{...glassInput, colorScheme: 'dark'}} />
+            <GlassDatePicker value={form.fecha_fin} onChange={(d) => setForm(f => ({...f, fecha_fin: d}))} accentColor={color} />
           </div>
         </div>
 
@@ -150,9 +151,9 @@ function CampanaForm({ initial, onSave, onCancel }) {
         className="animate-fadeUp"
         style={{ 
           animationDelay: '0.1s',
-          background:'rgba(255, 255, 255, 0.07)', backdropFilter: 'blur(28px)', 
-          border:'1px solid rgba(255, 255, 255, 0.1)', borderRadius:24, padding:32,
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)'
+          background:'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+          border:'1px solid var(--border)', borderRadius:24, padding:32,
+          boxShadow: 'var(--glass-shadow)'
         }}
       >
         <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:24 }}>
@@ -204,9 +205,9 @@ function CampanaForm({ initial, onSave, onCancel }) {
         className="animate-fadeUp"
         style={{ 
           animationDelay: '0.2s',
-          background:'rgba(255, 255, 255, 0.07)', backdropFilter: 'blur(28px)', 
-          border:'1px solid rgba(255, 255, 255, 0.1)', borderRadius:24, padding:32,
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)'
+          background:'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+          border:'1px solid var(--border)', borderRadius:24, padding:32,
+          boxShadow: 'var(--glass-shadow)'
         }}
       >
         <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:16 }}>
@@ -376,10 +377,10 @@ export default function SocialCampanasPage() {
               ].map((k,i) => (
                 <div key={i} className="animate-fadeUp" style={{
                   animationDelay:`${i*0.08}s`,
-                  background:'rgba(255, 255, 255, 0.07)', backdropFilter: 'blur(28px)',
-                  border:'1px solid rgba(255, 255, 255, 0.1)',
+                  background:'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+                  border:'1px solid var(--border)',
                   borderRadius:24,padding:'24px',position:'relative',overflow:'hidden',
-                  boxShadow:'0 8px 32px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                  boxShadow:'var(--glass-shadow)',
                 }}>
                   <div style={{ position:'absolute',top:0,left:0,right:0,height:'2px',background:k.c,opacity:0.8 }} />
                   <div style={{ fontSize:24,marginBottom:12, filter: `drop-shadow(0 0 10px ${k.c}44)` }}>{k.icon}</div>
@@ -395,7 +396,7 @@ export default function SocialCampanasPage() {
               className="animate-fadeUp"
               style={{ 
                 textAlign:'center',padding:'80px 40px',border:`1px dashed ${color}33`,borderRadius:28,
-                background:'rgba(255,255,255,0.03)', backdropFilter: 'blur(10px)'
+                background:'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)', boxShadow: 'var(--glass-shadow)'
               }}
             >
               <div style={{ fontSize:56,marginBottom:20 }}>📣</div>
@@ -422,11 +423,11 @@ export default function SocialCampanasPage() {
                 return (
                   <div key={c.id} className="animate-fadeUp" style={{
                     animationDelay:`${i*0.05}s`,
-                    background:'rgba(255, 255, 255, 0.07)', backdropFilter: 'blur(28px)',
-                    border:'1px solid rgba(255, 255, 255, 0.1)',
+                    background:'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+                    border:'1px solid var(--border)',
                     borderRadius:24,padding:'24px 30px',
                     position: 'relative', overflow: 'hidden',
-                    boxShadow:'0 8px 32px rgba(0, 0, 0, 0.12)',
+                    boxShadow:'var(--glass-shadow)',
                     transition: 'all 0.3s'
                   }}
                   onMouseEnter={e => {
@@ -435,7 +436,7 @@ export default function SocialCampanasPage() {
                   }}
                   onMouseLeave={e => {
                     e.currentTarget.style.transform = 'none'
-                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'
+                    e.currentTarget.style.borderColor = 'var(--border)'
                   }}
                   >
                     <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: '4px', background: statusColor }} />

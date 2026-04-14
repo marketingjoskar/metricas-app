@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
+import GlassDatePicker from '../../components/GlassDatePicker'
 
-const accentColor = '#FDBA74' // Amber 300 / Systems theme
+const accentColor = 'var(--accent)'
 
 function todayISO() {
   const n = new Date()
@@ -72,15 +73,15 @@ function ExistingModal({ date, onEdit, onNew, onCancel }) {
   return (
     <div style={{
       position:'fixed', inset:0,
-      background:'rgba(8, 12, 28, 0.45)', backdropFilter:'blur(16px)',
+      background:'rgba(0, 0, 0, 0.65)', backdropFilter:'blur(20px)',
       display:'flex', alignItems:'center', justifyContent:'center',
       zIndex:2000, animation:'fadeIn 0.3s ease',
     }}>
       <div className="animate-fadeUp" style={{
-        background:'var(--bg-elevated)', backdropFilter: 'blur(28px)',
+        background:'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
         border:'1px solid var(--border)',
         borderRadius:32, padding:'48px 40px', width:'100%', maxWidth:420,
-        boxShadow:'0 24px 60px rgba(0,0,0,0.5)', textAlign:'center',
+        boxShadow:'var(--glass-shadow)', textAlign:'center',
         position: 'relative', overflow: 'hidden'
       }}>
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: `linear-gradient(90deg, transparent, ${accentColor}, transparent)` }} />
@@ -92,7 +93,7 @@ function ExistingModal({ date, onEdit, onNew, onCancel }) {
         }}>
           Registro duplicado
         </h2>
-        <div style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border)', padding: 20, borderRadius: 20, marginBottom: 30, color: 'var(--text-secondary)', display:'flex', alignItems:'center', gap:12 }}>
+        <div style={{ background: 'var(--bg-body)', border: '1px solid var(--border)', padding: 20, borderRadius: 20, marginBottom: 30, color: 'var(--text-secondary)', display:'flex', alignItems:'center', gap:12 }}>
           <span style={{fontSize:24}}>📅</span>
           <span>
             La jornada del <strong style={{color: 'var(--text-primary)'}}>{formatDateDisplay(date)}</strong> ya fue procesada.
@@ -108,12 +109,12 @@ function ExistingModal({ date, onEdit, onNew, onCancel }) {
             onMouseLeave={e=>e.currentTarget.style.transform='none'}
           >✎ Editar jornada existente</button>
           <button onClick={onNew} style={{
-            padding:'15px', background:'var(--bg-elevated)',
+            padding:'15px', background:'var(--bg-body)',
             border:'1px solid var(--border)', borderRadius:16,
             color:'var(--text-primary)', fontSize:'1rem', fontWeight:700, cursor:'pointer', transition: 'all 0.2s'
           }}
             onMouseEnter={e=>e.currentTarget.style.background='var(--bg-hover)'}
-            onMouseLeave={e=>e.currentTarget.style.background='var(--bg-elevated)'}
+            onMouseLeave={e=>e.currentTarget.style.background='var(--bg-body)'}
           >✚ Nueva entrada (Adicional)</button>
           <button onClick={onCancel} style={{
             padding:'12px', background:'transparent', border:'none',
@@ -272,9 +273,16 @@ export default function SistemasIngresarPage() {
 
   const inputSt = { 
     width:'100%', padding:'12px 16px', fontSize:'0.95rem', 
-    background:'var(--bg-elevated)', border:'1px solid var(--border)', 
+    background:'var(--bg-body)', border:'1px solid var(--border)', 
     borderRadius:12, color:'var(--text-primary)', boxSizing:'border-box', outline: 'none',
     transition: 'all 0.2s focus'
+  }
+
+  const glassCard = {
+    background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+    border: '1px solid var(--border)',
+    borderRadius: 24, padding: '32px',
+    boxShadow: 'var(--glass-shadow)',
   }
 
   return (
@@ -283,24 +291,23 @@ export default function SistemasIngresarPage() {
       <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:24, marginBottom:32 }}>
         <div>
           <h1 style={{ 
-            fontSize:'2.5rem', fontWeight: 900, letterSpacing:'-2px', marginBottom:4,
-            background: 'linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary))',
-            WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+            fontSize:'3rem', fontWeight: 700, letterSpacing:'-1px', color: '#fff', marginBottom: 8
           }}>
             Ingreso de Métricas
           </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', fontWeight: 500 }}>
-            Sistemas / Web · <span style={{ color: accentColor, fontWeight: 700 }}>{formatDateDisplay(selectedDate)}</span>
-            {mode==='edit' && <span style={{ marginLeft:12, fontSize:'0.75rem', background:`${accentColor}22`, color: accentColor, border:`1px solid ${accentColor}44`, borderRadius:99, padding:'4px 12px', fontWeight:800, textTransform: 'uppercase' }}>✎ Editando sistema</span>}
+          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '1.1rem', fontWeight: 400 }}>
+            Sistemas / Web · <span style={{ color: 'var(--accent)', fontWeight: 700 }}>{formatDateDisplay(selectedDate)}</span>
+            {mode==='edit' && <span style={{ marginLeft:12, fontSize:'0.75rem', background:`var(--accent-glow)`, color: 'var(--accent)', border:`1px solid var(--accent)33`, borderRadius:99, padding:'4px 12px', fontWeight:800, textTransform: 'uppercase' }}>✎ Editando sistema</span>}
           </p>
         </div>
         <div style={{ display:'flex', alignItems:'center', gap:12, background: 'var(--bg-elevated)', padding: '8px 16px', borderRadius: 16, border: '1px solid var(--border)' }}>
           <span style={{ fontSize:'0.75rem', color:'var(--text-muted)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Jornada:</span>
-          <input type="date" value={selectedDate} max={today} onChange={e=>setSelectedDate(e.target.value)}
-            style={{ 
-              background: 'transparent', border: 'none', color: 'var(--text-primary)', fontSize: '1rem', 
-              fontWeight: 700, fontFamily: 'var(--font-mono)', outline: 'none', cursor: 'pointer' 
-            }} />
+          <GlassDatePicker 
+            value={selectedDate} 
+            max={today} 
+            onChange={(newDate) => setSelectedDate(newDate)} 
+            accentColor={accentColor}
+          />
         </div>
       </div>
 
@@ -344,9 +351,7 @@ export default function SistemasIngresarPage() {
 
               {/* Incidencias Panel */}
               <div style={{ 
-                background:'var(--bg-elevated)', backdropFilter: 'blur(28px)', 
-                border:'1px solid var(--border)', borderRadius:32, padding:'32px',
-                boxShadow: '0 8px 32px rgba(0,0,0,0.15)', position: 'relative', overflow: 'hidden' 
+                ...glassCard, position: 'relative', overflow: 'hidden' 
               }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, width: 4, height: '100%', background: '#60A5FA' }} />
                 <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:24 }}>
@@ -361,13 +366,13 @@ export default function SistemasIngresarPage() {
                   <div style={{ display:'flex', alignItems:'center', gap:32 }}>
                     <button onClick={()=>setForm(f=>({...f, incidencias_resueltas:Math.max(0,f.incidencias_resueltas-1)}))} style={{
                       width:64, height:64, borderRadius:20,
-                      background:'var(--bg-elevated)', border:'1px solid var(--border)',
+                      background:'var(--bg-body)', border:'1px solid var(--border)',
                       color:'var(--text-primary)', fontSize:'2rem', fontWeight: 600,
                       display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer',
                       transition: 'all 0.2s'
                     }}
                       onMouseEnter={e=>e.currentTarget.style.background='var(--bg-hover)'}
-                      onMouseLeave={e=>e.currentTarget.style.background='var(--bg-elevated)'}
+                      onMouseLeave={e=>e.currentTarget.style.background='var(--bg-body)'}
                     >−</button>
                     <div style={{ textAlign:'center' }}>
                       <div style={{
@@ -383,7 +388,7 @@ export default function SistemasIngresarPage() {
                     </div>
                     <button onClick={()=>setForm(f=>({...f, incidencias_resueltas:f.incidencias_resueltas+1}))} style={{
                       width:64, height:64, borderRadius:20,
-                      background: form.incidencias_resueltas > 0 ? 'rgba(96, 165, 250, 0.2)' : 'var(--bg-elevated)',
+                      background: form.incidencias_resueltas > 0 ? 'rgba(96, 165, 250, 0.2)' : 'var(--bg-body)',
                       border: `1px solid ${form.incidencias_resueltas > 0 ? 'rgba(96, 165, 250, 0.5)' : 'var(--border)'}`,
                       color: form.incidencias_resueltas > 0 ? '#60A5FA' : 'var(--text-primary)',
                       fontSize:'2rem', fontWeight: 600,
@@ -391,7 +396,7 @@ export default function SistemasIngresarPage() {
                       transition:'all 0.3s',
                     }}
                       onMouseEnter={e=>{ e.currentTarget.style.background='rgba(96, 165, 250, 0.3)'; e.currentTarget.style.borderColor='#60A5FA' }}
-                      onMouseLeave={e=>{ e.currentTarget.style.background=form.incidencias_resueltas>0?'rgba(96, 165, 250, 0.2)':'var(--bg-elevated)'; e.currentTarget.style.borderColor=form.incidencias_resueltas>0?'rgba(96, 165, 250, 0.5)':'var(--border)' }}
+                      onMouseLeave={e=>{ e.currentTarget.style.background=form.incidencias_resueltas>0?'rgba(96, 165, 250, 0.2)':'var(--bg-body)'; e.currentTarget.style.borderColor=form.incidencias_resueltas>0?'rgba(96, 165, 250, 0.5)':'var(--border)' }}
                     >+</button>
                   </div>
                   {form.incidencias_resueltas === 0 && (
@@ -404,9 +409,7 @@ export default function SistemasIngresarPage() {
 
               {/* Images Optimization Panel */}
               <div style={{ 
-                background:'var(--bg-elevated)', backdropFilter: 'blur(28px)', 
-                border:'1px solid var(--border)', borderRadius:32, padding:'32px',
-                boxShadow: '0 8px 32px rgba(0,0,0,0.15)', position: 'relative', overflow: 'hidden'
+                ...glassCard, position: 'relative', overflow: 'hidden'
               }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, width: 4, height: '100%', background: accentColor }} />
                 <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:24 }}>
@@ -435,11 +438,7 @@ export default function SistemasIngresarPage() {
               </div>
 
               {/* Notes Panel */}
-              <div style={{ 
-                background:'var(--bg-elevated)', backdropFilter: 'blur(20px)', 
-                border:'1px solid var(--border)', borderRadius:24, padding:'28px',
-                boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
-              }}>
+              <div style={glassCard}>
                 <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:16 }}>
                   <span style={{ fontSize:20 }}>📝</span>
                   <span style={{ fontWeight: 800, fontSize:'1rem', color: 'var(--text-primary)' }}>Observaciones técnicas</span>
@@ -447,7 +446,7 @@ export default function SistemasIngresarPage() {
                 </div>
                 <textarea value={form.notas} onChange={e=>setForm(f=>({...f,notas:e.target.value}))}
                   placeholder="Escribe aquí cualquier observación relevante sobre la infraestructura o problemas detectados…" rows={3}
-                  style={{ ...inputSt, resize:'vertical', lineHeight:1.6, background: 'var(--bg-body)' }} />
+                  style={{ ...inputSt, resize:'vertical', lineHeight:1.6 }} />
               </div>
 
               <div style={{ display:'flex', justifyContent:'flex-end', paddingTop:12, paddingBottom:40 }}>
@@ -473,9 +472,7 @@ export default function SistemasIngresarPage() {
             <div style={{ display:'flex', flexDirection:'column', gap:24, paddingBottom: 60 }}>
               {/* Toolbar GA4 */}
               <div style={{
-                background:'var(--bg-elevated)', backdropFilter: 'blur(10px)',
-                border:'1px solid var(--border)',
-                borderRadius:24, padding:'20px 24px',
+                ...glassCard,
                 display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:20,
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -536,15 +533,13 @@ export default function SistemasIngresarPage() {
 
               {/* Main Metrics GA4 */}
               <div style={{ 
-                background:'var(--bg-elevated)', backdropFilter: 'blur(28px)', 
-                border:'1px solid var(--border)', borderRadius:32, overflow:'hidden',
-                boxShadow: '0 8px 32px rgba(0,0,0,0.15)' 
+                ...glassCard, overflow:'hidden' 
               }}>
-                <div style={{ padding:'20px 32px', borderBottom:'1px solid var(--border)', display:'flex', alignItems:'center', gap:10 }}>
+                <div style={{ padding:'0 0 20px 0', borderBottom:'1px solid var(--border)', display:'flex', alignItems:'center', gap:10 }}>
                   <span style={{ fontSize:20 }}>📊</span>
                   <span style={{ fontWeight: 800, fontSize:'1.1rem', color: 'var(--text-primary)' }}>KPIs de Rendimiento Digital</span>
                 </div>
-                <div style={{ padding:'32px', display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(200px, 1fr))', gap:20 }}>
+                <div style={{ padding:'32px 0 0 0', display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(200px, 1fr))', gap:20 }}>
                   {[
                     { key:'sesiones',              label:'Sesiones totales',      placeholder:'0', icon: '🌍' },
                     { key:'usuarios_activos',       label:'Usuarios únicos',       placeholder:'0', icon: '👤' },
@@ -565,15 +560,13 @@ export default function SistemasIngresarPage() {
 
               {/* Traffic Sources GA4 */}
               <div style={{ 
-                background:'var(--bg-elevated)', backdropFilter: 'blur(28px)', 
-                border:'1px solid var(--border)', borderRadius:32, overflow:'hidden',
-                boxShadow: '0 8px 32px rgba(0,0,0,0.15)'
+                ...glassCard, overflow:'hidden'
               }}>
-                <div style={{ padding:'20px 32px', borderBottom:'1px solid var(--border)', display:'flex', alignItems:'center', gap:10 }}>
+                <div style={{ padding:'0 0 20px 0', borderBottom:'1px solid var(--border)', display:'flex', alignItems:'center', gap:10 }}>
                   <span style={{ fontSize:20 }}>🔀</span>
                   <span style={{ fontWeight: 800, fontSize:'1.1rem', color: 'var(--text-primary)' }}>Canales de Adquisición</span>
                 </div>
-                <div style={{ padding:'32px', display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(180px, 1fr))', gap:20 }}>
+                <div style={{ padding:'32px 0 0 0', display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(180px, 1fr))', gap:20 }}>
                   {[
                     { key:'trafico_organico', label:'Search (Orgánico)',  color:'#10B981', icon: '🔍' },
                     { key:'trafico_directo',  label:'Directo (URL)',     color:'#3B82F6', icon: '🔗' },
@@ -586,23 +579,19 @@ export default function SistemasIngresarPage() {
                         <span>{f.icon}</span> {f.label}
                       </label>
                       <input type="number" value={ga4[f.key]} onChange={e=>setGa4(g=>({...g,[f.key]:e.target.value}))}
-                        placeholder="0" style={{ ...inputSt, border: ga4[f.key] ? `1px solid ${f.color}44` : '1px solid rgba(255, 255, 255, 0.1)', background: ga4[f.key] ? `${f.color}08` : 'rgba(255, 255, 255, 0.05)' }} />
+                        placeholder="0" style={{ ...inputSt, border: ga4[f.key] ? `1px solid ${f.color}44` : '1px solid var(--border)', background: ga4[f.key] ? `${f.color}08` : 'var(--bg-body)' }} />
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* SEO Top Keywords */}
-              <div style={{ 
-                background:'rgba(255, 255, 255, 0.07)', backdropFilter: 'blur(28px)', 
-                border:'1px solid rgba(255, 255, 255, 0.12)', borderRadius:32, overflow:'hidden',
-                boxShadow: '0 8px 32px rgba(0,0,0,0.15)'
-              }}>
-                <div style={{ padding:'20px 32px', borderBottom:'1px solid rgba(255, 255, 255, 0.1)', display:'flex', alignItems:'center', gap:10 }}>
+              <div style={glassCard}>
+                <div style={{ padding:'0 0 20px 0', borderBottom:'1px solid var(--border)', display:'flex', alignItems:'center', gap:10 }}>
                   <span style={{ fontSize:20 }}>🥇</span>
-                  <span style={{ fontWeight: 800, fontSize:'1.1rem', color: '#fff' }}>Search Console Top Keywords</span>
+                  <span style={{ fontWeight: 800, fontSize:'1.1rem', color: 'var(--text-primary)' }}>Search Console Top Keywords</span>
                 </div>
-                <div style={{ padding:'32px' }}>
+                <div style={{ padding:'32px 0 0 0' }}>
                   <div style={{ display:'grid', gridTemplateColumns:'1fr 100px 100px 100px auto', gap:12, marginBottom:20 }}>
                     {[{k:'keyword',pl:'Keyword / Frase'},{k:'posicion',pl:'Posición'},{k:'clics',pl:'Clics'},{k:'impresiones',pl:'Impresiones'}].map(f => (
                       <input key={f.k} value={newKw[f.k]} onChange={e=>setNewKw(k=>({...k,[f.k]:e.target.value}))}
