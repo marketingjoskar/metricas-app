@@ -378,7 +378,7 @@ export default function DisenoIngresarPage() {
           {/* Details & Multimedia */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24 }}>
              {/* Videos */}
-             <div style={{ background: 'rgba(255, 255, 255, 0.07)', backdropFilter: 'blur(28px)', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: 28, padding: 28, boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15)' }}>
+             <div style={{ background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)', border: '1px solid var(--border)', borderRadius: 28, padding: 28, boxShadow: 'var(--glass-shadow)' }}>
                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
                  <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
                     <div style={{ width: 44, height: 44, borderRadius: 12, background: form.colaboracion_video ? `${accentColor}22` : 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22 }}>🎬</div>
@@ -397,7 +397,7 @@ export default function DisenoIngresarPage() {
              </div>
 
              {/* Photos */}
-             <div style={{ background: 'rgba(255, 255, 255, 0.07)', backdropFilter: 'blur(28px)', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: 28, padding: 28, display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15)' }}>
+             <div style={{ background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)', border: '1px solid var(--border)', borderRadius: 28, padding: 28, display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxShadow: 'var(--glass-shadow)' }}>
                <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
                   <div style={{ width: 44, height: 44, borderRadius: 12, background: form.fotos_producto_subidas > 0 ? `${accentColor}22` : 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22 }}>📸</div>
                   <div>
@@ -410,7 +410,7 @@ export default function DisenoIngresarPage() {
           </div>
 
           {/* Notes */}
-          <div style={{ background: 'rgba(255, 255, 255, 0.07)', backdropFilter: 'blur(28px)', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: 28, padding: 28, boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15)' }}>
+          <div style={{ background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)', border: '1px solid var(--border)', borderRadius: 28, padding: 28, boxShadow: 'var(--glass-shadow)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
               <span style={{ fontSize: 20 }}>📝</span>
               <span style={{ fontWeight: 800, fontSize: '1rem', color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Notas de la Jornada</span>
