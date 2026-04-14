@@ -30,7 +30,7 @@ function GlassModal({ isOpen, onClose, title, children }) {
     <div style={{
       position: 'fixed', inset: 0, zIndex: 999999, // Ensure absolute top level
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      padding: '40px 24px',
+      padding: '40px 24px 40px 12%', // Shifted right to accommodate the sidebar
     }}>
       <div onClick={onClose} style={{
         position: 'absolute', inset: 0, background: 'rgba(8, 13, 33, 0.7)',
