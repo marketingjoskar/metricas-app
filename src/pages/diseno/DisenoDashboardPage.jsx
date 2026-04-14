@@ -28,40 +28,40 @@ function GlassModal({ isOpen, onClose, title, children }) {
   if (!isOpen) return null;
   return (
     <div style={{
-      position: 'fixed', inset: 0, zIndex: 9999,
+      position: 'fixed', inset: 0, zIndex: 999999, // Ensure absolute top level
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      padding: 24,
+      padding: '40px 24px',
     }}>
       <div onClick={onClose} style={{
-        position: 'absolute', inset: 0, background: 'rgba(8,12,28,0.4)',
-        backdropFilter: 'blur(12px)', animation: 'fadeIn 0.3s ease'
+        position: 'absolute', inset: 0, background: 'rgba(8, 13, 33, 0.7)',
+        backdropFilter: 'blur(8px)', animation: 'fadeIn 0.3s ease'
       }} />
-      <div className="animate-fadeUp" style={{
-        position: 'relative', width: '100%', maxWidth: 1000,
-        maxHeight: '85vh', display: 'flex', flexDirection: 'column',
-        borderRadius: 32, overflow: 'hidden',
-        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
-        background: 'rgba(15, 20, 38, 0.85)',
-        backdropFilter: 'blur(28px)',
-        border: '1px solid rgba(255, 255, 255, 0.12)',
+      <div className="animate-fadeUp custom-scrollbar" style={{
+        position: 'relative', width: '85%', maxWidth: 900,
+        maxHeight: '80vh', display: 'flex', flexDirection: 'column',
+        borderRadius: 24, overflow: 'hidden',
+        boxShadow: 'var(--glass-shadow)',
+        background: 'var(--bg-elevated)',
+        border: '1px solid var(--border-bright)',
       }}>
         {/* Top Accent Line */}
-        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: `linear-gradient(90deg, transparent, ${accentColor}, transparent)` }} />
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '4px', background: `linear-gradient(90deg, transparent, ${accentColor}, transparent)` }} />
         
         <div style={{
-          padding: '24px 32px', borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+          padding: '24px 32px', borderBottom: '1px solid var(--border)',
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-          background: 'rgba(0,0,0,0.2)'
+          background: 'var(--bg-surface)'
         }}>
           <h2 style={{ 
-            fontSize: '1.5rem', fontWeight: 800, margin: 0, color: '#fff'
+            fontSize: '1.4rem', fontWeight: 700, margin: 0, color: 'var(--text-primary)', letterSpacing: '-0.5px'
           }}>{title}</h2>
           <button onClick={onClose} style={{
-            background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#fff',
-            width: 36, height: 36, borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center'
+            background: 'var(--bg-base)', border: '1px solid var(--border)', color: 'var(--text-primary)',
+            width: 36, height: 36, borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            transition: 'all 0.2s'
           }}>✕</button>
         </div>
-        <div className="custom-scrollbar" style={{ overflowY: 'auto', overflowX: 'hidden', flex: 1 }}>
+        <div className="custom-scrollbar" style={{ overflowY: 'auto', overflowX: 'hidden', flex: 1, padding: '0 8px 16px 8px' }}>
           {children}
         </div>
       </div>
@@ -369,28 +369,28 @@ export default function DisenoDashboardPage() {
 
           {/* Records Detail Modal */}
           <GlassModal isOpen={showLogsModal} onClose={() => setShowLogsModal(false)} title={`Bitácora de Diseño - ${MONTHS_ES[month]} ${year}`}>
-            <div className="custom-scrollbar" style={{ overflowX: 'auto', padding: '0 32px 32px 32px' }}>
+            <div className="custom-scrollbar" style={{ overflowX: 'auto', padding: '16px' }}>
               <table style={{ width: '100%', minWidth: 800, borderCollapse: 'collapse', fontSize: '0.9rem' }}>
                 <thead>
-                  <tr style={{ background: 'rgba(255,255,255,0.03)' }}>
+                  <tr style={{ background: 'var(--bg-surface)' }}>
                     {['Fecha', 'Story', 'Efem', 'Repo', 'Desc', 'Prom', 'Cumple', 'Fotos', 'Video', 'Notas'].map(h => (
-                      <th key={h} style={{ padding: '16px 20px', textAlign: 'left', color: 'rgba(255,255,255,0.4)', fontWeight: 800, fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.1em', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>{h}</th>
+                      <th key={h} style={{ padding: '16px 20px', textAlign: 'left', color: 'var(--text-muted)', fontWeight: 800, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', borderBottom: '1px solid var(--border)' }}>{h}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   {recordsByDay.map((r, i) => (
-                    <tr key={r.fecha} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.01)' }}>
-                      <td style={{ padding: '16px 20px', fontFamily: 'var(--font-mono)', color: 'rgba(255,255,255,0.8)', fontWeight: 700 }}>{r.fecha?.split('-').reverse().join('/')}</td>
-                      <td style={{ padding: '16px 20px', textAlign: 'center', color: r.flyers_storie ? accentColor : 'rgba(255,255,255,0.1)', fontWeight: 800 }}>{r.flyers_storie || '—'}</td>
-                      <td style={{ padding: '16px 20px', textAlign: 'center', color: r.flyers_efemeride ? '#60A5FA' : 'rgba(255,255,255,0.1)', fontWeight: 800 }}>{r.flyers_efemeride || '—'}</td>
-                      <td style={{ padding: '16px 20px', textAlign: 'center', color: r.flyers_reposicion ? '#3B82F6' : 'rgba(255,255,255,0.1)', fontWeight: 800 }}>{r.flyers_reposicion || '—'}</td>
-                      <td style={{ padding: '16px 20px', textAlign: 'center', color: r.flyers_descuento ? '#2563EB' : 'rgba(255,255,255,0.1)' }}>{r.flyers_descuento || '—'}</td>
-                      <td style={{ padding: '16px 20px', textAlign: 'center', color: r.flyers_promocion ? '#1D4ED8' : 'rgba(255,255,255,0.1)' }}>{r.flyers_promocion || '—'}</td>
-                      <td style={{ padding: '16px 20px', textAlign: 'center', color: r.flyers_cumple ? '#1E40AF' : 'rgba(255,255,255,0.1)' }}>{r.flyers_cumple || '—'}</td>
-                      <td style={{ padding: '16px 20px', textAlign: 'center', color: r.fotos ? '#60A5FA' : 'rgba(255,255,255,0.1)', fontWeight: 800 }}>{r.fotos || '—'}</td>
+                    <tr key={r.fecha} style={{ borderBottom: '1px solid var(--border)', background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.02)' }}>
+                      <td style={{ padding: '16px 20px', fontFamily: 'var(--font-mono)', color: 'var(--text-primary)', fontWeight: 600 }}>{r.fecha?.split('-').reverse().join('/')}</td>
+                      <td style={{ padding: '16px 20px', textAlign: 'center', color: r.flyers_storie ? accentColor : 'var(--text-muted)', fontWeight: 700 }}>{r.flyers_storie || '—'}</td>
+                      <td style={{ padding: '16px 20px', textAlign: 'center', color: r.flyers_efemeride ? '#60A5FA' : 'var(--text-muted)', fontWeight: 700 }}>{r.flyers_efemeride || '—'}</td>
+                      <td style={{ padding: '16px 20px', textAlign: 'center', color: r.flyers_reposicion ? '#3B82F6' : 'var(--text-muted)', fontWeight: 700 }}>{r.flyers_reposicion || '—'}</td>
+                      <td style={{ padding: '16px 20px', textAlign: 'center', color: r.flyers_descuento ? '#2563EB' : 'var(--text-muted)' }}>{r.flyers_descuento || '—'}</td>
+                      <td style={{ padding: '16px 20px', textAlign: 'center', color: r.flyers_promocion ? '#1D4ED8' : 'var(--text-muted)' }}>{r.flyers_promocion || '—'}</td>
+                      <td style={{ padding: '16px 20px', textAlign: 'center', color: r.flyers_cumple ? '#1E40AF' : 'var(--text-muted)' }}>{r.flyers_cumple || '—'}</td>
+                      <td style={{ padding: '16px 20px', textAlign: 'center', color: r.fotos ? '#60A5FA' : 'var(--text-muted)', fontWeight: 700 }}>{r.fotos || '—'}</td>
                       <td style={{ padding: '16px 20px', textAlign: 'center' }}>{r.video ? '🎬' : '—'}</td>
-                      <td style={{ padding: '16px 20px', color: 'rgba(255,255,255,0.5)', fontSize: '0.8rem', maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.notas || '—'}</td>
+                      <td style={{ padding: '16px 20px', color: 'var(--text-secondary)', fontSize: '0.85rem', maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.notas || '—'}</td>
                     </tr>
                   ))}
                 </tbody>
