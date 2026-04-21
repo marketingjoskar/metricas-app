@@ -51,11 +51,11 @@ app.get('/api/erp/campaigns', async (req, res) => {
         AND YEAR(fecha) = ? 
         AND MONTH(fecha) = ?
     `;
-    
+
     // Limits the query just for the dashboard view to prevent heavy load, 
     // ideally it's pulling the entire month's data.
     const [rows] = await pool.query(query, [targetYear, targetMonth]);
-    
+
     // Process rows in JS to extract brand / supplier
     const campaigns = {};
     rows.forEach(row => {
@@ -73,9 +73,9 @@ app.get('/api/erp/campaigns', async (req, res) => {
 
       const maxDiscount = Math.max(row.descuento1 || 0, row.descuento2 || 0);
       const isDiscounted = maxDiscount > 0;
-      
+
       const key = `${weekName}_${brand}_${maxDiscount}`;
-      
+
       if (!campaigns[key]) {
         campaigns[key] = {
           semana: weekName,
@@ -86,13 +86,13 @@ app.get('/api/erp/campaigns', async (req, res) => {
           ventas_netas: 0
         };
       }
-      
+
       campaigns[key].unidades += row.cantidad;
       campaigns[key].ventas_brutas += (row.cantidad * row.precio);
       campaigns[key].ventas_netas += row.total;
     });
 
-    const resultList = Object.values(campaigns).sort((a,b) => b.ventas_netas - a.ventas_netas);
+    const resultList = Object.values(campaigns).sort((a, b) => b.ventas_netas - a.ventas_netas);
     res.json({ data: resultList });
   } catch (error) {
     console.error('API Error:', error);

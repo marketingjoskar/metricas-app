@@ -20,19 +20,31 @@ export default function GerenciaGananciasPage() {
   const [month, setMonth] = useState(now.getMonth())
   const [loading, setLoading] = useState(true)
   const [campaigns, setCampaigns] = useState([])
+  const [cache, setCache] = useState({}) // Cache to store data by year-month
   const [syncing, setSyncing] = useState(false)
 
   const isCurrentMonth = year === now.getFullYear() && month === now.getMonth()
 
   useEffect(() => { loadData() }, [year, month])
 
-  async function loadData() {
+  async function loadData(forceSync = false) {
+    const cacheKey = `${year}-${month}`
+    
+    // Si ya tenemos los datos en caché y no estamos forzando sincronización, los usamos
+    if (!forceSync && cache[cacheKey]) {
+      setCampaigns(cache[cacheKey])
+      return
+    }
+
     setLoading(true)
     try {
       const res = await fetch(`/api/erp/campaigns?year=${year}&month=${month + 1}`)
       if (!res.ok) throw new Error('Error al obtener datos del servidor backend')
       const result = await res.json()
-      setCampaigns(result.data || [])
+      const data = result.data || []
+      
+      setCampaigns(data)
+      setCache(prev => ({ ...prev, [cacheKey]: data })) // Guardar en caché
     } catch (err) {
       console.error(err)
       // Mock data just in case during transition or if backend fails
@@ -44,7 +56,7 @@ export default function GerenciaGananciasPage() {
 
   async function handleSyncErp() {
     setSyncing(true)
-    await loadData()
+    await loadData(true) // Forzar actualización ignorando caché
     setTimeout(() => setSyncing(false), 800)
     alert("Sincronización con ERP completada exitosamente")
   }
