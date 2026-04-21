@@ -8,8 +8,9 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "npx vite build",
-    "preview": "vite preview"
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "node server.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.43.0",
