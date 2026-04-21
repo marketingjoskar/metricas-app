@@ -33,11 +33,20 @@ sudo mkdir -p $DEPLOY_DIR
 sudo rm -rf $DEPLOY_DIR/*
 sudo cp -r dist/* $DEPLOY_DIR/
 
-# 5. Dar permisos correctos a Nginx
+# 5. Instalar PM2 y levantar backend
+echo ""
+echo "→ Configurando backend Node.js (PM2)..."
+cd $DEPLOY_DIR
+sudo npm install -g pm2
+# Iniciar o recargar el proceso llamado 'metricas-api'
+sudo pm2 ls | grep -q "metricas-api" && sudo pm2 reload metricas-api || sudo pm2 start server.js --name "metricas-api"
+sudo pm2 save
+
+# 6. Dar permisos correctos a Nginx
 sudo chown -R www-data:www-data $DEPLOY_DIR
 sudo chmod -R 755 $DEPLOY_DIR
 
-# 6. Recargar Nginx
+# 7. Recargar Nginx
 echo ""
 echo "→ Recargando Nginx..."
 sudo systemctl reload nginx
