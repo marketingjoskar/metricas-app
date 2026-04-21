@@ -5,4 +5,4 @@ node = "20"
 cmds = ["npm install", "npm run build"]
 
 [start]
-cmd = "nginx -g 'daemon off;' -c /app/nginx.conf"
+cmd = "node server.js & nginx -g 'daemon off;' -c /app/nginx.conf"
