@@ -102,6 +102,10 @@ app.get('/api/erp/campaigns', async (req, res) => {
 
 // For production (Dokploy), serve static Vite files
 app.use(express.static(path.join(__dirname, 'dist')));
+app.use('/api', (req, res) => {
+  res.status(404).json({ error: 'API endpoint not found' });
+});
+
 app.get(/.*/, (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
