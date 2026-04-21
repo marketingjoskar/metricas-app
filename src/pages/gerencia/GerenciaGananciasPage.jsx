@@ -77,6 +77,18 @@ export default function GerenciaGananciasPage() {
       name: c.marca
     }))
 
+  // Agrupar por proveedor (comportamiento mensual total)
+  const providerSalesMap = campaigns.reduce((acc, curr) => {
+    if (!acc[curr.marca]) acc[curr.marca] = 0
+    acc[curr.marca] += curr.ventas_netas
+    return acc
+  }, {})
+
+  const providerSalesData = Object.keys(providerSalesMap)
+    .map(key => ({ name: key, ventas: providerSalesMap[key] }))
+    .sort((a,b) => b.ventas - a.ventas)
+    .slice(0, 10) // Top 10 proveedores del mes
+
   const totalIngresos = campaigns.reduce((s, c) => s + c.ventas_netas, 0)
   const totalDescuentosDados = campaigns.reduce((s, c) => s + (c.ventas_brutas - c.ventas_netas), 0)
 
@@ -228,6 +240,34 @@ export default function GerenciaGananciasPage() {
                       />
                       <Scatter name="Estrategias" data={correlationData} fill={secondaryColor} opacity={0.7} />
                     </ScatterChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            )}
+
+            {/* Ventas Consolidadas por Proveedor */}
+            {providerSalesData.length > 0 && (
+              <div className="glass-panel" style={{ padding: '32px', borderRadius: 32, background: 'var(--glass-bg)', backdropFilter: 'blur(28px)', border: '1px solid var(--border)' }}>
+                <h2 style={{ fontSize: '1.4rem', fontWeight: 900, marginBottom: 10, letterSpacing: '-0.5px', color: '#fff' }}>Top Facturación Mensual por Proveedor</h2>
+                <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem', marginBottom: 24 }}>Ventas totales acumuladas en el mes actual.</p>
+                <div style={{ width: '100%', height: 350 }}>
+                  <ResponsiveContainer>
+                    <BarChart layout="vertical" data={providerSalesData} margin={{ top: 20, right: 30, left: 40, bottom: 20 }}>
+                      <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="rgba(255,255,255,0.05)" />
+                      <XAxis type="number" stroke="rgba(255,255,255,0.2)" tickFormatter={v => '$'+(v/1000).toFixed(0)+'k'} tickLine={false} axisLine={false} />
+                      <YAxis dataKey="name" type="category" stroke="rgba(255,255,255,0.6)" fontSize={11} width={80} tickLine={false} axisLine={false} />
+                      <Tooltip 
+                        cursor={{fill: 'rgba(255,255,255,0.05)'}} 
+                        contentStyle={{ background: 'var(--glass-bg)', backdropFilter: 'blur(32px)', border: '1px solid var(--border)', borderRadius: 12, boxShadow: 'var(--glass-shadow)', color: '#fff' }} 
+                        itemStyle={{ fontWeight: 800 }} 
+                        formatter={(value) => [formatMoney(value), 'Total Facturado']}
+                      />
+                      <Bar dataKey="ventas" radius={[0, 8, 8, 0]} maxBarSize={30}>
+                        {providerSalesData.map((entry, i) => (
+                          <Cell key={`cell-${i}`} fill={i < 3 ? '#10B981' : accentColor} />
+                        ))}
+                      </Bar>
+                    </BarChart>
                   </ResponsiveContainer>
                 </div>
               </div>
