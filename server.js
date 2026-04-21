@@ -16,11 +16,11 @@ app.use(express.json());
 
 // Create connection pool
 const pool = mysql.createPool({
-  host: 'joskarerp.drogueriajoskar.com',
-  port: 3939,
-  user: 'indicadores',
-  password: 'indica2026',
-  database: 'datasis',
+  host: process.env.DB_HOST || 'joskarerp.drogueriajoskar.com',
+  port: parseInt(process.env.DB_PORT || '3939'),
+  user: process.env.DB_USER || 'indicadores',
+  password: process.env.DB_PASSWORD || 'indica2026',
+  database: process.env.DB_NAME || 'datasis',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
