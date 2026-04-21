@@ -27,7 +27,7 @@ COPY --from=builder /app/dist ./dist
 COPY server.js ./
 
 # Puerto expuesto (Dokploy lo mapea)
-EXPOSE 3001
+EXPOSE 80
 
 # Iniciar el servidor Node (sirve API + archivos estáticos)
 CMD ["node", "server.js"]
