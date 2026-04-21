@@ -28,71 +28,56 @@ const pool = mysql.createPool({
 
 app.get('/api/erp/campaigns', async (req, res) => {
   const targetYear = req.query.year || new Date().getFullYear();
-  const targetMonth = req.query.month !== undefined ? req.query.month : new Date().getMonth() + 1; // 1-indexed
+  const targetMonth = req.query.month !== undefined ? req.query.month : new Date().getMonth() + 1;
 
   try {
-    // We get sales for the given month, grouping by the brand/supplier which is often in parentheses at the end of 'desca'
-    // This query is a somewhat complex approximation to extract the supplier and group by week.
-    // In MySQL, WEEK(fecha) or WEEK(fecha, 1) gets the week.
+    // CONSULTA OPTIMIZADA: Agrupamos por semana, marca y descuento directamente en MySQL
+    // Usamos repo_sitems y un JOIN con sprv para obtener el nombre del proveedor/marca
     const query = `
       SELECT 
-        WEEK(fecha, 1) as semana_del_ano,
-        DAY(fecha) as dia,
-        numa as doc, 
-        codigoa, 
-        desca, 
-        CAST(cana AS DECIMAL) as cantidad, 
-        CAST(preca AS DECIMAL) as precio, 
-        CAST(tota AS DECIMAL) as total, 
-        CAST(descu1 AS DECIMAL) as descuento1,
-        CAST(descu2 AS DECIMAL) as descuento2
-      FROM sitems 
-      WHERE tipoa = 'F' 
-        AND YEAR(fecha) = ? 
-        AND MONTH(fecha) = ?
+        CONCAT('Semana ', FLOOR((DAY(a.fecha) - 1) / 7) + 1) as semana,
+        COALESCE(c.nombre, 'OTROS') as marca,
+        GREATEST(COALESCE(a.descu1,0), COALESCE(a.descu2,0), COALESCE(a.descu3,0), COALESCE(a.descu4,0)) as descuento_promedio,
+        SUM(CAST(a.cana AS DECIMAL)) as unidades,
+        SUM(CAST(a.tota AS DECIMAL)) as ventas_brutas,
+        SUM(CAST(a.tota AS DECIMAL) - COALESCE(CAST(a.total_descuento AS DECIMAL), 0)) as ventas_netas
+      FROM repo_sitems a
+      LEFT JOIN sprv c ON c.proveed = a.proveed
+      WHERE a.tipo = 'F' 
+        AND YEAR(a.fecha) = ? 
+        AND MONTH(a.fecha) = ?
+      GROUP BY semana, marca, descuento_promedio
+      ORDER BY ventas_netas DESC
     `;
 
-    // Limits the query just for the dashboard view to prevent heavy load, 
-    // ideally it's pulling the entire month's data.
     const [rows] = await pool.query(query, [targetYear, targetMonth]);
 
-    // Process rows in JS to extract brand / supplier
-    const campaigns = {};
-    rows.forEach(row => {
-      // Extract brand inside parentheses, e.g., "PRODUCTO XYZ (H&M)"
-      const match = row.desca.match(/\(([^)]+)\)$/);
-      let brand = match ? match[1].trim().toUpperCase() : 'OTROS';
-      if (brand === 'IPS' || brand === 'PISA' || brand === 'H&M' || brand === 'BIOSANO' || brand.includes('ADN') || brand.includes('KMPLUS')) {
-        // Just normalize some
+    // Procesamos ligeramente los nombres de las marcas para que se vean mejor en el UI (Glassmorphism)
+    const resultList = rows.map(row => {
+      let brand = row.marca.trim();
+      
+      // Si el nombre es muy largo (ej: CASA DE REPRESENTACION...), intentamos acortarlo
+      if (brand.length > 20) {
+        // Intentamos extraer el nombre comercial que suele estar al principio o ser una sigla
+        const parts = brand.split(' ');
+        if (parts.length > 2) {
+          // Si tiene "CASA DE REPRESENTACION", "DROGUERIA", etc, lo omitimos
+          const filterWords = ['CASA', 'DE', 'REPRESENTACION', 'DROGUERIA', 'CORPORACION', 'C.A', 'CA', 'S.A', 'SA', 'PRODUCTOS', 'MEDICAL', 'GROUP'];
+          const cleanParts = parts.filter(p => !filterWords.includes(p.toUpperCase().replace(/[.,]/g, '')));
+          brand = cleanParts.slice(0, 2).join(' ');
+        }
       }
 
-      // Group into "weeks" for the month (Week 1, 2, 3, 4 of the month)
-      const date = new Date(targetYear, targetMonth - 1, row.dia);
-      const weekOfMonth = Math.ceil((date.getDate() + new Date(targetYear, targetMonth - 1, 1).getDay() - 1) / 7);
-      const weekName = `Semana ${weekOfMonth}`;
-
-      const maxDiscount = Math.max(row.descuento1 || 0, row.descuento2 || 0);
-      const isDiscounted = maxDiscount > 0;
-
-      const key = `${weekName}_${brand}_${maxDiscount}`;
-
-      if (!campaigns[key]) {
-        campaigns[key] = {
-          semana: weekName,
-          marca: brand,
-          descuento_promedio: maxDiscount,
-          unidades: 0,
-          ventas_brutas: 0,
-          ventas_netas: 0
-        };
-      }
-
-      campaigns[key].unidades += row.cantidad;
-      campaigns[key].ventas_brutas += (row.cantidad * row.precio);
-      campaigns[key].ventas_netas += row.total;
+      return {
+        semana: row.semana,
+        marca: brand.toUpperCase(),
+        descuento_promedio: parseFloat(row.descuento_promedio || 0),
+        unidades: parseFloat(row.unidades || 0),
+        ventas_brutas: parseFloat(row.ventas_brutas || 0),
+        ventas_netas: parseFloat(row.ventas_netas || 0)
+      };
     });
 
-    const resultList = Object.values(campaigns).sort((a, b) => b.ventas_netas - a.ventas_netas);
     res.json({ data: resultList });
   } catch (error) {
     console.error('API Error:', error);
