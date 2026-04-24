@@ -27,60 +27,124 @@ const pool = mysql.createPool({
 });
 
 app.get('/api/erp/campaigns', async (req, res) => {
-  const targetYear = req.query.year || new Date().getFullYear();
-  const targetMonth = req.query.month !== undefined ? req.query.month : new Date().getMonth() + 1;
+  const targetYear  = parseInt(req.query.year  || new Date().getFullYear());
+  const targetMonth = parseInt(req.query.month !== undefined ? req.query.month : new Date().getMonth() + 1);
 
   try {
-    // CONSULTA OPTIMIZADA: Agrupamos por semana, marca y descuento directamente en MySQL
-    // Usamos repo_sitems y un JOIN con sprv para obtener el nombre del proveedor/marca
+    // ─────────────────────────────────────────────────────────────────────────
+    // SEMANAS DE CALENDARIO (Lunes–Domingo), máximo 4 semanas por mes.
+    //
+    // Lógica:
+    //   • WEEKDAY(fecha) devuelve 0=Lun … 6=Dom (modo MySQL).
+    //   • El "lunes de la semana" de cada fecha = fecha - WEEKDAY(fecha) días.
+    //   • Calculamos cuántos lunes han pasado desde el primer lunes del mes.
+    //   • LEAST(..., 4) fusiona los días 29-31 con la semana 4 cuando el mes
+    //     no termina en domingo exacto.
+    // ─────────────────────────────────────────────────────────────────────────
     const query = `
       SELECT 
-        CONCAT('Semana ', FLOOR((DAY(a.fecha) - 1) / 7) + 1) as semana,
-        COALESCE(c.nombre, 'OTROS') as marca,
-        COALESCE(a.descu3, 0) as descuento_promedio,
-        SUM(CAST(a.cana AS DECIMAL)) as unidades,
-        SUM(CAST(a.totad AS DECIMAL)) as ventas_netas,
-        SUM(CAST(a.total_descu3 AS DECIMAL) / NULLIF(a.oficial, 0)) as descuento_usd
+        LEAST(
+          FLOOR(
+            DATEDIFF(
+              DATE_SUB(a.fecha, INTERVAL WEEKDAY(a.fecha) DAY),
+              DATE_SUB(DATE(CONCAT(YEAR(a.fecha), '-', MONTH(a.fecha), '-01')),
+                       INTERVAL WEEKDAY(DATE(CONCAT(YEAR(a.fecha), '-', MONTH(a.fecha), '-01'))) DAY)
+            ) / 7
+          ) + 1,
+          4
+        ) AS semana_num,
+        COALESCE(c.nombre, 'OTROS') AS marca,
+        MAX(COALESCE(a.descu3, 0))           AS descuento_max,
+        MIN(CASE WHEN a.descu3 > 1 THEN a.descu3 END) AS descuento_min,
+        SUM(CAST(a.cana       AS DECIMAL))   AS unidades,
+        SUM(CAST(a.totad      AS DECIMAL))   AS ventas_netas,
+        SUM(CAST(a.total_descu3 AS DECIMAL) / NULLIF(a.oficial, 0)) AS descuento_usd
       FROM repo_sitems a
       LEFT JOIN sprv c ON c.proveed = a.proveed
-      WHERE a.tipo = 'F' 
-        AND YEAR(a.fecha) = ? 
+      WHERE a.tipo = 'F'
+        AND YEAR(a.fecha)  = ?
         AND MONTH(a.fecha) = ?
-      GROUP BY semana, marca, descuento_promedio
-      ORDER BY ventas_netas DESC
+      GROUP BY semana_num, marca
+      HAVING MAX(a.descu3) > 1
+      ORDER BY semana_num ASC, ventas_netas DESC
     `;
 
     const [rows] = await pool.query(query, [targetYear, targetMonth]);
 
-    // Procesamos ligeramente los nombres de las marcas para que se vean mejor en el UI (Glassmorphism)
+    // ─────────────────────────────────────────────────────────────────────────
+    // Calcular las 4 fechas exactas Lun–Dom para ese año/mes
+    // y construir el label "Semana N: DD/MM – DD/MM"
+    // ─────────────────────────────────────────────────────────────────────────
+    function getWeekRanges(year, month) {
+      // Primer día del mes
+      const firstOfMonth = new Date(Date.UTC(year, month - 1, 1));
+      // Día de la semana del primer día (0=Dom, 1=Lun, … 6=Sáb)
+      const dow = firstOfMonth.getUTCDay();
+      // Retroceder hasta el lunes anterior (o el mismo si ya es lunes)
+      const firstMonday = new Date(firstOfMonth);
+      firstMonday.setUTCDate(firstOfMonth.getUTCDate() - ((dow === 0 ? 7 : dow) - 1));
+
+      const fmt = d => `${String(d.getUTCDate()).padStart(2,'0')}/${String(d.getUTCMonth()+1).padStart(2,'0')}`;
+
+      const lastOfMonth = new Date(Date.UTC(year, month, 0));
+
+      return [1,2,3,4].map(n => {
+        const mon = new Date(firstMonday);
+        mon.setUTCDate(firstMonday.getUTCDate() + (n-1)*7);
+        let sun = new Date(mon);
+        sun.setUTCDate(mon.getUTCDate() + 6);
+
+        // La semana 4 siempre termina en el último día del mes
+        if (n === 4) sun = lastOfMonth;
+
+        return {
+          num: n,
+          label: `Semana ${n}: ${fmt(mon)} – ${fmt(sun)}`
+        };
+      });
+    }
+
+    const weekRanges = getWeekRanges(targetYear, targetMonth);
+    const weekLabelMap = Object.fromEntries(weekRanges.map(w => [w.num, w.label]));
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Normalizar nombres de marcas + mapear label de semana
+    // ─────────────────────────────────────────────────────────────────────────
+    const filterWords = new Set(['CASA','DE','REPRESENTACION','DROGUERIA','CORPORACION','CA','SA','PRODUCTOS','MEDICAL','GROUP']);
+
     const resultList = rows.map(row => {
       let brand = row.marca.trim();
-      
-      // Si el nombre es muy largo (ej: CASA DE REPRESENTACION...), intentamos acortarlo
       if (brand.length > 20) {
-        // Intentamos extraer el nombre comercial que suele estar al principio o ser una sigla
         const parts = brand.split(' ');
         if (parts.length > 2) {
-          // Si tiene "CASA DE REPRESENTACION", "DROGUERIA", etc, lo omitimos
-          const filterWords = ['CASA', 'DE', 'REPRESENTACION', 'DROGUERIA', 'CORPORACION', 'C.A', 'CA', 'S.A', 'SA', 'PRODUCTOS', 'MEDICAL', 'GROUP'];
-          const cleanParts = parts.filter(p => !filterWords.includes(p.toUpperCase().replace(/[.,]/g, '')));
-          brand = cleanParts.slice(0, 2).join(' ');
+          const clean = parts.filter(p => !filterWords.has(p.toUpperCase().replace(/[.,]/g, '')));
+          brand = clean.slice(0, 2).join(' ');
         }
       }
 
-      const neto = parseFloat(row.ventas_netas || 0);
+      const dMin = parseFloat(row.descuento_min || row.descuento_max || 0);
+      const dMax = parseFloat(row.descuento_max || 0);
+      // Si min y max son iguales → "5%"; si difieren → "2% – 5%"
+      const descuento_label = dMin === dMax
+        ? `${dMax}%`
+        : `${dMin}% – ${dMax}%`;
 
       return {
-        semana: row.semana,
-        marca: brand.toUpperCase(),
-        descuento_promedio: parseFloat(row.descuento_promedio || 0),
-        unidades: parseFloat(row.unidades || 0),
-        ventas_netas: neto,
-        descuento_usd: parseFloat(row.descuento_usd || 0)
+        semana:           weekLabelMap[row.semana_num] || `Semana ${row.semana_num}`,
+        semana_num:       row.semana_num,
+        marca:            brand.toUpperCase(),
+        // descuento_promedio mantiene el valor máximo de la semana (usado para colorear barras)
+        descuento_promedio: dMax,
+        descuento_min:    dMin,
+        descuento_max:    dMax,
+        descuento_label:  descuento_label,  // ej: "2% – 5%" o "5%"
+        unidades:         parseFloat(row.unidades    || 0),
+        ventas_netas:     parseFloat(row.ventas_netas || 0),
+        descuento_usd:    parseFloat(row.descuento_usd || 0),
       };
     });
 
-    res.json({ data: resultList });
+    res.json({ data: resultList, weeks: weekRanges });
   } catch (error) {
     console.error('API Error:', error);
     res.status(500).json({ error: error.message });

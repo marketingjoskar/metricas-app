@@ -61,14 +61,17 @@ export default function GerenciaGananciasPage() {
     alert("Sincronización con ERP completada exitosamente")
   }
 
-  // Agrupar por semanas
+  // Agrupar por semanas — ya vienen filtrados: solo proveedores con descu3 > 1
   const weeksMap = campaigns.reduce((acc, curr) => {
     if (!acc[curr.semana]) acc[curr.semana] = []
     acc[curr.semana].push({
-      name: `${curr.marca} ${curr.descuento_promedio > 0 ? curr.descuento_promedio + '%' : ''}`,
-      ventas: curr.ventas_netas,
-      unidades: curr.unidades,
-      descuento: curr.descuento_promedio
+      // descuento_label es "5%" o "2% – 5%" si el proveedor aplicó varios descuentos esa semana
+      name:     `${curr.marca} (${curr.descuento_label || curr.descuento_promedio + '%'})`,
+      ventas:    curr.ventas_netas,
+      unidades:  curr.unidades,
+      descuento: curr.descuento_max || curr.descuento_promedio,
+      dMin:      curr.descuento_min,
+      dMax:      curr.descuento_max,
     })
     return acc
   }, {})
@@ -103,6 +106,11 @@ export default function GerenciaGananciasPage() {
 
   const totalIngresos = campaigns.reduce((s, c) => s + c.ventas_netas, 0)
   const totalDescuentosDados = campaigns.reduce((s, c) => s + (c.descuento_usd || 0), 0)
+
+  // Una estrategia activa es una combinación única de marca y descuento (> 0) en el mes
+  const estrategiasActivas = new Set(
+    campaigns.filter(c => c.descuento_promedio > 0).map(c => `${c.marca}-${c.descuento_promedio}`)
+  ).size
 
   return (
     <div className="animate-fadeIn">
@@ -180,7 +188,7 @@ export default function GerenciaGananciasPage() {
             {[
               { label:'Facturación Consolidada', value:formatMoney(totalIngresos), icon:'💵', c:'#10B981' },
               { label:'Costo de Promoción', value:formatMoney(totalDescuentosDados), icon:'📉', c:'#F43F5E' },
-              { label:'Estrategias Activas', value:campaigns.length, icon:'🎯', c:accentColor },
+              { label:'Estrategias Activas', value:estrategiasActivas, icon:'🎯', c:accentColor },
               { label:'Eficiencia (ROI Promocional)', value: totalDescuentosDados > 0 ? ((totalIngresos / totalDescuentosDados)).toFixed(1) + 'x' : 'N/A', icon:'⚖️', c:'#FDBA74' },
             ].map((k,i) => (
               <div key={i} className="animate-fadeUp" style={{
