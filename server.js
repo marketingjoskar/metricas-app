@@ -48,8 +48,9 @@ app.get('/api/erp/campaigns', async (req, res) => {
           FLOOR(
             DATEDIFF(
               DATE_SUB(a.fecha, INTERVAL WEEKDAY(a.fecha) DAY),
-              DATE_SUB(DATE(CONCAT(YEAR(a.fecha), '-', MONTH(a.fecha), '-01')),
-                       INTERVAL WEEKDAY(DATE(CONCAT(YEAR(a.fecha), '-', MONTH(a.fecha), '-01'))) DAY)
+              -- Primer lunes DEL mes (no el lunes anterior al día 1)
+              DATE_ADD(DATE(CONCAT(YEAR(a.fecha), '-', MONTH(a.fecha), '-01')),
+                       INTERVAL (7 - WEEKDAY(DATE(CONCAT(YEAR(a.fecha), '-', MONTH(a.fecha), '-01')))) MOD 7 DAY)
             ) / 7
           ) + 1,
           4
@@ -83,32 +84,34 @@ app.get('/api/erp/campaigns', async (req, res) => {
     // Solo días laborales: el rango va de lunes a viernes de cada semana.
     // ─────────────────────────────────────────────────────────────────────────
     function getWeekRanges(year, month) {
-      // Primer día del mes
       const firstOfMonth = new Date(Date.UTC(year, month - 1, 1));
-      // Día de la semana del primer día (0=Dom, 1=Lun, … 6=Sáb)
+      // UTC: 0=Dom, 1=Lun, 2=Mar, 3=Mié, 4=Jue, 5=Vie, 6=Sáb
       const dow = firstOfMonth.getUTCDay();
-      // Retroceder hasta el lunes anterior (o el mismo si ya es lunes)
+
+      // Primer lunes DEL mes (en o después del día 1)
+      // Fórmula: (1 - dow + 7) % 7  →  Lun→0, Mar→6, Mié→5, Jue→4, Vie→3, Sáb→2, Dom→1
+      const daysToFirstMonday = (1 - dow + 7) % 7;
       const firstMonday = new Date(firstOfMonth);
-      firstMonday.setUTCDate(firstOfMonth.getUTCDate() - ((dow === 0 ? 7 : dow) - 1));
+      firstMonday.setUTCDate(firstOfMonth.getUTCDate() + daysToFirstMonday);
 
       const fmt = d => `${String(d.getUTCDate()).padStart(2,'0')}/${String(d.getUTCMonth()+1).padStart(2,'0')}`;
 
-      // Último día laboral (viernes) del mes: retrocede desde el último día del mes
+      // Último viernes del mes (funciona para cualquier día final)
+      // Fórmula: retroceder (lastDow - 5 + 7) % 7 días  →  Vie→0, Sáb→1, Dom→2, Lun→3, Mar→4, Mié→5, Jue→6
       const lastOfMonth = new Date(Date.UTC(year, month, 0));
+      const lastDow = lastOfMonth.getUTCDay();
+      const daysBackToFriday = (lastDow - 5 + 7) % 7;
       const lastFriday = new Date(lastOfMonth);
-      // Si el último día es sáb(6) retrocede 1, si es dom(0) retrocede 2
-      const lastDow = lastFriday.getUTCDay();
-      if (lastDow === 6) lastFriday.setUTCDate(lastFriday.getUTCDate() - 1);
-      else if (lastDow === 0) lastFriday.setUTCDate(lastFriday.getUTCDate() - 2);
+      lastFriday.setUTCDate(lastOfMonth.getUTCDate() - daysBackToFriday);
 
       return [1,2,3,4].map(n => {
         const mon = new Date(firstMonday);
         mon.setUTCDate(firstMonday.getUTCDate() + (n-1)*7);
-        // Fin de semana laboral = lunes + 4 días = viernes
+        // Viernes = lunes + 4 días
         let fri = new Date(mon);
         fri.setUTCDate(mon.getUTCDate() + 4);
 
-        // La semana 4 siempre termina en el último viernes del mes
+        // Semana 4 siempre cierra en el último viernes real del mes
         if (n === 4) fri = lastFriday;
 
         return {
