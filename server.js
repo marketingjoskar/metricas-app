@@ -37,10 +37,10 @@ app.get('/api/erp/campaigns', async (req, res) => {
       SELECT 
         CONCAT('Semana ', FLOOR((DAY(a.fecha) - 1) / 7) + 1) as semana,
         COALESCE(c.nombre, 'OTROS') as marca,
-        GREATEST(COALESCE(a.descu1,0), COALESCE(a.descu2,0), COALESCE(a.descu3,0), COALESCE(a.descu4,0)) as descuento_promedio,
+        COALESCE(a.descu3, 0) as descuento_promedio,
         SUM(CAST(a.cana AS DECIMAL)) as unidades,
-        SUM(CAST(a.tota AS DECIMAL)) as ventas_brutas,
-        SUM(CAST(a.tota AS DECIMAL) - COALESCE(CAST(a.total_descuento AS DECIMAL), 0)) as ventas_netas
+        SUM(CAST(a.totad AS DECIMAL)) as ventas_netas,
+        SUM(CAST(a.total_descu3 AS DECIMAL) / NULLIF(a.oficial, 0)) as descuento_usd
       FROM repo_sitems a
       LEFT JOIN sprv c ON c.proveed = a.proveed
       WHERE a.tipo = 'F' 
@@ -68,13 +68,15 @@ app.get('/api/erp/campaigns', async (req, res) => {
         }
       }
 
+      const neto = parseFloat(row.ventas_netas || 0);
+
       return {
         semana: row.semana,
         marca: brand.toUpperCase(),
         descuento_promedio: parseFloat(row.descuento_promedio || 0),
         unidades: parseFloat(row.unidades || 0),
-        ventas_brutas: parseFloat(row.ventas_brutas || 0),
-        ventas_netas: parseFloat(row.ventas_netas || 0)
+        ventas_netas: neto,
+        descuento_usd: parseFloat(row.descuento_usd || 0)
       };
     });
 
