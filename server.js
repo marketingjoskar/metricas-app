@@ -61,9 +61,13 @@ app.get('/api/erp/campaigns', async (req, res) => {
         SUM(CAST(a.total_descu3 AS DECIMAL) / NULLIF(a.oficial, 0)) AS descuento_usd
       FROM repo_sitems a
       LEFT JOIN sprv c ON c.proveed = a.proveed
+      -- Excluir proveedores que también son clientes (ej: FARMACIA TARIBA)
+      -- Si el RIF del proveedor existe en scli, se filtra fuera
+      LEFT JOIN scli cl ON cl.rifci = c.rif
       WHERE a.tipo = 'F'
         AND YEAR(a.fecha)  = ?
         AND MONTH(a.fecha) = ?
+        AND cl.cliente IS NULL
       GROUP BY semana_num, marca
       HAVING MAX(a.descu3) > 1
       ORDER BY semana_num ASC, ventas_netas DESC
