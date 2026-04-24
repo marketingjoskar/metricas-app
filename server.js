@@ -32,14 +32,15 @@ app.get('/api/erp/campaigns', async (req, res) => {
 
   try {
     // ─────────────────────────────────────────────────────────────────────────
-    // SEMANAS DE CALENDARIO (Lunes–Domingo), máximo 4 semanas por mes.
+    // SEMANAS LABORALES (Lunes–Viernes), máximo 4 semanas por mes.
     //
     // Lógica:
     //   • WEEKDAY(fecha) devuelve 0=Lun … 6=Dom (modo MySQL).
+    //   • WEEKDAY(fecha) < 5  → solo incluye Lun(0)..Vie(4); excluye Sáb(5) y Dom(6).
     //   • El "lunes de la semana" de cada fecha = fecha - WEEKDAY(fecha) días.
     //   • Calculamos cuántos lunes han pasado desde el primer lunes del mes.
     //   • LEAST(..., 4) fusiona los días 29-31 con la semana 4 cuando el mes
-    //     no termina en domingo exacto.
+    //     no termina en viernes exacto.
     // ─────────────────────────────────────────────────────────────────────────
     const query = `
       SELECT 
@@ -68,6 +69,7 @@ app.get('/api/erp/campaigns', async (req, res) => {
         AND YEAR(a.fecha)  = ?
         AND MONTH(a.fecha) = ?
         AND cl.cliente IS NULL
+        AND WEEKDAY(a.fecha) < 5
       GROUP BY semana_num, marca
       HAVING MAX(a.descu3) > 1
       ORDER BY semana_num ASC, ventas_netas DESC
@@ -76,8 +78,9 @@ app.get('/api/erp/campaigns', async (req, res) => {
     const [rows] = await pool.query(query, [targetYear, targetMonth]);
 
     // ─────────────────────────────────────────────────────────────────────────
-    // Calcular las 4 fechas exactas Lun–Dom para ese año/mes
+    // Calcular las 4 fechas exactas Lun–Vie para ese año/mes
     // y construir el label "Semana N: DD/MM – DD/MM"
+    // Solo días laborales: el rango va de lunes a viernes de cada semana.
     // ─────────────────────────────────────────────────────────────────────────
     function getWeekRanges(year, month) {
       // Primer día del mes
@@ -90,20 +93,27 @@ app.get('/api/erp/campaigns', async (req, res) => {
 
       const fmt = d => `${String(d.getUTCDate()).padStart(2,'0')}/${String(d.getUTCMonth()+1).padStart(2,'0')}`;
 
+      // Último día laboral (viernes) del mes: retrocede desde el último día del mes
       const lastOfMonth = new Date(Date.UTC(year, month, 0));
+      const lastFriday = new Date(lastOfMonth);
+      // Si el último día es sáb(6) retrocede 1, si es dom(0) retrocede 2
+      const lastDow = lastFriday.getUTCDay();
+      if (lastDow === 6) lastFriday.setUTCDate(lastFriday.getUTCDate() - 1);
+      else if (lastDow === 0) lastFriday.setUTCDate(lastFriday.getUTCDate() - 2);
 
       return [1,2,3,4].map(n => {
         const mon = new Date(firstMonday);
         mon.setUTCDate(firstMonday.getUTCDate() + (n-1)*7);
-        let sun = new Date(mon);
-        sun.setUTCDate(mon.getUTCDate() + 6);
+        // Fin de semana laboral = lunes + 4 días = viernes
+        let fri = new Date(mon);
+        fri.setUTCDate(mon.getUTCDate() + 4);
 
-        // La semana 4 siempre termina en el último día del mes
-        if (n === 4) sun = lastOfMonth;
+        // La semana 4 siempre termina en el último viernes del mes
+        if (n === 4) fri = lastFriday;
 
         return {
           num: n,
-          label: `Semana ${n}: ${fmt(mon)} – ${fmt(sun)}`
+          label: `Semana ${n}: ${fmt(mon)} – ${fmt(fri)}`
         };
       });
     }
