@@ -102,7 +102,7 @@ export default function GerenciaGananciasPage() {
     .slice(0, 10) // Top 10 proveedores del mes
 
   const totalIngresos = campaigns.reduce((s, c) => s + c.ventas_netas, 0)
-  const totalDescuentosDados = campaigns.reduce((s, c) => s + (c.ventas_brutas - c.ventas_netas), 0)
+  const totalDescuentosDados = campaigns.reduce((s, c) => s + (c.descuento_usd || 0), 0)
 
   return (
     <div className="animate-fadeIn">
