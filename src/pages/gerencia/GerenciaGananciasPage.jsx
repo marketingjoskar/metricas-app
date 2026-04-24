@@ -241,7 +241,7 @@ export default function GerenciaGananciasPage() {
           >
             <span className={syncing ? "animate-spin" : ""} style={{ fontSize: '1.2rem' }}>↻</span>
           </button>
-        </div>
+        </form>
       </div>
 
       {loading ? (
