@@ -16,38 +16,52 @@ function formatMoney(n) {
 
 export default function GerenciaGananciasPage() {
   const now = new Date()
-  const [year, setYear] = useState(now.getFullYear())
-  const [month, setMonth] = useState(now.getMonth())
+  const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0]
+  const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString().split('T')[0]
+
+  const [startDate, setStartDate] = useState(firstDay)
+  const [endDate, setEndDate] = useState(lastDay)
+  const [providerId, setProviderId] = useState('')
+  const [minDiscount, setMinDiscount] = useState('')
+  const [providers, setProviders] = useState([])
+  
   const [loading, setLoading] = useState(true)
   const [campaigns, setCampaigns] = useState([])
-  const [cache, setCache] = useState({}) // Cache to store data by year-month
   const [syncing, setSyncing] = useState(false)
 
-  const isCurrentMonth = year === now.getFullYear() && month === now.getMonth()
+  useEffect(() => { 
+    loadProviders()
+    loadData() 
+  }, [])
 
-  useEffect(() => { loadData() }, [year, month])
-
-  async function loadData(forceSync = false) {
-    const cacheKey = `${year}-${month}`
-    
-    // Si ya tenemos los datos en caché y no estamos forzando sincronización, los usamos
-    if (!forceSync && cache[cacheKey]) {
-      setCampaigns(cache[cacheKey])
-      return
+  async function loadProviders() {
+    try {
+      const res = await fetch('/api/erp/providers')
+      if (res.ok) {
+        const data = await res.json()
+        setProviders(data)
+      }
+    } catch (err) {
+      console.error('Error loading providers:', err)
     }
+  }
 
+  async function loadData() {
     setLoading(true)
     try {
-      const res = await fetch(`/api/erp/campaigns?year=${year}&month=${month + 1}`)
+      const params = new URLSearchParams({
+        startDate,
+        endDate,
+        ...(providerId && { providerId }),
+        ...(minDiscount && { minDiscount })
+      })
+      
+      const res = await fetch(`/api/erp/campaigns?${params.toString()}`)
       if (!res.ok) throw new Error('Error al obtener datos del servidor backend')
       const result = await res.json()
-      const data = result.data || []
-      
-      setCampaigns(data)
-      setCache(prev => ({ ...prev, [cacheKey]: data })) // Guardar en caché
+      setCampaigns(result.data || [])
     } catch (err) {
       console.error(err)
-      // Mock data just in case during transition or if backend fails
       setCampaigns([])
     } finally {
       setLoading(false)
@@ -56,16 +70,20 @@ export default function GerenciaGananciasPage() {
 
   async function handleSyncErp() {
     setSyncing(true)
-    await loadData(true) // Forzar actualización ignorando caché
+    await loadData()
     setTimeout(() => setSyncing(false), 800)
-    alert("Sincronización con ERP completada exitosamente")
+  }
+
+  const handleApplyFilters = (e) => {
+    e.preventDefault()
+    loadData()
   }
 
   // Agrupar por semanas — ya vienen filtrados: solo proveedores con descu3 > 1
   const weeksMap = campaigns.reduce((acc, curr) => {
-    if (!acc[curr.semana]) acc[curr.semana] = []
-    acc[curr.semana].push({
-      // descuento_label es "5%" o "2% – 5%" si el proveedor aplicó varios descuentos esa semana
+    const key = curr.monday_date || curr.semana;
+    if (!acc[key]) acc[key] = { label: curr.semana, items: [] }
+    acc[key].items.push({
       name:     `${curr.marca} (${curr.descuento_label || curr.descuento_promedio + '%'})`,
       ventas:    curr.ventas_netas,
       unidades:  curr.unidades,
@@ -76,10 +94,10 @@ export default function GerenciaGananciasPage() {
     return acc
   }, {})
 
-  // Ordenar llaves de semanas y luego datos internos por ventas
-  const weekKeys = Object.keys(weeksMap).sort()
-  weekKeys.forEach(w => {
-    weeksMap[w].sort((a,b) => b.ventas - a.ventas)
+  // Ordenar llaves de semanas cronológicamente y luego datos internos por ventas
+  const sortedWeekKeys = Object.keys(weeksMap).sort()
+  sortedWeekKeys.forEach(w => {
+    weeksMap[w].items.sort((a,b) => b.ventas - a.ventas)
   })
 
   // Correlation Data
@@ -115,52 +133,113 @@ export default function GerenciaGananciasPage() {
   return (
     <div className="animate-fadeIn">
       {/* Header */}
-      <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:24, marginBottom:32 }}>
-        <div>
-          <h1 style={{ 
-            fontSize:'2.5rem', fontWeight: 900, letterSpacing:'-2px', marginBottom:4,
-            background: 'linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.55))',
-            WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-          }}>
-            Campañas de Descuentos y Promociones
-          </h1>
-          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '1.1rem', fontWeight: 500 }}>
-            Gerencia · Análisis del comportamiento comercial ante incentivos a clientes
-          </p>
-        </div>
-        
-        <div style={{ display:'flex', gap:16, alignItems:'center' }}>
-          <div style={{ 
-            background: 'rgba(255,255,255,0.05)', borderRadius: 16, padding: 4, 
-            border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center' 
-          }}>
-            <button onClick={() => month===0 ? (setYear(y=>y-1), setMonth(11)) : setMonth(m=>m-1)} 
-              style={{ width:40, height:40, borderRadius:12, background:'transparent', border:'none', color:'#fff', fontSize:'1.2rem', cursor:'pointer' }}>‹</button>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.85rem', color: '#fff', minWidth: 140, textAlign: 'center', fontWeight: 800 }}>
-              {MONTH_NAMES[month].toUpperCase()} {year}
-            </span>
-            <button onClick={() => isCurrentMonth ? null : month===11 ? (setYear(y=>y+1), setMonth(0)) : setMonth(m=>m+1)} 
-              disabled={isCurrentMonth} style={{ 
-                width:40, height:40, borderRadius:12, background:'transparent', border:'none', 
-                color: isCurrentMonth ? 'rgba(255,255,255,0.2)' : '#fff', fontSize:'1.2rem', 
-                cursor: isCurrentMonth ? 'not-allowed' : 'pointer' 
-              }}>›</button>
+      <div style={{ marginBottom: 40 }}>
+        <h1 style={{ 
+          fontSize:'2.5rem', fontWeight: 900, letterSpacing:'-2px', marginBottom:4,
+          background: 'linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.55))',
+          WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+        }}>
+          Filtro Inteligente de Campañas
+        </h1>
+        <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '1.1rem', fontWeight: 500, marginBottom: 24 }}>
+          Analiza el rendimiento comercial cruzando proveedores, fechas y descuentos.
+        </p>
+
+        {/* Filter Bar */}
+        <form 
+          onSubmit={handleApplyFilters}
+          style={{ 
+            background: 'var(--glass-bg)', 
+            backdropFilter: 'blur(32px)', 
+            border: '1px solid var(--glass-border)',
+            borderRadius: 24,
+            padding: '24px',
+            display: 'flex',
+            gap: 20,
+            flexWrap: 'wrap',
+            alignItems: 'flex-end',
+            boxShadow: 'var(--glass-shadow)'
+          }}
+        >
+          <div style={{ flex: 2, minWidth: 200 }}>
+            <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 800, color: 'var(--text-muted)', marginBottom: 8, textTransform: 'uppercase' }}>Proveedor</label>
+            <select 
+              value={providerId} 
+              onChange={e => setProviderId(e.target.value)}
+              style={{ 
+                width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', 
+                borderRadius: 12, padding: '10px 16px', color: '#fff', outline: 'none' 
+              }}
+            >
+              <option value="" style={{ background: '#1a1a1a' }}>Todos los proveedores</option>
+              {providers.map(p => (
+                <option key={p.id} value={p.id} style={{ background: '#1a1a1a' }}>{p.name}</option>
+              ))}
+            </select>
           </div>
-          
+
+          <div style={{ flex: 1, minWidth: 150 }}>
+            <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 800, color: 'var(--text-muted)', marginBottom: 8, textTransform: 'uppercase' }}>Desde</label>
+            <input 
+              type="date" 
+              value={startDate} 
+              onChange={e => setStartDate(e.target.value)}
+              style={{ 
+                width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', 
+                borderRadius: 12, padding: '10px 16px', color: '#fff', outline: 'none' 
+              }} 
+            />
+          </div>
+
+          <div style={{ flex: 1, minWidth: 150 }}>
+            <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 800, color: 'var(--text-muted)', marginBottom: 8, textTransform: 'uppercase' }}>Hasta</label>
+            <input 
+              type="date" 
+              value={endDate} 
+              onChange={e => setEndDate(e.target.value)}
+              style={{ 
+                width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', 
+                borderRadius: 12, padding: '10px 16px', color: '#fff', outline: 'none' 
+              }} 
+            />
+          </div>
+
+          <div style={{ width: 120 }}>
+            <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 800, color: 'var(--text-muted)', marginBottom: 8, textTransform: 'uppercase' }}>Desc. Mín</label>
+            <input 
+              type="number" 
+              placeholder="%" 
+              value={minDiscount} 
+              onChange={e => setMinDiscount(e.target.value)}
+              style={{ 
+                width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', 
+                borderRadius: 12, padding: '10px 16px', color: '#fff', outline: 'none' 
+              }} 
+            />
+          </div>
+
           <button 
-            onClick={handleSyncErp} 
+            type="submit"
+            style={{
+              padding: '12px 24px', background: `linear-gradient(135deg, ${accentColor}, #818CF8)`,
+              border: 'none', borderRadius: 12, color: '#fff', fontWeight: 800, cursor: 'pointer',
+              boxShadow: `0 4px 12px ${accentColor}33`, height: 44
+            }}
+          >
+            APLICAR FILTROS
+          </button>
+
+          <button 
+            type="button"
+            onClick={handleSyncErp}
             disabled={syncing}
             style={{
-              padding:'14px 28px', background: `linear-gradient(135deg, ${accentColor}, #818CF8)`,
-              border:'none', borderRadius: 16, color:'#fff', fontSize:'0.9rem', 
-              fontWeight: 800, cursor: syncing ? 'not-allowed' : 'pointer', boxShadow:`0 8px 24px ${accentColor}33`,
-              display:'flex', alignItems:'center', gap:10, transition: 'all 0.3s'
+              width: 44, height: 44, borderRadius: 12, background: 'rgba(255,255,255,0.05)',
+              border: '1px solid var(--border)', color: accentColor, cursor: syncing ? 'not-allowed' : 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center'
             }}
-            onMouseEnter={e => { if(!syncing) e.currentTarget.style.transform = 'translateY(-2px)' }}
-            onMouseLeave={e => { if(!syncing) e.currentTarget.style.transform = 'translateY(0)' }}
           >
-            <span className={syncing ? "animate-spin" : ""} style={{ fontSize: '1.2rem', display: 'inline-block' }}>↻</span> 
-            {syncing ? 'Sincronizando...' : 'SINCRONIZAR ERP'}
+            <span className={syncing ? "animate-spin" : ""} style={{ fontSize: '1.2rem' }}>↻</span>
           </button>
         </div>
       </div>
@@ -212,12 +291,12 @@ export default function GerenciaGananciasPage() {
           <div className="glass-panel" style={{ padding: '32px', borderRadius: 32, marginBottom: 40, background: 'var(--glass-bg)', backdropFilter: 'blur(28px)', border: '1px solid var(--border)' }}>
             <h2 style={{ fontSize: '1.4rem', fontWeight: 900, marginBottom: 32, letterSpacing: '-0.5px', color: '#fff' }}>Rendimiento de las estrategias por Semana</h2>
             
-            {weekKeys.map(week => (
+            {sortedWeekKeys.map(week => (
               <div key={week} style={{ marginBottom: 40 }}>
-                <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: accentColor, marginBottom: 16 }}>{week}</h3>
+                <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: accentColor, marginBottom: 16 }}>{weeksMap[week].label}</h3>
                 <div style={{ width: '100%', height: 320 }}>
                   <ResponsiveContainer>
-                    <BarChart data={weeksMap[week]} margin={{ top: 20, right: 30, left: 20, bottom: 40 }}>
+                    <BarChart data={weeksMap[week].items} margin={{ top: 20, right: 30, left: 20, bottom: 40 }}>
                       <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.05)" />
                       <XAxis dataKey="name" stroke="rgba(255,255,255,0.5)" fontSize={12} tickLine={false} axisLine={false} interval={0} angle={-15} textAnchor="end" />
                       <YAxis stroke="rgba(255,255,255,0.2)" fontSize={12} tickFormatter={v => '$'+(v/1000).toFixed(0)+'k'} tickLine={false} axisLine={false} />
@@ -228,7 +307,7 @@ export default function GerenciaGananciasPage() {
                         formatter={(value, name) => [name === 'ventas' ? formatMoney(value) : value, name === 'ventas' ? 'Facturación' : 'Descuento %']}
                       />
                       <Bar dataKey="ventas" name="ventas" radius={[8, 8, 0, 0]} maxBarSize={60}>
-                       {weeksMap[week].map((entry, i) => (
+                       {weeksMap[week].items.map((entry, i) => (
                          <Cell key={`cell-${i}`} fill={entry.descuento > 10 ? '#10B981' : entry.descuento > 5 ? secondaryColor : accentColor} />
                        ))}
                       </Bar>

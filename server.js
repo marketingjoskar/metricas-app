@@ -26,36 +26,61 @@ const pool = mysql.createPool({
   queueLimit: 0
 });
 
+app.get('/api/erp/providers', async (req, res) => {
+  try {
+    const query = `
+      SELECT DISTINCT 
+        c.proveed AS id, 
+        c.nombre AS name 
+      FROM sprv c
+      JOIN repo_sitems a ON a.proveed = c.proveed
+      -- Excluir proveedores que también son clientes
+      LEFT JOIN scli cl ON cl.rifci = c.rif
+      WHERE cl.cliente IS NULL
+      ORDER BY c.nombre ASC
+    `;
+    const [rows] = await pool.query(query);
+    res.json(rows);
+  } catch (error) {
+    console.error('API Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.get('/api/erp/campaigns', async (req, res) => {
-  const targetYear  = parseInt(req.query.year  || new Date().getFullYear());
-  const targetMonth = parseInt(req.query.month !== undefined ? req.query.month : new Date().getMonth() + 1);
+  const { startDate, endDate, providerId, minDiscount } = req.query;
+  
+  // Default to current month if no dates provided
+  const now = new Date();
+  const start = startDate || `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-01`;
+  const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+  const end = endDate || `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${lastDay}`;
 
   try {
-    // ─────────────────────────────────────────────────────────────────────────
-    // SEMANAS LABORALES (Lunes–Viernes), máximo 4 semanas por mes.
-    //
-    // Lógica:
-    //   • WEEKDAY(fecha) devuelve 0=Lun … 6=Dom (modo MySQL).
-    //   • WEEKDAY(fecha) < 5  → solo incluye Lun(0)..Vie(4); excluye Sáb(5) y Dom(6).
-    //   • El "lunes de la semana" de cada fecha = fecha - WEEKDAY(fecha) días.
-    //   • Calculamos cuántos lunes han pasado desde el primer lunes del mes.
-    //   • LEAST(..., 4) fusiona los días 29-31 con la semana 4 cuando el mes
-    //     no termina en viernes exacto.
-    // ─────────────────────────────────────────────────────────────────────────
+    let whereClause = `
+      WHERE a.tipo = 'F'
+        AND a.fecha BETWEEN ? AND ?
+        AND cl.cliente IS NULL
+        AND WEEKDAY(a.fecha) < 5
+    `;
+    const params = [start, end];
+
+    if (providerId) {
+      whereClause += ` AND a.proveed = ?`;
+      params.push(providerId);
+    }
+
+    if (minDiscount) {
+      whereClause += ` AND a.descu3 >= ?`;
+      params.push(parseFloat(minDiscount));
+    }
+
     const query = `
       SELECT 
-        LEAST(
-          FLOOR(
-            DATEDIFF(
-              DATE_SUB(a.fecha, INTERVAL WEEKDAY(a.fecha) DAY),
-              -- Primer lunes DEL mes (no el lunes anterior al día 1)
-              DATE_ADD(DATE(CONCAT(YEAR(a.fecha), '-', MONTH(a.fecha), '-01')),
-                       INTERVAL (7 - WEEKDAY(DATE(CONCAT(YEAR(a.fecha), '-', MONTH(a.fecha), '-01')))) MOD 7 DAY)
-            ) / 7
-          ) + 1,
-          4
-        ) AS semana_num,
+        DATE_FORMAT(DATE_SUB(a.fecha, INTERVAL WEEKDAY(a.fecha) DAY), '%Y-%m-%d') as monday_date,
+        WEEK(a.fecha, 1) as week_of_year,
         COALESCE(c.nombre, 'OTROS') AS marca,
+        a.proveed as provider_id,
         MAX(COALESCE(a.descu3, 0))           AS descuento_max,
         MIN(CASE WHEN a.descu3 > 1 THEN a.descu3 END) AS descuento_min,
         SUM(CAST(a.cana       AS DECIMAL))   AS unidades,
@@ -63,70 +88,15 @@ app.get('/api/erp/campaigns', async (req, res) => {
         SUM(CAST(a.total_descu3 AS DECIMAL) / NULLIF(a.oficial, 0)) AS descuento_usd
       FROM repo_sitems a
       LEFT JOIN sprv c ON c.proveed = a.proveed
-      -- Excluir proveedores que también son clientes (ej: FARMACIA TARIBA)
-      -- Si el RIF del proveedor existe en scli, se filtra fuera
       LEFT JOIN scli cl ON cl.rifci = c.rif
-      WHERE a.tipo = 'F'
-        AND YEAR(a.fecha)  = ?
-        AND MONTH(a.fecha) = ?
-        AND cl.cliente IS NULL
-        AND WEEKDAY(a.fecha) < 5
-      GROUP BY semana_num, marca
+      ${whereClause}
+      GROUP BY monday_date, week_of_year, provider_id, marca
       HAVING MAX(a.descu3) > 1
-      ORDER BY semana_num ASC, ventas_netas DESC
+      ORDER BY monday_date ASC, ventas_netas DESC
     `;
 
-    const [rows] = await pool.query(query, [targetYear, targetMonth]);
+    const [rows] = await pool.query(query, params);
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // Calcular las 4 fechas exactas Lun–Vie para ese año/mes
-    // y construir el label "Semana N: DD/MM – DD/MM"
-    // Solo días laborales: el rango va de lunes a viernes de cada semana.
-    // ─────────────────────────────────────────────────────────────────────────
-    function getWeekRanges(year, month) {
-      const firstOfMonth = new Date(Date.UTC(year, month - 1, 1));
-      // UTC: 0=Dom, 1=Lun, 2=Mar, 3=Mié, 4=Jue, 5=Vie, 6=Sáb
-      const dow = firstOfMonth.getUTCDay();
-
-      // Primer lunes DEL mes (en o después del día 1)
-      // Fórmula: (1 - dow + 7) % 7  →  Lun→0, Mar→6, Mié→5, Jue→4, Vie→3, Sáb→2, Dom→1
-      const daysToFirstMonday = (1 - dow + 7) % 7;
-      const firstMonday = new Date(firstOfMonth);
-      firstMonday.setUTCDate(firstOfMonth.getUTCDate() + daysToFirstMonday);
-
-      const fmt = d => `${String(d.getUTCDate()).padStart(2,'0')}/${String(d.getUTCMonth()+1).padStart(2,'0')}`;
-
-      // Último viernes del mes (funciona para cualquier día final)
-      // Fórmula: retroceder (lastDow - 5 + 7) % 7 días  →  Vie→0, Sáb→1, Dom→2, Lun→3, Mar→4, Mié→5, Jue→6
-      const lastOfMonth = new Date(Date.UTC(year, month, 0));
-      const lastDow = lastOfMonth.getUTCDay();
-      const daysBackToFriday = (lastDow - 5 + 7) % 7;
-      const lastFriday = new Date(lastOfMonth);
-      lastFriday.setUTCDate(lastOfMonth.getUTCDate() - daysBackToFriday);
-
-      return [1,2,3,4].map(n => {
-        const mon = new Date(firstMonday);
-        mon.setUTCDate(firstMonday.getUTCDate() + (n-1)*7);
-        // Viernes = lunes + 4 días
-        let fri = new Date(mon);
-        fri.setUTCDate(mon.getUTCDate() + 4);
-
-        // Semana 4 siempre cierra en el último viernes real del mes
-        if (n === 4) fri = lastFriday;
-
-        return {
-          num: n,
-          label: `Semana ${n}: ${fmt(mon)} – ${fmt(fri)}`
-        };
-      });
-    }
-
-    const weekRanges = getWeekRanges(targetYear, targetMonth);
-    const weekLabelMap = Object.fromEntries(weekRanges.map(w => [w.num, w.label]));
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // Normalizar nombres de marcas + mapear label de semana
-    // ─────────────────────────────────────────────────────────────────────────
     const filterWords = new Set(['CASA','DE','REPRESENTACION','DROGUERIA','CORPORACION','CA','SA','PRODUCTOS','MEDICAL','GROUP']);
 
     const resultList = rows.map(row => {
@@ -141,27 +111,29 @@ app.get('/api/erp/campaigns', async (req, res) => {
 
       const dMin = parseFloat(row.descuento_min || row.descuento_max || 0);
       const dMax = parseFloat(row.descuento_max || 0);
-      // Si min y max son iguales → "5%"; si difieren → "2% – 5%"
-      const descuento_label = dMin === dMax
-        ? `${dMax}%`
-        : `${dMin}% – ${dMax}%`;
+      const descuento_label = dMin === dMax ? `${dMax}%` : `${dMin}% – ${dMax}%`;
+
+      const mon = new Date(row.monday_date);
+      const fri = new Date(mon);
+      fri.setDate(mon.getDate() + 4);
+      const fmt = d => `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}`;
+      const semanaLabel = `Semana del ${fmt(mon)} al ${fmt(fri)}`;
 
       return {
-        semana:           weekLabelMap[row.semana_num] || `Semana ${row.semana_num}`,
-        semana_num:       row.semana_num,
+        semana:           semanaLabel,
+        monday_date:      row.monday_date,
         marca:            brand.toUpperCase(),
-        // descuento_promedio mantiene el valor máximo de la semana (usado para colorear barras)
         descuento_promedio: dMax,
         descuento_min:    dMin,
         descuento_max:    dMax,
-        descuento_label:  descuento_label,  // ej: "2% – 5%" o "5%"
+        descuento_label:  descuento_label,
         unidades:         parseFloat(row.unidades    || 0),
         ventas_netas:     parseFloat(row.ventas_netas || 0),
         descuento_usd:    parseFloat(row.descuento_usd || 0),
       };
     });
 
-    res.json({ data: resultList, weeks: weekRanges });
+    res.json({ data: resultList });
   } catch (error) {
     console.error('API Error:', error);
     res.status(500).json({ error: error.message });
