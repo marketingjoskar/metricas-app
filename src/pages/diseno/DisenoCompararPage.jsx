@@ -9,7 +9,7 @@ const MONTHS_ES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
 const FLYER_TYPES = [
   { key: 'flyers_storie',      label: 'Stories',                  emoji: '📱' },
   { key: 'flyers_efemeride',   label: 'Efemérides',               emoji: '📅' },
-  { key: 'flyers_reposicion',  label: 'Reposición de inventario', emoji: '📦' },
+  { key: 'flyers_reposicion',  label: 'Reposición',               emoji: '📦' },
   { key: 'flyers_descuento',   label: 'Descuentos',               emoji: '🏷️' },
   { key: 'flyers_promocion',   label: 'Promociones',              emoji: '📣' },
   { key: 'flyers_cumple',      label: 'Cumpleaños',               emoji: '🎂' },
@@ -61,16 +61,26 @@ function DeltaBadge({ value, higherIsBetter = true }) {
 
 function MonthSelect({ label, value, onChange, availableMonths }) {
   return (
-    <div style={{ flex: 1, minWidth: 200 }}>
+    <div style={{ flex: 1, minWidth: 240 }}>
       <div style={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.4)', marginBottom: 10, textTransform: 'uppercase' }}>{label}</div>
-      <select value={value} onChange={e => onChange(e.target.value)}
-        style={{ width: '100%', padding: '14px 18px', background: 'rgba(255, 255, 255, 0.05)', border: `1px solid ${value ? accentColor + '66' : 'rgba(255, 255, 255, 0.1)'}`, borderRadius: 16, color: '#fff', fontSize: '0.95rem', cursor: 'pointer', outline: 'none' }}
-      >
-        <option value="" style={{ background: '#080C1C' }}>— Seleccionar mes —</option>
-        {availableMonths.map(m => (
-          <option key={m} value={m} style={{ background: '#080C1C' }}> {MONTHS_ES[parseInt(m.split('-')[1]) - 1]} {m.split('-')[0]} </option>
-        ))}
-      </select>
+      <div style={{ position: 'relative' }}>
+        <select value={value} onChange={e => onChange(e.target.value)}
+          style={{ 
+            width: '100%', padding: '16px 20px', 
+            background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+            border: `1px solid ${value ? accentColor + '66' : 'var(--border)'}`, borderRadius: 20, 
+            color: '#fff', fontSize: '0.95rem', cursor: 'pointer', outline: 'none', appearance: 'none',
+            boxShadow: value ? `0 8px 32px ${accentColor}11` : 'var(--glass-shadow)',
+            transition: 'all 0.3s'
+          }}
+        >
+          <option value="" style={{ background: '#080C1C' }}>— Seleccionar mes —</option>
+          {availableMonths.map(m => (
+            <option key={m} value={m} style={{ background: '#080C1C' }}> {MONTHS_ES[parseInt(m.split('-')[1]) - 1]} {m.split('-')[0]} </option>
+          ))}
+        </select>
+        <div style={{ position: 'absolute', right: 20, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'rgba(255,255,255,0.3)', fontSize: '0.8rem' }}>▼</div>
+      </div>
     </div>
   )
 }
@@ -113,63 +123,64 @@ export default function DisenoCompararPage() {
   return (
     <div className="animate-fadeIn">
       {/* Header */}
-      <div style={{ marginBottom: 32 }}>
+      <div style={{ marginBottom: 40 }}>
         <h1 style={{ 
-          fontSize: '2.5rem', fontWeight: 900, letterSpacing: '-2px', marginBottom: 4,
+          fontSize: '2.8rem', fontWeight: 900, letterSpacing: '-2px', marginBottom: 4,
           background: 'linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.55))',
           WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
         }}>
           Comparativa Mensual
         </h1>
-        <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '1rem', fontWeight: 500 }}>
+        <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '1.1rem', fontWeight: 500 }}>
           Diseño Gráfico · Análisis de rendimiento y variaciones
         </p>
       </div>
 
       {/* Selectors Panel */}
       <div className="animate-fadeUp" style={{
-        background: 'rgba(255, 255, 255, 0.07)', backdropFilter: 'blur(28px)',
-        borderRadius: 28, padding: '32px', marginBottom: 24, border: '1px solid rgba(255, 255, 255, 0.1)',
-        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15)'
+        background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+        borderRadius: 32, padding: '40px', marginBottom: 32, border: '1px solid var(--border)',
+        boxShadow: 'var(--glass-shadow)'
       }}>
-        <div style={{ display: 'flex', gap: 24, alignItems: 'flex-end', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: 32, alignItems: 'flex-end', flexWrap: 'wrap' }}>
           <MonthSelect label="Mes Base (Referencia)" value={periodoA} onChange={setPeriodoA} availableMonths={availableMonths} />
-          <div style={{ fontSize: '1.5rem', color: 'rgba(255,255,255,0.2)', paddingBottom: 12, flexShrink: 0 }}>⇄</div>
+          <div style={{ fontSize: '1.8rem', color: 'rgba(255,255,255,0.1)', paddingBottom: 12, flexShrink: 0, fontWeight: 300 }}>⇄</div>
           <MonthSelect label="Mes a Comparar" value={periodoB} onChange={setPeriodoB} availableMonths={availableMonths} />
         </div>
         {availableMonths.length < 2 && (
-          <div style={{ marginTop: 20, padding: '12px 20px', background: `${accentColor}11`, border: `1px solid ${accentColor}33`, borderRadius: 14, color: accentColor, fontSize: '0.85rem', fontWeight: 600 }}>
+          <div style={{ marginTop: 24, padding: '16px 24px', background: `${accentColor}11`, border: `1px solid ${accentColor}33`, borderRadius: 16, color: accentColor, fontSize: '0.9rem', fontWeight: 600 }}>
             ⚠️ Se requieren al menos 2 meses con registros para realizar una comparación.
           </div>
         )}
       </div>
 
       {loading && (
-        <div style={{ display: 'flex', justifyContent: 'center', padding: 60 }}>
-          <div className="animate-spin" style={{ width: 40, height: 40, borderRadius: '50%', border: '4px solid rgba(255,255,255,0.1)', borderTopColor: accentColor }} />
+        <div style={{ display: 'flex', justifyContent: 'center', padding: 80 }}>
+          <div className="animate-spin" style={{ width: 44, height: 44, borderRadius: '50%', border: '4px solid rgba(255,255,255,0.1)', borderTopColor: accentColor }} />
         </div>
       )}
 
       {canCompare && !loading && (
         <div className="animate-fadeUp">
           {/* Summary Hero Cards */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: 20, marginBottom: 32, alignItems: 'center' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: 24, marginBottom: 40, alignItems: 'center' }}>
             {[
               { label: labelForPeriodo(periodoA), val: dataA.total_flyers, align: 'left', color: 'rgba(255,255,255,0.4)', index: 0 },
               { label: 'vs', val: null, align: 'center', color: accentColor, index: 1 },
               { label: labelForPeriodo(periodoB), val: dataB.total_flyers, align: 'right', color: accentColor, index: 2 },
             ].map((item, i) => {
-              if (item.val === null) return <div key={i} style={{ fontSize: '1.2rem', fontWeight: 800, color: 'rgba(255,255,255,0.2)', textTransform: 'uppercase' }}>{item.label}</div>
+              if (item.val === null) return <div key={i} style={{ fontSize: '1.4rem', fontWeight: 900, color: 'rgba(255,255,255,0.15)', textTransform: 'uppercase', letterSpacing: '0.2em' }}>{item.label}</div>
               return (
                 <div key={i} style={{
-                  background: 'rgba(255, 255, 255, 0.07)', backdropFilter: 'blur(28px)',
-                  borderRadius: 24, padding: '24px 32px', textAlign: item.align, border: '1px solid rgba(255, 255, 255, 0.1)',
-                  position: 'relative', overflow: 'hidden'
+                  background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+                  borderRadius: 32, padding: '32px 40px', textAlign: item.align, border: '1px solid var(--border)',
+                  position: 'relative', overflow: 'hidden', boxShadow: 'var(--glass-shadow)',
+                  transition: 'transform 0.3s'
                 }}>
-                  <div style={{ position: 'absolute', top: 0, left: item.align === 'left' ? 0 : 'auto', right: item.align === 'right' ? 0 : 'auto', height: 3, width: '40%', background: item.color }} />
-                  <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', fontWeight: 800, marginBottom: 8, letterSpacing: '0.05em' }}>{item.label.toUpperCase()}</div>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '3rem', fontWeight: 900, color: '#fff', letterSpacing: '-2px', lineHeight: 1 }}>{item.val}</div>
-                  <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.3)', fontWeight: 600, marginTop: 4 }}>Producción Total</div>
+                  <div style={{ position: 'absolute', top: 0, left: item.align === 'left' ? 0 : 'auto', right: item.align === 'right' ? 0 : 'auto', height: 4, width: '40%', background: item.color }} />
+                  <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', fontWeight: 800, marginBottom: 12, letterSpacing: '0.1em' }}>{item.label.toUpperCase()}</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '3.5rem', fontWeight: 900, color: '#fff', letterSpacing: '-3px', lineHeight: 1 }}>{item.val}</div>
+                  <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.3)', fontWeight: 700, marginTop: 8 }}>Producción Total</div>
                 </div>
               )
             })}
@@ -177,16 +188,16 @@ export default function DisenoCompararPage() {
 
           {/* Detailed Metric Comparison Table */}
           <div style={{
-            background: 'rgba(255, 255, 255, 0.07)', backdropFilter: 'blur(28px)',
-            borderRadius: 28, border: '1px solid rgba(255, 255, 255, 0.1)', overflow: 'hidden',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)'
+            background: 'var(--glass-bg)', backdropFilter: 'blur(32px) saturate(1.8)', WebkitBackdropFilter: 'blur(32px) saturate(1.8)',
+            borderRadius: 32, border: '1px solid var(--border)', overflow: 'hidden',
+            boxShadow: 'var(--glass-shadow)'
           }}>
             <div style={{
               display: 'grid', gridTemplateColumns: '1.5fr repeat(3, 1fr)',
-              padding: '20px 32px', background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.1)'
+              padding: '24px 40px', background: 'rgba(255,255,255,0.02)', borderBottom: '1px solid var(--border)'
             }}>
               {['MÉTRICA DE PRODUCCIÓN', labelForPeriodo(periodoA), labelForPeriodo(periodoB), 'VARIACIÓN'].map((h, i) => (
-                <div key={i} style={{ fontSize: '0.7rem', fontWeight: 800, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', textAlign: i > 0 ? 'right' : 'left' }}>{h.toUpperCase()}</div>
+                <div key={i} style={{ fontSize: '0.75rem', fontWeight: 800, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', textAlign: i > 0 ? 'right' : 'left' }}>{h.toUpperCase()}</div>
               ))}
             </div>
 
@@ -200,17 +211,18 @@ export default function DisenoCompararPage() {
                 return (
                   <div key={m.key} style={{
                     display: 'grid', gridTemplateColumns: '1.5fr repeat(3, 1fr)',
-                    padding: '16px 32px', borderBottom: i === METRICS.length - 1 ? 'none' : '1px solid rgba(255,255,255,0.05)',
+                    padding: '20px 40px', borderBottom: i === METRICS.length - 1 ? 'none' : '1px solid rgba(255,255,255,0.03)',
                     alignItems: 'center', background: isTotal ? `${accentColor}08` : 'transparent',
-                    borderLeft: isTotal ? `4px solid ${accentColor}` : '4px solid transparent'
+                    borderLeft: isTotal ? `4px solid ${accentColor}` : '4px solid transparent',
+                    transition: 'background 0.2s'
                   }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <span style={{ fontSize: '1.2rem', filter: `drop-shadow(0 0 8px ${isTotal ? accentColor : 'transparent'})` }}>{m.emoji}</span>
-                      <span style={{ fontSize: isTotal ? '1rem' : '0.9rem', color: isTotal ? '#fff' : 'rgba(255,255,255,0.7)', fontWeight: isTotal ? 800 : 600 }}>{m.label}</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                      <span style={{ fontSize: '1.4rem', filter: `drop-shadow(0 0 12px ${isTotal ? accentColor : 'transparent'})` }}>{m.emoji}</span>
+                      <span style={{ fontSize: isTotal ? '1.1rem' : '1rem', color: isTotal ? '#fff' : 'rgba(255,255,255,0.8)', fontWeight: isTotal ? 800 : 600 }}>{m.label}</span>
                     </div>
 
-                    <div style={{ fontFamily: 'var(--font-mono)', textAlign: 'right', fontSize: '1.1rem', color: isTotal ? '#fff' : 'rgba(255,255,255,0.5)', fontWeight: isTotal ? 800 : 500 }}>{valA}</div>
-                    <div style={{ fontFamily: 'var(--font-mono)', textAlign: 'right', fontSize: '1.1rem', color: isTotal ? accentColor : '#fff', fontWeight: 800 }}>{valB}</div>
+                    <div style={{ fontFamily: 'var(--font-mono)', textAlign: 'right', fontSize: '1.2rem', color: isTotal ? '#fff' : 'rgba(255,255,255,0.4)', fontWeight: isTotal ? 800 : 500 }}>{valA}</div>
+                    <div style={{ fontFamily: 'var(--font-mono)', textAlign: 'right', fontSize: '1.2rem', color: isTotal ? accentColor : '#fff', fontWeight: 800 }}>{valB}</div>
 
                     <div style={{ textAlign: 'right' }}>
                       <DeltaBadge value={v} higherIsBetter={m.higherIsBetter} />
@@ -220,7 +232,7 @@ export default function DisenoCompararPage() {
               })}
             </div>
           </div>
-          <div style={{ height: 40 }} />
+          <div style={{ height: 60 }} />
         </div>
       )}
     </div>
